@@ -1,0 +1,16 @@
+name = "fsshowdown"
+compatibility_date = "2026-09-11"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fsshowdown"
+database_id = ""
+
+[[durable_objects.bindings]]
+name = "MATCHMAKER"
+class_name = "Matchmaker"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["Matchmaker"]
