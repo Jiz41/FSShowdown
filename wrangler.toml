@@ -7,10 +7,12 @@ binding = "DB"
 database_name = "fsshowdown"
 database_id = "57a8679b-4ada-4032-b712-70bc0ef629dd"
 
-[[durable_objects.bindings]]
-name = "MATCHMAKER"
-class_name = "Matchmaker"
-
-[[migrations]]
-tag = "v1"
-new_classes = ["Matchmaker"]
+# Durable Objects: マッチング機能の実装時に script_name を添えて有効化する
+# [[durable_objects.bindings]]
+# name = "MATCHMAKER"
+# class_name = "Matchmaker"
+# script_name = "fsshowdown"
+#
+# [[migrations]]
+# tag = "v1"
+# new_classes = ["Matchmaker"]
