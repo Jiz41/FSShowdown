@@ -5,7 +5,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "fsshowdown"
-database_id = ""
+database_id = "57a8679b-4ada-4032-b712-70bc0ef629dd"
 
 [[durable_objects.bindings]]
 name = "MATCHMAKER"
