@@ -47,9 +47,6 @@
     <div id="self-name">-</div>
   </div>
 
-  <p data-i18n-html="sheet_link"></p>
-  <button type="button" class="sheet-id-copy-btn" data-i18n="sheet_copy_btn" onclick="(function(b){navigator.clipboard.writeText('1cNYjZBsneSJeGUD0RoP_-z8IWdWxTzs-DB8SR2OakEM');var o=b.textContent;b.textContent=(currentLang()==='ja'?'コピーしました！':'Copied!');setTimeout(function(){b.textContent=o;},1500);})(this)">シートIDをコピー</button>
-
   <div class="row">
     <button type="button" id="btn-join" data-i18n="btn_join">マッチング開始</button>
     <button type="button" id="btn-leave" data-i18n="btn_leave">キュー離脱</button>
@@ -134,9 +131,7 @@ const I18N = {
     result_confirmed_log: "結果確定",
     result_mismatch_log: "結果不一致、再送信してください",
     awaiting_opponent_log: "相手の報告待ち",
-    rating_suffix: "（レート ",
-    sheet_link: "FSSh用馬データシートはこちら → <a href=\"https://docs.google.com/spreadsheets/d/1cNYjZBsneSJeGUD0RoP_-z8IWdWxTzs-DB8SR2OakEM/edit?usp=sharing\" target=\"_blank\" rel=\"noopener\">均一化シート</a>",
-    sheet_copy_btn: "シートIDをコピー"
+    rating_suffix: "（レート "
   },
   en: {
     h1_title: "FSShowdown Matchmaking (Phase 1 / Test Build)",
@@ -174,9 +169,7 @@ const I18N = {
     result_confirmed_log: "Result finalized",
     result_mismatch_log: "Result mismatch, please resend",
     awaiting_opponent_log: "Waiting for opponent's report",
-    rating_suffix: " (Rating ",
-    sheet_link: "FSSh horse data sheet here → <a href=\"https://docs.google.com/spreadsheets/d/1cNYjZBsneSJeGUD0RoP_-z8IWdWxTzs-DB8SR2OakEM/edit?usp=sharing\" target=\"_blank\" rel=\"noopener\">Equalized Sheet</a>",
-    sheet_copy_btn: "Copy Sheet ID"
+    rating_suffix: " (Rating "
   }
 };
 
