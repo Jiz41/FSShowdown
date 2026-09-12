@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSShowdown - マッチング（動作確認用）</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
+  h1 { font-size: 20px; }
+  button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: #3a6ea5; color: #fff; cursor: pointer; }
+  button:disabled { background: #444; cursor: not-allowed; }
+  #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
+  .row { margin: 6px 0; }
+  .label { color: #9aa4b2; display: inline-block; min-width: 7em; }
+  pre { background: #0d0f12; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>FSShowdown マッチング（段階1・動作確認用）</h1>
+
+<div class="row">
+  <a href="/auth/login"><button type="button">Discordでログイン</button></a>
+  <button type="button" id="btn-join">マッチング開始</button>
+  <button type="button" id="btn-leave">キュー離脱</button>
+  <button type="button" id="btn-reserve" style="display:none">予約する</button>
+</div>
+
+<div id="panel">
+  <div class="row"><span class="label">ログイン</span><span id="v-account">未確認</span></div>
+  <div class="row"><span class="label">状態</span><span id="v-state">-</span></div>
+  <div class="row"><span class="label">レース</span><span id="v-race">-</span></div>
+  <div class="row"><span class="label">対戦相手</span><span id="v-opponent">-</span></div>
+  <div class="row"><span class="label">ホスト</span><span id="v-role">-</span></div>
+  <div class="row"><span class="label">残り時間</span><span id="v-remain">-</span></div>
+</div>
+
+<pre id="log"></pre>
+
+<script>
+let currentMatchId = null;
+let currentExpiresAt = null;
+let polling = null;
+
+const $ = (id) => document.getElementById(id);
+
+function log(message, data) {
+  const text = data === undefined ? message : message + " " + JSON.stringify(data);
+  $("log").textContent = (new Date().toLocaleTimeString() + "  " + text + "\n" + $("log").textContent).slice(0, 4000);
+}
+
+async function api(path, options) {
+  const res = await fetch(path, Object.assign({ credentials: "same-origin" }, options || {}));
+  let body = null;
+  try { body = await res.json(); } catch (e) { body = { error: "invalid_json" }; }
+  return { status: res.status, body: body };
+}
+
+function render(body) {
+  if (body.account) {
+    $("v-account").textContent = body.account.username + "（レート " + body.account.rating + "）";
+  }
+  $("v-state").textContent = body.status || "-";
+
+  if (body.status === "matched" && body.match) {
+    currentMatchId = body.match.match_id;
+    currentExpiresAt = body.match.expires_at;
+    $("v-race").textContent = body.match.race_name || "-";
+    $("v-opponent").textContent = body.match.opponent_username || "-";
+    if (body.match.status === "reserved") {
+      $("v-role").textContent = body.match.host_id === body.account.discord_id ? "あなたがホスト" : "相手がホスト（参加側）";
+      $("btn-reserve").style.display = "none";
+    } else if (body.match.status === "no_contest") {
+      $("v-role").textContent = "不成立（15分超過）";
+      $("btn-reserve").style.display = "none";
+      stopPolling();
+    } else {
+      $("v-role").textContent = "未予約";
+      $("btn-reserve").style.display = "inline-block";
+    }
+  } else {
+    currentMatchId = null;
+    currentExpiresAt = null;
+    $("v-race").textContent = "-";
+    $("v-opponent").textContent = "-";
+    $("v-role").textContent = "-";
+    $("v-remain").textContent = "-";
+    $("btn-reserve").style.display = "none";
+  }
+}
+
+function tickRemain() {
+  if (!currentExpiresAt) return;
+  const left = currentExpiresAt - Math.floor(Date.now() / 1000);
+  $("v-remain").textContent = left > 0 ? left + " 秒" : "期限切れ";
+}
+
+function startPolling() {
+  if (polling) return;
+  polling = setInterval(refresh, 3000);
+}
+
+function stopPolling() {
+  if (!polling) return;
+  clearInterval(polling);
+  polling = null;
+}
+
+async function refresh() {
+  const res = await api("/api/queue/status");
+  if (res.status === 401) {
+    $("v-account").textContent = "未ログイン";
+    stopPolling();
+    return;
+  }
+  render(res.body);
+}
+
+$("btn-join").addEventListener("click", async function () {
+  const res = await api("/api/queue/join", { method: "POST" });
+  log("join", res.body);
+  if (res.status === 401) { $("v-account").textContent = "未ログイン"; return; }
+  render(Object.assign({ account: null }, res.body));
+  startPolling();
+  refresh();
+});
+
+$("btn-leave").addEventListener("click", async function () {
+  const res = await api("/api/queue/leave", { method: "POST" });
+  log("leave", res.body);
+  stopPolling();
+  refresh();
+});
+
+$("btn-reserve").addEventListener("click", async function () {
+  if (!currentMatchId) return;
+  const res = await api("/api/match/" + encodeURIComponent(currentMatchId) + "/reserve", { method: "POST" });
+  log("reserve", res.body);
+  refresh();
+});
+
+setInterval(tickRemain, 1000);
+refresh();
+startPolling();
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-name = "fsshowdown"
+name = "fsshowdown-matchmaker"
+main = "src/index.js"
 compatibility_date = "2026-09-11"
-pages_build_output_dir = "public"
 
 [[d1_databases]]
 binding = "DB"
@@ -10,4 +10,7 @@ database_id = "57a8679b-4ada-4032-b712-70bc0ef629dd"
 [[durable_objects.bindings]]
 name = "MATCHMAKER"
 class_name = "Matchmaker"
-script_name = "fsshowdown-matchmaker"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Matchmaker"]
