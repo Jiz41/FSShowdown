@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSShowdown - 騎手プロフィール</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
+  h1 { font-size: 20px; }
+  #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
+  .row { margin: 10px 0; }
+  .label { color: #9aa4b2; display: inline-block; min-width: 6em; }
+  a { color: #7ab0ff; }
+  .jockey-icon { width: 88px; height: 88px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; }
+  #header-row { display: flex; align-items: center; gap: 16px; }
+</style>
+</head>
+<body>
+<h1>騎手プロフィール</h1>
+
+<div id="panel">
+  <div id="header-row">
+    <div class="jockey-icon" id="p-icon"></div>
+    <div id="p-name" style="font-size: 18px;">読み込み中...</div>
+  </div>
+  <div class="row"><span class="label">レート</span><span id="p-rating">-</span></div>
+  <div class="row"><span class="label">戦績</span><span id="p-record">-</span></div>
+  <div class="row"><span class="label">X</span><span id="p-xlink">-</span></div>
+</div>
+
+<script>
+const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
+const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+
+function renderIcon(el, bg, border, crest) {
+  el.style.background = ICON_BG[bg] || "#444";
+  el.style.border = ICON_BORDER_STYLE[border] || "3px solid #fff";
+  el.textContent = crest || "";
+}
+
+const $ = (id) => document.getElementById(id);
+
+async function load() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  if (!id) {
+    $("p-name").textContent = "IDが指定されていません";
+    return;
+  }
+  const res = await fetch("/api/account/profile?id=" + encodeURIComponent(id));
+  if (res.status === 404) {
+    $("p-name").textContent = "騎手が見つかりません";
+    return;
+  }
+  const body = await res.json();
+  $("p-name").textContent = body.display_tag;
+  $("p-rating").textContent = body.rating;
+  $("p-record").textContent = body.wins + "勝" + body.losses + "敗";
+  renderIcon($("p-icon"), body.icon_bg, body.icon_border, body.icon_crest);
+  if (body.x_link) {
+    const a = document.createElement("a");
+    a.href = body.x_link;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = body.x_link;
+    $("p-xlink").innerHTML = "";
+    $("p-xlink").appendChild(a);
+  } else {
+    $("p-xlink").textContent = "未設定";
+  }
+}
+
+load();
+</script>
+</body>
+</html>

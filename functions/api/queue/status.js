@@ -16,7 +16,6 @@ export async function onRequestGet({ request, env }) {
       ...body,
       account: {
         discord_id: account.discord_id,
-        username: account.username,
         display_tag: account.display_tag,
         rating: account.rating,
       },

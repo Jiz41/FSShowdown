@@ -78,7 +78,7 @@ export class Matchmaker {
   }
 
   async join(body) {
-    const { discord_id, username, display_tag, rating } = body;
+    const { discord_id, display_tag, rating } = body;
     if (!discord_id) return json({ error: "missing_discord_id" }, 400);
 
     const existing = await this.findActiveMatch(discord_id);
@@ -92,7 +92,6 @@ export class Matchmaker {
     if (others.length === 0) {
       const self = {
         discord_id,
-        username,
         display_tag,
         rating,
         joined_at: Math.floor(Date.now() / 1000),
@@ -135,7 +134,7 @@ export class Matchmaker {
         host_id: null,
         matched_at: now,
         expires_at: expiresAt,
-        opponent_username: opponent.username,
+        opponent_discord_id: opponent.discord_id,
         opponent_display_tag: opponent.display_tag,
       },
     });
@@ -188,7 +187,7 @@ export class Matchmaker {
         matched_at: row.matched_at,
         reserved_at: row.reserved_at,
         expires_at: row.expires_at,
-        opponent_username: null,
+        opponent_discord_id: null,
         opponent_display_tag: null,
       };
     }
@@ -196,7 +195,7 @@ export class Matchmaker {
     const opponentId =
       row.player1_id === discordId ? row.player2_id : row.player1_id;
     const opponent = await this.env.DB.prepare(
-      `SELECT username, display_tag FROM accounts WHERE discord_id = ?1`
+      `SELECT discord_id, display_tag FROM accounts WHERE discord_id = ?1`
     )
       .bind(opponentId)
       .first();
@@ -209,7 +208,7 @@ export class Matchmaker {
       matched_at: row.matched_at,
       reserved_at: row.reserved_at,
       expires_at: row.expires_at,
-      opponent_username: opponent ? opponent.username : null,
+      opponent_discord_id: opponent ? opponent.discord_id : null,
       opponent_display_tag: opponent ? opponent.display_tag : null,
     };
   }

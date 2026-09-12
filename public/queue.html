@@ -7,12 +7,21 @@
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
   h1 { font-size: 20px; }
+  h2 { font-size: 16px; margin-top: 24px; }
   button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: #3a6ea5; color: #fff; cursor: pointer; }
   button:disabled { background: #444; cursor: not-allowed; }
+  input[type="text"] { font-size: 15px; padding: 8px 10px; border-radius: 6px; border: 1px solid #444; background: #0d0f12; color: #e8e8e8; min-width: 240px; }
   #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
   .row { margin: 6px 0; }
   .label { color: #9aa4b2; display: inline-block; min-width: 7em; }
   pre { background: #0d0f12; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
+  a { color: #7ab0ff; }
+  #jockey-gate, #profile-panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
+  .icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid #444; background: #22262d; color: #e8e8e8; cursor: pointer; }
+  .icon-choice.selected { outline: 2px solid #3a6ea5; }
+  .jockey-icon { width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; vertical-align: middle; }
+  #self-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 </style>
 </head>
 <body>
@@ -20,28 +29,88 @@
 
 <div class="row">
   <a href="/auth/login"><button type="button">Discordでログイン</button></a>
-  <button type="button" id="btn-join">マッチング開始</button>
-  <button type="button" id="btn-leave">キュー離脱</button>
-  <button type="button" id="btn-reserve" style="display:none">予約する</button>
-  <button type="button" id="btn-win" style="display:none">勝った</button>
-  <button type="button" id="btn-loss" style="display:none">負けた</button>
 </div>
 
-<div id="panel">
-  <div class="row"><span class="label">ログイン</span><span id="v-account">未確認</span></div>
-  <div class="row"><span class="label">状態</span><span id="v-state">-</span></div>
-  <div class="row"><span class="label">レース</span><span id="v-race">-</span></div>
-  <div class="row"><span class="label">対戦相手</span><span id="v-opponent">-</span></div>
-  <div class="row"><span class="label">ホスト</span><span id="v-role">-</span></div>
-  <div class="row"><span class="label">残り時間</span><span id="v-remain">-</span></div>
+<div id="jockey-gate" style="display:none">
+  <div class="row">まずジョッキーネームを登録してください。</div>
+  <div class="row">
+    <input type="text" id="jockey-name-input" placeholder="ジョッキーネーム" maxlength="40">
+    <button type="button" id="btn-register-jockey">登録</button>
+  </div>
+</div>
+
+<div id="main-ui" style="display:none">
+  <div id="self-header">
+    <div class="jockey-icon" id="self-icon"></div>
+    <div id="self-name">-</div>
+  </div>
+
+  <div class="row">
+    <button type="button" id="btn-join">マッチング開始</button>
+    <button type="button" id="btn-leave">キュー離脱</button>
+    <button type="button" id="btn-reserve" style="display:none">予約する</button>
+    <button type="button" id="btn-win" style="display:none">勝った</button>
+    <button type="button" id="btn-loss" style="display:none">負けた</button>
+  </div>
+
+  <div id="panel">
+    <div class="row"><span class="label">ログイン</span><span id="v-account">未確認</span></div>
+    <div class="row"><span class="label">状態</span><span id="v-state">-</span></div>
+    <div class="row"><span class="label">レース</span><span id="v-race">-</span></div>
+    <div class="row"><span class="label">対戦相手</span><span id="v-opponent">-</span></div>
+    <div class="row"><span class="label">ホスト</span><span id="v-role">-</span></div>
+    <div class="row"><span class="label">残り時間</span><span id="v-remain">-</span></div>
+  </div>
+
+  <div id="profile-panel">
+    <h2>プロフィール編集</h2>
+    <div class="row">
+      <input type="text" id="edit-display-tag" placeholder="ジョッキーネーム" maxlength="40">
+      <button type="button" id="btn-save-display-tag">保存</button>
+    </div>
+    <div class="row">
+      <input type="text" id="edit-x-link" placeholder="https://x.com/your_account">
+      <button type="button" id="btn-save-x-link">保存</button>
+    </div>
+    <div class="row">
+      <div class="label">背景色</div>
+      <div class="icon-choices" id="choices-bg"></div>
+    </div>
+    <div class="row">
+      <div class="label">枠</div>
+      <div class="icon-choices" id="choices-border"></div>
+    </div>
+    <div class="row">
+      <div class="label">紋章</div>
+      <div class="icon-choices" id="choices-crest"></div>
+    </div>
+    <div class="row">プレビュー: <span class="jockey-icon" id="icon-preview"></span></div>
+    <div class="row"><button type="button" id="btn-save-icon">アイコンを保存</button></div>
+  </div>
 </div>
 
 <pre id="log"></pre>
 
 <script>
+const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
+const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
+const ICON_BG_KEYS = Object.keys(ICON_BG);
+const ICON_BORDER_KEYS = Object.keys(ICON_BORDER_STYLE);
+
+function renderIcon(el, bg, border, crest) {
+  el.style.background = ICON_BG[bg] || "#444";
+  el.style.border = ICON_BORDER_STYLE[border] || "3px solid #fff";
+  el.textContent = crest || "";
+}
+
 let currentMatchId = null;
 let currentExpiresAt = null;
 let polling = null;
+let selfAccount = null;
+let selectedBg = "blue";
+let selectedBorder = "solid";
+let selectedCrest = "🐎";
 
 const $ = (id) => document.getElementById(id);
 
@@ -57,9 +126,35 @@ async function api(path, options) {
   return { status: res.status, body: body };
 }
 
+function buildChoices(containerId, values, selectedGetter, onSelect) {
+  const container = $(containerId);
+  container.innerHTML = "";
+  values.forEach((v) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "icon-choice" + (selectedGetter() === v ? " selected" : "");
+    btn.textContent = v;
+    btn.addEventListener("click", function () {
+      onSelect(v);
+      Array.from(container.children).forEach((c) => c.classList.remove("selected"));
+      btn.classList.add("selected");
+      renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function initIconChoices() {
+  buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; });
+  buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; });
+  buildChoices("choices-crest", ICON_CREST, () => selectedCrest, (v) => { selectedCrest = v; });
+  renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
+}
+
 function render(body) {
   if (body.account) {
-    $("v-account").textContent = body.account.username + "（レート " + body.account.rating + "）";
+    selfAccount = body.account;
+    $("v-account").textContent = body.account.display_tag + "（レート " + body.account.rating + "）";
   }
   $("v-state").textContent = body.status || "-";
 
@@ -67,7 +162,13 @@ function render(body) {
     currentMatchId = body.match.match_id;
     currentExpiresAt = body.match.expires_at;
     $("v-race").textContent = body.match.race_name || "-";
-    $("v-opponent").textContent = body.match.opponent_username || "-";
+    if (body.match.opponent_display_tag) {
+      $("v-opponent").innerHTML = body.match.opponent_discord_id
+        ? '<a href="/profile.html?id=' + encodeURIComponent(body.match.opponent_discord_id) + '" target="_blank" rel="noopener">' + body.match.opponent_display_tag + '</a>'
+        : body.match.opponent_display_tag;
+    } else {
+      $("v-opponent").textContent = "-";
+    }
     if (body.match.status === "reserved") {
       $("v-role").textContent = body.match.host_id === body.account.discord_id ? "あなたがホスト" : "相手がホスト（参加側）";
       $("btn-reserve").style.display = "none";
@@ -121,21 +222,98 @@ function stopPolling() {
   polling = null;
 }
 
+function applyGate(account) {
+  if (!account.display_tag) {
+    $("jockey-gate").style.display = "block";
+    $("main-ui").style.display = "none";
+  } else {
+    $("jockey-gate").style.display = "none";
+    $("main-ui").style.display = "block";
+    $("self-name").textContent = account.display_tag + "（レート " + account.rating + "）";
+    $("edit-display-tag").value = account.display_tag;
+  }
+}
+
 async function refresh() {
   const res = await api("/api/queue/status");
   if (res.status === 401) {
     $("v-account").textContent = "未ログイン";
+    $("jockey-gate").style.display = "none";
+    $("main-ui").style.display = "none";
     stopPolling();
     return;
   }
+  if (res.body.account) {
+    applyGate(res.body.account);
+  }
   render(res.body);
 }
+
+async function loadProfile() {
+  if (!selfAccount) return;
+  const res = await api("/api/account/profile?id=" + encodeURIComponent(selfAccount.discord_id));
+  if (res.status !== 200) return;
+  if (res.body.icon_bg) selectedBg = res.body.icon_bg;
+  if (res.body.icon_border) selectedBorder = res.body.icon_border;
+  if (res.body.icon_crest) selectedCrest = res.body.icon_crest;
+  initIconChoices();
+  renderIcon($("self-icon"), selectedBg, selectedBorder, selectedCrest);
+  if (res.body.x_link) $("edit-x-link").value = res.body.x_link;
+}
+
+$("btn-register-jockey").addEventListener("click", async function () {
+  const name = $("jockey-name-input").value.trim();
+  if (!name) return;
+  const res = await api("/api/account/profile", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ display_tag: name }),
+  });
+  log("register jockey", res.body);
+  if (res.status === 200) {
+    refresh().then(loadProfile);
+  }
+});
+
+$("btn-save-display-tag").addEventListener("click", async function () {
+  const name = $("edit-display-tag").value.trim();
+  if (!name) return;
+  const res = await api("/api/account/profile", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ display_tag: name }),
+  });
+  log("save display_tag", res.body);
+  refresh();
+});
+
+$("btn-save-x-link").addEventListener("click", async function () {
+  const value = $("edit-x-link").value.trim();
+  const res = await api("/api/account/profile", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ x_link: value }),
+  });
+  log("save x_link", res.body);
+});
+
+$("btn-save-icon").addEventListener("click", async function () {
+  const res = await api("/api/account/profile", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest }),
+  });
+  log("save icon", res.body);
+  if (res.status === 200) {
+    renderIcon($("self-icon"), selectedBg, selectedBorder, selectedCrest);
+  }
+});
 
 $("btn-join").addEventListener("click", async function () {
   const res = await api("/api/queue/join", { method: "POST" });
   log("join", res.body);
   if (res.status === 401) { $("v-account").textContent = "未ログイン"; return; }
-  render(Object.assign({ account: null }, res.body));
+  render(Object.assign({ account: selfAccount }, res.body));
   startPolling();
   refresh();
 });
@@ -179,8 +357,9 @@ async function sendReport(result) {
 $("btn-win").addEventListener("click", function () { sendReport("win"); });
 $("btn-loss").addEventListener("click", function () { sendReport("loss"); });
 
+initIconChoices();
 setInterval(tickRemain, 1000);
-refresh();
+refresh().then(loadProfile);
 startPolling();
 </script>
 </body>

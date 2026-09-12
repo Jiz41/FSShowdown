@@ -40,7 +40,7 @@ export async function onRequestGet({ request, env }) {
      VALUES (?1, ?2, ?3, 1000, ?4)
      ON CONFLICT(discord_id) DO UPDATE SET username = excluded.username`
   )
-    .bind(user.id, user.username, user.username, now)
+    .bind(user.id, user.username, "", now)
     .run();
 
   const token = newToken();
