@@ -14,3 +14,6 @@ class_name = "Matchmaker"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["Matchmaker"]
+
+[triggers]
+crons = ["0 3 * * *"]

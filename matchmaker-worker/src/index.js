@@ -411,4 +411,8 @@ export default {
   async fetch() {
     return json({ error: "matchmaker_worker_has_no_public_routes" }, 404);
   },
+  async scheduled(event, env, ctx) {
+    const now = Math.floor(Date.now() / 1000);
+    await env.DB.prepare(`DELETE FROM sessions WHERE expires_at < ?1`).bind(now).run();
+  },
 };

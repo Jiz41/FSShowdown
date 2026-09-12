@@ -1,4 +1,5 @@
 import { json, requireAccount } from "../../_lib/session.js";
+import { checkRateLimit } from "../../_lib/rate_limit.js";
 
 const ICON_BG = ["red", "blue", "green", "purple", "orange", "yellow", "black", "white"];
 const ICON_BORDER = ["solid", "double", "dashed", "thick"];
@@ -57,6 +58,11 @@ export async function onRequestGet({ request, env }) {
 export async function onRequestPost({ request, env }) {
   const { account, response } = await requireAccount(env, request);
   if (response) return response;
+
+  const allowed = await checkRateLimit(env, "profile:" + account.discord_id, 10, 60);
+  if (!allowed) {
+    return json({ error: "rate_limited" }, 429);
+  }
 
   let body;
   try {

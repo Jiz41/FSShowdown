@@ -1,10 +1,16 @@
-import { json, newToken, sessionCookie, SESSION_TTL_SECONDS } from "../_lib/session.js";
+import { json, newToken, sessionCookie, readCookie, SESSION_TTL_SECONDS } from "../_lib/session.js";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   if (!code) {
     return json({ error: "missing_code" }, 400);
+  }
+
+  const stateParam = url.searchParams.get("state");
+  const stateCookie = readCookie(request, "fssh_oauth_state");
+  if (!stateParam || !stateCookie || stateParam !== stateCookie) {
+    return json({ error: "invalid_state" }, 400);
   }
 
   const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
@@ -50,11 +56,12 @@ export async function onRequestGet({ request, env }) {
     .bind(token, user.id, now + SESSION_TTL_SECONDS)
     .run();
 
+  const headers = new Headers({ location: "/queue" });
+  headers.append("set-cookie", sessionCookie(token));
+  headers.append("set-cookie", "fssh_oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0");
+
   return new Response(null, {
     status: 302,
-    headers: {
-      location: "/queue",
-      "set-cookie": sessionCookie(token),
-    },
+    headers,
   });
 }
