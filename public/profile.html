@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
   h1 { font-size: 20px; }
+  .lang-toggle { background: #33ff66; color: #14161a; border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; margin-bottom: 12px; }
   #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
   .row { margin: 10px 0; }
   .label { color: #9aa4b2; display: inline-block; min-width: 6em; }
@@ -16,19 +17,106 @@
 </style>
 </head>
 <body>
-<h1>騎手プロフィール</h1>
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+<h1 data-i18n="h1_profile">騎手プロフィール</h1>
 
 <div id="panel">
   <div id="header-row">
     <div class="jockey-icon" id="p-icon"></div>
-    <div id="p-name" style="font-size: 18px;">読み込み中...</div>
+    <div id="p-name" style="font-size: 18px;" data-i18n="loading">読み込み中...</div>
   </div>
-  <div class="row"><span class="label">レート</span><span id="p-rating">-</span></div>
-  <div class="row"><span class="label">戦績</span><span id="p-record">-</span></div>
+  <div class="row"><span class="label" data-i18n="label_rating">レート</span><span id="p-rating">-</span></div>
+  <div class="row"><span class="label" data-i18n="label_record">戦績</span><span id="p-record">-</span></div>
   <div class="row"><span class="label">X</span><span id="p-xlink">-</span></div>
 </div>
 
+<div id="panel" style="margin-top:16px;">
+  <div id="distance-title" style="font-size:14px; color:#9aa4b2; margin-bottom:8px;"></div>
+  <table id="distance-table" style="border-collapse:collapse; width:100%; margin-bottom:20px;"></table>
+  <div id="venue-title" style="font-size:14px; color:#9aa4b2; margin-bottom:8px;"></div>
+  <table id="venue-table" style="border-collapse:collapse; width:100%;"></table>
+</div>
+
 <script>
+const I18N = {
+  ja: {
+    h1_profile: "騎手プロフィール",
+    loading: "読み込み中...",
+    label_rating: "レート",
+    label_record: "戦績",
+    id_missing: "IDが指定されていません",
+    not_found: "騎手が見つかりません",
+    not_set: "未設定",
+    wins_suffix: "勝",
+    losses_suffix: "敗",
+    races_suffix: "戦",
+    distance_title: "距離別成績",
+    venue_title: "場別成績"
+  },
+  en: {
+    h1_profile: "Jockey Profile",
+    loading: "Loading...",
+    label_rating: "Rating",
+    label_record: "Record",
+    id_missing: "No ID specified",
+    not_found: "Jockey not found",
+    not_set: "Not set",
+    wins_suffix: "W",
+    losses_suffix: "L",
+    races_suffix: " Races",
+    distance_title: "Record by Distance",
+    venue_title: "Record by Venue"
+  }
+};
+
+const DISTANCE_CATEGORY_LABEL = {
+  ja: { "短距離": "短距離", "マイル": "マイル", "中距離": "中距離", "クラシック": "クラシック", "長距離": "長距離", "超長距離": "超長距離" },
+  en: { "短距離": "Sprint", "マイル": "Mile", "中距離": "Intermediate", "クラシック": "Classic", "長距離": "Long", "超長距離": "Extended" }
+};
+
+const VENUE_LABEL = {
+  ja: { "東京": "東京", "中山": "中山", "阪神": "阪神", "京都": "京都", "中京": "中京" },
+  en: { "東京": "Tokyo", "中山": "Nakayama", "阪神": "Hanshin", "京都": "Kyoto", "中京": "Chukyo" }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+    load();
+  });
+
+  updateLabel();
+}
+
+setupLangToggle();
+
 const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
 const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
 
@@ -44,19 +132,22 @@ async function load() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   if (!id) {
-    $("p-name").textContent = "IDが指定されていません";
+    $("p-name").textContent = t("id_missing");
     return;
   }
   const res = await fetch("/api/account/profile?id=" + encodeURIComponent(id));
   if (res.status === 404) {
-    $("p-name").textContent = "騎手が見つかりません";
+    $("p-name").textContent = t("not_found");
     return;
   }
   const body = await res.json();
   $("p-name").textContent = body.display_tag;
   $("p-rating").textContent = body.rating;
-  $("p-record").textContent = body.wins + "勝" + body.losses + "敗";
+  const total = body.total !== undefined ? body.total : (body.wins + body.losses);
+  $("p-record").textContent = total + t("races_suffix") + body.wins + t("wins_suffix") + body.losses + t("losses_suffix");
   renderIcon($("p-icon"), body.icon_bg, body.icon_border, body.icon_crest);
+  renderDistanceTable(body.distance_stats || []);
+  renderVenueTable(body.venue_stats || []);
   if (body.x_link) {
     const a = document.createElement("a");
     a.href = body.x_link;
@@ -66,8 +157,48 @@ async function load() {
     $("p-xlink").innerHTML = "";
     $("p-xlink").appendChild(a);
   } else {
-    $("p-xlink").textContent = "未設定";
+    $("p-xlink").textContent = t("not_set");
   }
+}
+
+function renderDistanceTable(stats) {
+  const lang = currentLang();
+  $("distance-title").textContent = t("distance_title");
+  const table = $("distance-table");
+  table.innerHTML = "";
+  stats.forEach((s) => {
+    const label = (DISTANCE_CATEGORY_LABEL[lang] && DISTANCE_CATEGORY_LABEL[lang][s.category]) || s.category;
+    const tr = document.createElement("tr");
+    const tdName = document.createElement("td");
+    tdName.style.cssText = "padding:4px 8px; border-bottom:1px solid #333;";
+    tdName.textContent = label;
+    const tdRecord = document.createElement("td");
+    tdRecord.style.cssText = "padding:4px 8px; border-bottom:1px solid #333; text-align:right;";
+    tdRecord.textContent = s.wins + t("wins_suffix") + s.losses + t("losses_suffix");
+    tr.appendChild(tdName);
+    tr.appendChild(tdRecord);
+    table.appendChild(tr);
+  });
+}
+
+function renderVenueTable(stats) {
+  const lang = currentLang();
+  $("venue-title").textContent = t("venue_title");
+  const table = $("venue-table");
+  table.innerHTML = "";
+  stats.forEach((s) => {
+    const label = (VENUE_LABEL[lang] && VENUE_LABEL[lang][s.venue]) || s.venue;
+    const tr = document.createElement("tr");
+    const tdName = document.createElement("td");
+    tdName.style.cssText = "padding:4px 8px; border-bottom:1px solid #333;";
+    tdName.textContent = label;
+    const tdRecord = document.createElement("td");
+    tdRecord.style.cssText = "padding:4px 8px; border-bottom:1px solid #333; text-align:right;";
+    tdRecord.textContent = s.wins + t("wins_suffix") + s.losses + t("losses_suffix");
+    tr.appendChild(tdName);
+    tr.appendChild(tdRecord);
+    table.appendChild(tr);
+  });
 }
 
 load();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -407,11 +407,28 @@
     margin-top: 12px;
     color: var(--green-dim);
   }
+
+  /* ===== LANG TOGGLE ===== */
+  .lang-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
 
 <section class="hero">
+  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
   <div class="hero-bg"></div>
   <div class="track-lines">
     <div class="track-line"></div>
@@ -423,7 +440,7 @@
   <div class="scanline-overlay"></div>
   <div class="hero-content">
     <img src="/images/icon.png" alt="FSShowdown" class="hero-logo">
-    <div class="hero-catch">
+    <div class="hero-catch" data-i18n-html="hero_catch">
       <ruby>FSShowdown<rt>誰よりも疾くゴール</rt></ruby>せよ。
     </div>
     <div class="hero-sub">PLAYER-DRIVEN RANK MATCH FOR FULL STRIDE</div>
@@ -433,112 +450,225 @@
 
 <section class="section fade-in" id="motive">
   <span class="section-label">Background</span>
-  <h2>背景・動機</h2>
-  <p class="lead-line">『Full Stride』には公式のオンラインランクマッチ機能が存在しない。</p>
+  <h2 data-i18n="h2_motive">背景・動機</h2>
+  <p class="lead-line" data-i18n="lead_line">『Full Stride』には公式のオンラインランクマッチ機能が存在しない。</p>
   <div class="card-grid">
     <div class="card">
-      <h3>純粋な実力を測れる場を作りたい</h3>
-      <p>展開読み・操作といったプレイヤー自身の技量を、馬の能力差やコース適性の偏りに左右されずに測れる環境がない。</p>
+      <h3 data-i18n="card1_h">純粋な実力を測れる場を作りたい</h3>
+      <p data-i18n="card1_p">展開読み・操作といったプレイヤー自身の技量を、馬の能力差やコース適性の偏りに左右されずに測れる環境がない。</p>
     </div>
     <div class="card">
-      <h3>コミュニティを活性化させたい</h3>
-      <p>対戦を通じてプレイヤー同士の交流やレベルアップの動機付けを生み出したい。</p>
+      <h3 data-i18n="card2_h">コミュニティを活性化させたい</h3>
+      <p data-i18n="card2_p">対戦を通じてプレイヤー同士の交流やレベルアップの動機付けを生み出したい。</p>
     </div>
   </div>
 </section>
 
 <section class="section fade-in" id="concept">
   <span class="section-label">Concept</span>
-  <h2>コンセプト</h2>
+  <h2 data-i18n="h2_concept">コンセプト</h2>
   <div class="concept-block">
-    <div class="concept-main">馬の能力差を消し、<br>プレイヤーの読みと腕だけを測る</div>
-    <p class="concept-sub">Full Strideは馬の脚質・展開・枠順に結果が大きく左右されるゲームであるため、通常のシートのままでは対戦相手の馬の質によって勝敗が決まってしまう。そこで専用の均一化シートを用いることで、実力差の変数を極力削ぎ落とす。</p>
+    <div class="concept-main" data-i18n-html="concept_main">馬の能力差を消し、<br>プレイヤーの読みと腕だけを測る</div>
+    <p class="concept-sub" data-i18n="concept_sub">Full Strideは馬の脚質・展開・枠順に結果が大きく左右されるゲームであるため、通常のシートのままでは対戦相手の馬の質によって勝敗が決まってしまう。そこで専用の均一化シートを用いることで、実力差の変数を極力削ぎ落とす。</p>
   </div>
 </section>
 
 <section class="section fade-in" id="mechanism">
   <span class="section-label">How It Works</span>
-  <h2>仕組み</h2>
+  <h2 data-i18n="h2_mechanism">仕組み</h2>
   <div class="timeline">
     <div class="timeline-step">
       <div class="timeline-node"></div>
-      <h3>STEP 01 / 対戦用シート</h3>
-      <p>全馬の能力値・成長タイプ・体型・適性を統一し、脚質だけを10パターンでランダムに割り振る。</p>
+      <h3 data-i18n="step1_h">STEP 01 / 対戦用シート</h3>
+      <p data-i18n="step1_p">全馬の能力値・成長タイプ・体型・適性を統一し、脚質だけを10パターンでランダムに割り振る。</p>
     </div>
     <div class="timeline-step">
       <div class="timeline-node"></div>
-      <h3>STEP 02 / マッチングの流れ</h3>
-      <p>対戦相手を探す→GIレース自動抽選→固定パスワードで部屋作成→シートID自動表示、これらすべてを自動化。</p>
+      <h3 data-i18n="step2_h">STEP 02 / マッチングの流れ</h3>
+      <p data-i18n="step2_p">対戦相手を探す→GIレース自動抽選→固定パスワードで部屋作成→シートID自動表示、これらすべてを自動化。</p>
     </div>
     <div class="timeline-step">
       <div class="timeline-node"></div>
-      <h3>STEP 03 / 結果報告・レート</h3>
-      <p>両者の勝敗自己申告が一致したら確定、イロレーティングで自動計算。距離別・脚質別の勝率も統計として公開。</p>
+      <h3 data-i18n="step3_h">STEP 03 / 結果報告・レート</h3>
+      <p data-i18n="step3_p">両者の勝敗自己申告が一致したら確定、イロレーティングで自動計算。距離別・脚質別の勝率も統計として公開。</p>
     </div>
   </div>
 </section>
 
 <section class="section fade-in" id="tech">
   <span class="section-label">Technology</span>
-  <h2>支える技術</h2>
+  <h2 data-i18n="h2_tech">支える技術</h2>
   <div class="tech-grid">
     <div class="tech-card">
       <div class="tech-name">Cloudflare Pages</div>
-      <div class="tech-role">静的サイトの配信</div>
+      <div class="tech-role" data-i18n="tech_role1">静的サイトの配信</div>
     </div>
     <div class="tech-card">
       <div class="tech-name">Durable Objects</div>
-      <div class="tech-role">マッチング状態をリアルタイムに管理</div>
+      <div class="tech-role" data-i18n="tech_role2">マッチング状態をリアルタイムに管理</div>
     </div>
     <div class="tech-card">
       <div class="tech-name">D1</div>
-      <div class="tech-role">対戦履歴・レート・統計データを保存</div>
+      <div class="tech-role" data-i18n="tech_role3">対戦履歴・レート・統計データを保存</div>
     </div>
   </div>
   <div class="tech-diagram">
-    <div class="diagram-box">Cloudflare Pages（配信）</div>
+    <div class="diagram-box" data-i18n="diagram_box1">Cloudflare Pages（配信）</div>
     <div class="diagram-arrow">↓</div>
-    <div class="diagram-box">Durable Objects（マッチング状態）</div>
+    <div class="diagram-box" data-i18n="diagram_box2">Durable Objects（マッチング状態）</div>
     <div class="diagram-arrow">↓</div>
-    <div class="diagram-box">D1（履歴・レート・統計）</div>
+    <div class="diagram-box" data-i18n="diagram_box3">D1（履歴・レート・統計）</div>
   </div>
 </section>
 
 <section class="section fade-in" id="release">
   <span class="section-label">Release Policy</span>
-  <h2>公開範囲・リリース方針</h2>
+  <h2 data-i18n="h2_release">公開範囲・リリース方針</h2>
   <div class="release-box">
-    <p>誰でも参加自由の公開ツールとする。</p>
-    <p>特に急がず、じっくり作る方針。ただし協力者が増えれば前倒しもありうる。</p>
+    <p data-i18n="release_p1">誰でも参加自由の公開ツールとする。</p>
+    <p data-i18n="release_p2">特に急がず、じっくり作る方針。ただし協力者が増えれば前倒しもありうる。</p>
   </div>
 </section>
 
 <section class="section fade-in" id="sisters">
   <span class="section-label">Sister Tools</span>
-  <h2>姉妹ツール</h2>
+  <h2 data-i18n="h2_sisters">姉妹ツール</h2>
   <div class="sister-grid">
     <a class="sister-card" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">
       <div class="sister-name">FSScreener</div>
-      <div class="sister-desc">Full Stride検索ツール</div>
+      <div class="sister-desc" data-i18n="sister_desc_fssc">Full Stride検索ツール</div>
     </a>
     <a class="sister-card" href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">
       <div class="sister-name">FSSplicer</div>
-      <div class="sister-desc">Full Stride支援ツール</div>
+      <div class="sister-desc" data-i18n="sister_desc_fssp">Full Stride支援ツール</div>
     </a>
     <a class="sister-card" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">
       <div class="sister-name">FSstriders</div>
-      <div class="sister-desc">Full Stride支援ツール</div>
+      <div class="sister-desc" data-i18n="sister_desc_fsst">Full Stride支援ツール</div>
     </a>
   </div>
 </section>
 
 <footer>
-  <p>非公式ファンツールです。</p>
-  <p>Full Strideの商標権はBlue Bullet株式会社に帰属します。</p>
+  <p data-i18n="footer_p1">非公式ファンツールです。</p>
+  <p data-i18n="footer_p2">Full Strideの商標権はBlue Bullet株式会社に帰属します。</p>
   <p class="credit">Created by <a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Mushyn Reagan</a></p>
 </footer>
 
 <script>
+  const I18N = {
+    ja: {
+      h2_motive: "背景・動機",
+      lead_line: "『Full Stride』には公式のオンラインランクマッチ機能が存在しない。",
+      card1_h: "純粋な実力を測れる場を作りたい",
+      card1_p: "展開読み・操作といったプレイヤー自身の技量を、馬の能力差やコース適性の偏りに左右されずに測れる環境がない。",
+      card2_h: "コミュニティを活性化させたい",
+      card2_p: "対戦を通じてプレイヤー同士の交流やレベルアップの動機付けを生み出したい。",
+      h2_concept: "コンセプト",
+      concept_sub: "Full Strideは馬の脚質・展開・枠順に結果が大きく左右されるゲームであるため、通常のシートのままでは対戦相手の馬の質によって勝敗が決まってしまう。そこで専用の均一化シートを用いることで、実力差の変数を極力削ぎ落とす。",
+      h2_mechanism: "仕組み",
+      step1_h: "STEP 01 / 対戦用シート",
+      step1_p: "全馬の能力値・成長タイプ・体型・適性を統一し、脚質だけを10パターンでランダムに割り振る。",
+      step2_h: "STEP 02 / マッチングの流れ",
+      step2_p: "対戦相手を探す→GIレース自動抽選→固定パスワードで部屋作成→シートID自動表示、これらすべてを自動化。",
+      step3_h: "STEP 03 / 結果報告・レート",
+      step3_p: "両者の勝敗自己申告が一致したら確定、イロレーティングで自動計算。距離別・脚質別の勝率も統計として公開。",
+      h2_tech: "支える技術",
+      tech_role1: "静的サイトの配信",
+      tech_role2: "マッチング状態をリアルタイムに管理",
+      tech_role3: "対戦履歴・レート・統計データを保存",
+      diagram_box1: "Cloudflare Pages（配信）",
+      diagram_box2: "Durable Objects（マッチング状態）",
+      diagram_box3: "D1（履歴・レート・統計）",
+      h2_release: "公開範囲・リリース方針",
+      release_p1: "誰でも参加自由の公開ツールとする。",
+      release_p2: "特に急がず、じっくり作る方針。ただし協力者が増えれば前倒しもありうる。",
+      h2_sisters: "姉妹ツール",
+      sister_desc_fssc: "Full Stride検索ツール",
+      sister_desc_fssp: "Full Stride支援ツール",
+      sister_desc_fsst: "Full Stride支援ツール",
+      footer_p1: "非公式ファンツールです。",
+      footer_p2: "Full Strideの商標権はBlue Bullet株式会社に帰属します。",
+      hero_catch: "<ruby>FSShowdown<rt>誰よりも疾くゴール</rt></ruby>せよ。",
+      concept_main: "馬の能力差を消し、<br>プレイヤーの読みと腕だけを測る"
+    },
+    en: {
+      h2_motive: "Background & Motivation",
+      lead_line: "Full Stride has no official online ranked match feature.",
+      card1_h: "A place to measure pure skill",
+      card1_p: "There's no environment to measure a player's own skill — race-reading, execution — without it being skewed by differences in horse ability or course aptitude.",
+      card2_h: "Energize the community",
+      card2_p: "We want matches to spark interaction between players and give everyone a reason to improve.",
+      h2_concept: "Concept",
+      concept_sub: "Because Full Stride's results are heavily swayed by a horse's running style, race development, and post position, a normal data sheet lets the quality of your opponent's horse decide the outcome. A dedicated equalized sheet strips out as much of that variance as possible.",
+      h2_mechanism: "How It Works",
+      step1_h: "STEP 01 / Match Sheet",
+      step1_p: "All horses' stats, growth type, physical build, and aptitudes are standardized, with only running style randomly assigned across 10 patterns.",
+      step2_h: "STEP 02 / Matching Flow",
+      step2_p: "Find an opponent → automatic GI race draw → room creation with a fixed password → automatic sheet ID display — all of it automated.",
+      step3_h: "STEP 03 / Result Report & Rating",
+      step3_p: "Once both players' self-reported results match, the outcome is finalized and an Elo rating is calculated automatically. Win rates by distance and running style are also published as stats.",
+      h2_tech: "Technology",
+      tech_role1: "Serves the static site",
+      tech_role2: "Manages matching state in real time",
+      tech_role3: "Stores match history, ratings, and stats",
+      diagram_box1: "Cloudflare Pages (delivery)",
+      diagram_box2: "Durable Objects (matching state)",
+      diagram_box3: "D1 (history, ratings, stats)",
+      h2_release: "Access & Release Policy",
+      release_p1: "Open to everyone — free to join, no restrictions.",
+      release_p2: "No rush — built carefully and deliberately. That said, timelines could move up if more contributors join.",
+      h2_sisters: "Sister Tools",
+      sister_desc_fssc: "Full Stride Search Tool",
+      sister_desc_fssp: "Full Stride Support Tool",
+      sister_desc_fsst: "Full Stride Support Tool",
+      footer_p1: "This is an unofficial fan tool.",
+      footer_p2: "Full Stride trademarks belong to Blue Bullet Co., Ltd.",
+      hero_catch: "FSShowdown — Cross the finish line faster than anyone.",
+      concept_main: "Erase the gap in horse ability —<br>measure only the player's judgment and skill."
+    }
+  };
+
+  function currentLang() {
+    return document.documentElement.getAttribute("data-lang") || "ja";
+  }
+
+  function t(key) {
+    const lang = currentLang();
+    return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+  }
+
+  function applyLanguage(lang) {
+    document.documentElement.setAttribute("data-lang", lang);
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => {
+      el.innerHTML = t(el.getAttribute("data-i18n-html"));
+    });
+  }
+
+  function setupLangToggle() {
+    const root = document.documentElement;
+    const btn = document.getElementById("lang-toggle");
+
+    function updateLabel() {
+      const lang = root.getAttribute("data-lang") || "ja";
+      btn.textContent = lang === "ja" ? "ENG" : "JPN";
+    }
+
+    btn.addEventListener("click", () => {
+      const current = root.getAttribute("data-lang") || "ja";
+      const next = current === "ja" ? "en" : "ja";
+      applyLanguage(next);
+      updateLabel();
+    });
+
+    updateLabel();
+  }
+
+  setupLangToggle();
+
   (function () {
     var targets = document.querySelectorAll('.fade-in');
     if (!('IntersectionObserver' in window)) {

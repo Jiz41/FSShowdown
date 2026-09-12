@@ -1,0 +1,3 @@
+ALTER TABLE matches ADD COLUMN venue TEXT;
+ALTER TABLE matches ADD COLUMN distance INTEGER;
+ALTER TABLE matches ADD COLUMN surface TEXT;

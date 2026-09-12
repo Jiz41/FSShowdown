@@ -1,25 +1,25 @@
 const RACES = [
-  "フェブラリーステークス",
-  "高松宮記念",
-  "大阪杯",
-  "桜花賞",
-  "皐月賞",
-  "天皇賞(春)",
-  "NHKマイルカップ",
-  "ヴィクトリアマイル",
-  "オークス",
-  "日本ダービー",
-  "安田記念",
-  "宝塚記念",
-  "スプリンターズステークス",
-  "秋華賞",
-  "菊花賞",
-  "天皇賞(秋)",
-  "エリザベス女王杯",
-  "マイルチャンピオンシップ",
-  "ジャパンカップ",
-  "チャンピオンズカップ",
-  "有馬記念",
+  { name: "フェブラリーステークス", venue: "東京", distance: 1600, surface: "ダート" },
+  { name: "高松宮記念", venue: "中京", distance: 1200, surface: "芝" },
+  { name: "大阪杯", venue: "阪神", distance: 2000, surface: "芝" },
+  { name: "桜花賞", venue: "阪神", distance: 1600, surface: "芝" },
+  { name: "皐月賞", venue: "中山", distance: 2000, surface: "芝" },
+  { name: "天皇賞(春)", venue: "京都", distance: 3200, surface: "芝" },
+  { name: "NHKマイルカップ", venue: "東京", distance: 1600, surface: "芝" },
+  { name: "ヴィクトリアマイル", venue: "東京", distance: 1600, surface: "芝" },
+  { name: "オークス", venue: "東京", distance: 2400, surface: "芝" },
+  { name: "日本ダービー", venue: "東京", distance: 2400, surface: "芝" },
+  { name: "安田記念", venue: "東京", distance: 1600, surface: "芝" },
+  { name: "宝塚記念", venue: "阪神", distance: 2200, surface: "芝" },
+  { name: "スプリンターズステークス", venue: "中山", distance: 1200, surface: "芝" },
+  { name: "秋華賞", venue: "京都", distance: 2000, surface: "芝" },
+  { name: "菊花賞", venue: "京都", distance: 3000, surface: "芝" },
+  { name: "天皇賞(秋)", venue: "東京", distance: 2000, surface: "芝" },
+  { name: "エリザベス女王杯", venue: "京都", distance: 2200, surface: "芝" },
+  { name: "マイルチャンピオンシップ", venue: "京都", distance: 1600, surface: "芝" },
+  { name: "ジャパンカップ", venue: "東京", distance: 2400, surface: "芝" },
+  { name: "チャンピオンズカップ", venue: "中京", distance: 1800, surface: "ダート" },
+  { name: "有馬記念", venue: "中山", distance: 2500, surface: "芝" },
 ];
 
 const MATCH_TTL_SECONDS = 15 * 60;
@@ -111,14 +111,15 @@ export class Matchmaker {
     const now = Math.floor(Date.now() / 1000);
     const expiresAt = now + MATCH_TTL_SECONDS;
     const matchId = crypto.randomUUID();
-    const raceName = RACES[Math.floor(Math.random() * RACES.length)];
+    const race = RACES[Math.floor(Math.random() * RACES.length)];
+    const raceName = race.name;
 
     await this.env.DB.prepare(
       `INSERT INTO matches
-         (id, player1_id, player2_id, race_name, status, host_id, matched_at, reserved_at, expires_at)
-       VALUES (?1, ?2, ?3, ?4, 'pending', NULL, ?5, NULL, ?6)`
+         (id, player1_id, player2_id, race_name, status, host_id, matched_at, reserved_at, expires_at, venue, distance, surface)
+       VALUES (?1, ?2, ?3, ?4, 'pending', NULL, ?5, NULL, ?6, ?7, ?8, ?9)`
     )
-      .bind(matchId, opponent.discord_id, discord_id, raceName, now, expiresAt)
+      .bind(matchId, opponent.discord_id, discord_id, raceName, now, expiresAt, race.venue, race.distance, race.surface)
       .run();
 
     await this.state.storage.put(`match:${opponent.discord_id}`, matchId);

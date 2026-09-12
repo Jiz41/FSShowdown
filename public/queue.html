@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
   h1 { font-size: 20px; }
+  .lang-toggle { background: #33ff66; color: #14161a; border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; margin-bottom: 12px; }
   h2 { font-size: 16px; margin-top: 24px; }
   button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: #3a6ea5; color: #fff; cursor: pointer; }
   button:disabled { background: #444; cursor: not-allowed; }
@@ -25,17 +26,18 @@
 </style>
 </head>
 <body>
-<h1>FSShowdown マッチング（段階1・動作確認用）</h1>
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+<h1 data-i18n="h1_title">FSShowdown マッチング（段階1・動作確認用）</h1>
 
 <div class="row">
-  <a href="/auth/login"><button type="button">Discordでログイン</button></a>
+  <a href="/auth/login"><button type="button" data-i18n="btn_discord_login">Discordでログイン</button></a>
 </div>
 
 <div id="jockey-gate" style="display:none">
-  <div class="row">まずジョッキーネームを登録してください。</div>
+  <div class="row" data-i18n="jockey_gate_msg">まずジョッキーネームを登録してください。</div>
   <div class="row">
-    <input type="text" id="jockey-name-input" placeholder="ジョッキーネーム" maxlength="40">
-    <button type="button" id="btn-register-jockey">登録</button>
+    <input type="text" id="jockey-name-input" data-i18n-placeholder="ph_jockey_name" placeholder="ジョッキーネーム" maxlength="40">
+    <button type="button" id="btn-register-jockey" data-i18n="btn_register">登録</button>
   </div>
 </div>
 
@@ -46,52 +48,171 @@
   </div>
 
   <div class="row">
-    <button type="button" id="btn-join">マッチング開始</button>
-    <button type="button" id="btn-leave">キュー離脱</button>
-    <button type="button" id="btn-reserve" style="display:none">予約する</button>
-    <button type="button" id="btn-win" style="display:none">勝った</button>
-    <button type="button" id="btn-loss" style="display:none">負けた</button>
+    <button type="button" id="btn-join" data-i18n="btn_join">マッチング開始</button>
+    <button type="button" id="btn-leave" data-i18n="btn_leave">キュー離脱</button>
+    <button type="button" id="btn-reserve" style="display:none" data-i18n="btn_reserve">予約する</button>
+    <button type="button" id="btn-win" style="display:none" data-i18n="btn_win">勝った</button>
+    <button type="button" id="btn-loss" style="display:none" data-i18n="btn_loss">負けた</button>
   </div>
 
   <div id="panel">
-    <div class="row"><span class="label">ログイン</span><span id="v-account">未確認</span></div>
-    <div class="row"><span class="label">状態</span><span id="v-state">-</span></div>
-    <div class="row"><span class="label">レース</span><span id="v-race">-</span></div>
-    <div class="row"><span class="label">対戦相手</span><span id="v-opponent">-</span></div>
-    <div class="row"><span class="label">ホスト</span><span id="v-role">-</span></div>
-    <div class="row"><span class="label">残り時間</span><span id="v-remain">-</span></div>
+    <div class="row"><span class="label" data-i18n="label_account">ログイン</span><span id="v-account" data-i18n="v_account_default">未確認</span></div>
+    <div class="row"><span class="label" data-i18n="label_state">状態</span><span id="v-state">-</span></div>
+    <div class="row"><span class="label" data-i18n="label_race">レース</span><span id="v-race">-</span></div>
+    <div class="row"><span class="label" data-i18n="label_opponent">対戦相手</span><span id="v-opponent">-</span></div>
+    <div class="row"><span class="label" data-i18n="label_host">ホスト</span><span id="v-role">-</span></div>
+    <div class="row"><span class="label" data-i18n="label_remain">残り時間</span><span id="v-remain">-</span></div>
   </div>
 
   <div id="profile-panel">
-    <h2>プロフィール編集</h2>
+    <h2 data-i18n="h2_profile_edit">プロフィール編集</h2>
     <div class="row">
-      <input type="text" id="edit-display-tag" placeholder="ジョッキーネーム" maxlength="40">
-      <button type="button" id="btn-save-display-tag">保存</button>
+      <input type="text" id="edit-display-tag" data-i18n-placeholder="ph_jockey_name" placeholder="ジョッキーネーム" maxlength="40">
+      <button type="button" id="btn-save-display-tag" data-i18n="btn_save">保存</button>
     </div>
     <div class="row">
       <input type="text" id="edit-x-link" placeholder="https://x.com/your_account">
-      <button type="button" id="btn-save-x-link">保存</button>
+      <button type="button" id="btn-save-x-link" data-i18n="btn_save">保存</button>
     </div>
     <div class="row">
-      <div class="label">背景色</div>
+      <div class="label" data-i18n="label_bg_color">背景色</div>
       <div class="icon-choices" id="choices-bg"></div>
     </div>
     <div class="row">
-      <div class="label">枠</div>
+      <div class="label" data-i18n="label_border">枠</div>
       <div class="icon-choices" id="choices-border"></div>
     </div>
     <div class="row">
-      <div class="label">紋章</div>
+      <div class="label" data-i18n="label_crest">紋章</div>
       <div class="icon-choices" id="choices-crest"></div>
     </div>
-    <div class="row">プレビュー: <span class="jockey-icon" id="icon-preview"></span></div>
-    <div class="row"><button type="button" id="btn-save-icon">アイコンを保存</button></div>
+    <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
+    <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
   </div>
 </div>
 
 <pre id="log"></pre>
 
 <script>
+const I18N = {
+  ja: {
+    h1_title: "FSShowdown マッチング（段階1・動作確認用）",
+    btn_discord_login: "Discordでログイン",
+    jockey_gate_msg: "まずジョッキーネームを登録してください。",
+    ph_jockey_name: "ジョッキーネーム",
+    btn_register: "登録",
+    btn_join: "マッチング開始",
+    btn_leave: "キュー離脱",
+    btn_reserve: "予約する",
+    btn_win: "勝った",
+    btn_loss: "負けた",
+    label_account: "ログイン",
+    v_account_default: "未確認",
+    label_state: "状態",
+    label_race: "レース",
+    label_opponent: "対戦相手",
+    label_host: "ホスト",
+    label_remain: "残り時間",
+    h2_profile_edit: "プロフィール編集",
+    btn_save: "保存",
+    label_bg_color: "背景色",
+    label_border: "枠",
+    label_crest: "紋章",
+    label_preview: "プレビュー",
+    btn_save_icon: "アイコンを保存",
+    not_logged_in: "未ログイン",
+    host_you: "あなたがホスト",
+    host_opponent: "相手がホスト（参加側）",
+    no_contest: "不成立（15分超過）",
+    result_fixed: "結果確定済み",
+    not_reserved: "未予約",
+    seconds_suffix: " 秒",
+    expired: "期限切れ",
+    result_confirmed_log: "結果確定",
+    result_mismatch_log: "結果不一致、再送信してください",
+    awaiting_opponent_log: "相手の報告待ち",
+    rating_suffix: "（レート "
+  },
+  en: {
+    h1_title: "FSShowdown Matchmaking (Phase 1 / Test Build)",
+    btn_discord_login: "Log in with Discord",
+    jockey_gate_msg: "Please register a Jockey Name first.",
+    ph_jockey_name: "Jockey Name",
+    btn_register: "Register",
+    btn_join: "Start Matching",
+    btn_leave: "Leave Queue",
+    btn_reserve: "Reserve",
+    btn_win: "Win",
+    btn_loss: "Loss",
+    label_account: "Login",
+    v_account_default: "Unverified",
+    label_state: "Status",
+    label_race: "Race",
+    label_opponent: "Opponent",
+    label_host: "Host",
+    label_remain: "Time Left",
+    h2_profile_edit: "Edit Profile",
+    btn_save: "Save",
+    label_bg_color: "Background",
+    label_border: "Frame",
+    label_crest: "Crest",
+    label_preview: "Preview",
+    btn_save_icon: "Save Icon",
+    not_logged_in: "Not logged in",
+    host_you: "You are the host",
+    host_opponent: "Opponent is host (joining)",
+    no_contest: "No contest (15 min elapsed)",
+    result_fixed: "Result finalized",
+    not_reserved: "Not reserved",
+    seconds_suffix: " sec",
+    expired: "Expired",
+    result_confirmed_log: "Result finalized",
+    result_mismatch_log: "Result mismatch, please resend",
+    awaiting_opponent_log: "Waiting for opponent's report",
+    rating_suffix: " (Rating "
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+  });
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+setupLangToggle();
+
 const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
 const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
 const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
@@ -154,7 +275,7 @@ function initIconChoices() {
 function render(body) {
   if (body.account) {
     selfAccount = body.account;
-    $("v-account").textContent = body.account.display_tag + "（レート " + body.account.rating + "）";
+    $("v-account").textContent = body.account.display_tag + t("rating_suffix") + body.account.rating + "）";
   }
   $("v-state").textContent = body.status || "-";
 
@@ -170,24 +291,24 @@ function render(body) {
       $("v-opponent").textContent = "-";
     }
     if (body.match.status === "reserved") {
-      $("v-role").textContent = body.match.host_id === body.account.discord_id ? "あなたがホスト" : "相手がホスト（参加側）";
+      $("v-role").textContent = body.match.host_id === body.account.discord_id ? t("host_you") : t("host_opponent");
       $("btn-reserve").style.display = "none";
       $("btn-win").style.display = "inline-block";
       $("btn-loss").style.display = "inline-block";
     } else if (body.match.status === "no_contest") {
-      $("v-role").textContent = "不成立（15分超過）";
+      $("v-role").textContent = t("no_contest");
       $("btn-reserve").style.display = "none";
       $("btn-win").style.display = "none";
       $("btn-loss").style.display = "none";
       stopPolling();
     } else if (body.match.status === "completed") {
-      $("v-role").textContent = "結果確定済み";
+      $("v-role").textContent = t("result_fixed");
       $("btn-reserve").style.display = "none";
       $("btn-win").style.display = "none";
       $("btn-loss").style.display = "none";
       stopPolling();
     } else {
-      $("v-role").textContent = "未予約";
+      $("v-role").textContent = t("not_reserved");
       $("btn-reserve").style.display = "inline-block";
       $("btn-win").style.display = "none";
       $("btn-loss").style.display = "none";
@@ -208,7 +329,7 @@ function render(body) {
 function tickRemain() {
   if (!currentExpiresAt) return;
   const left = currentExpiresAt - Math.floor(Date.now() / 1000);
-  $("v-remain").textContent = left > 0 ? left + " 秒" : "期限切れ";
+  $("v-remain").textContent = left > 0 ? left + t("seconds_suffix") : t("expired");
 }
 
 function startPolling() {
@@ -229,7 +350,7 @@ function applyGate(account) {
   } else {
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "block";
-    $("self-name").textContent = account.display_tag + "（レート " + account.rating + "）";
+    $("self-name").textContent = account.display_tag + t("rating_suffix") + account.rating + "）";
     $("edit-display-tag").value = account.display_tag;
   }
 }
@@ -237,7 +358,7 @@ function applyGate(account) {
 async function refresh() {
   const res = await api("/api/queue/status");
   if (res.status === 401) {
-    $("v-account").textContent = "未ログイン";
+    $("v-account").textContent = t("not_logged_in");
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "none";
     stopPolling();
@@ -312,7 +433,7 @@ $("btn-save-icon").addEventListener("click", async function () {
 $("btn-join").addEventListener("click", async function () {
   const res = await api("/api/queue/join", { method: "POST" });
   log("join", res.body);
-  if (res.status === 401) { $("v-account").textContent = "未ログイン"; return; }
+  if (res.status === 401) { $("v-account").textContent = t("not_logged_in"); return; }
   render(Object.assign({ account: selfAccount }, res.body));
   startPolling();
   refresh();
@@ -341,15 +462,15 @@ async function sendReport(result) {
   });
   log("report:" + result, res.body);
   if (res.body && res.body.status === "completed") {
-    log("結果確定", {
+    log(t("result_confirmed_log"), {
       result: res.body.result,
       rating_delta: res.body.rating_delta,
       new_rating: res.body.new_rating,
     });
   } else if (res.body && res.body.status === "mismatch") {
-    log("結果不一致、再送信してください", res.body);
+    log(t("result_mismatch_log"), res.body);
   } else if (res.body && res.body.status === "awaiting_opponent") {
-    log("相手の報告待ち", res.body);
+    log(t("awaiting_opponent_log"), res.body);
   }
   refresh();
 }

@@ -43,6 +43,42 @@ export async function onRequestGet({ request, env }) {
     .bind(discordId)
     .first();
 
+  const wins = winsRow ? winsRow.n : 0;
+  const losses = lossesRow ? lossesRow.n : 0;
+
+  const matchRows = await env.DB.prepare(
+    `SELECT venue, distance,
+            CASE WHEN player1_id = ?1 THEN player1_result ELSE player2_result END AS my_result
+       FROM matches
+      WHERE status = 'completed' AND (player1_id = ?1 OR player2_id = ?1)`
+  )
+    .bind(discordId)
+    .all();
+
+  const distanceCategories = ["短距離", "マイル", "中距離", "クラシック", "長距離", "超長距離"];
+  const distanceStats = {};
+  for (const cat of distanceCategories) {
+    distanceStats[cat] = { category: cat, wins: 0, losses: 0 };
+  }
+  const venueStats = {};
+
+  for (const row of (matchRows && matchRows.results) ? matchRows.results : []) {
+    if (row.distance !== null && row.distance !== undefined) {
+      const cat = distanceCategory(row.distance);
+      if (distanceStats[cat]) {
+        if (row.my_result === "win") distanceStats[cat].wins += 1;
+        else if (row.my_result === "loss") distanceStats[cat].losses += 1;
+      }
+    }
+    if (row.venue) {
+      if (!venueStats[row.venue]) {
+        venueStats[row.venue] = { venue: row.venue, wins: 0, losses: 0 };
+      }
+      if (row.my_result === "win") venueStats[row.venue].wins += 1;
+      else if (row.my_result === "loss") venueStats[row.venue].losses += 1;
+    }
+  }
+
   return json({
     display_tag: account.display_tag ? account.display_tag : "名無しの騎手",
     x_link: account.x_link,
@@ -50,9 +86,21 @@ export async function onRequestGet({ request, env }) {
     icon_border: account.icon_border,
     icon_crest: account.icon_crest,
     rating: account.rating,
-    wins: winsRow ? winsRow.n : 0,
-    losses: lossesRow ? lossesRow.n : 0,
+    wins,
+    losses,
+    total: wins + losses,
+    distance_stats: distanceCategories.map((cat) => distanceStats[cat]),
+    venue_stats: Object.values(venueStats),
   });
+}
+
+function distanceCategory(distance) {
+  if (distance === 2400) return "クラシック";
+  if (distance <= 1300) return "短距離";
+  if (distance <= 1899) return "マイル";
+  if (distance <= 2100) return "中距離";
+  if (distance <= 2700) return "長距離";
+  return "超長距離";
 }
 
 export async function onRequestPost({ request, env }) {
