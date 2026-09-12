@@ -414,5 +414,6 @@ export default {
   async scheduled(event, env, ctx) {
     const now = Math.floor(Date.now() / 1000);
     await env.DB.prepare(`DELETE FROM sessions WHERE expires_at < ?1`).bind(now).run();
+    await env.DB.prepare(`DELETE FROM rate_limits WHERE window_start < ?1`).bind(now - 3600).run();
   },
 };
