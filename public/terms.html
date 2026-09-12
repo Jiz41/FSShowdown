@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSShowdown - 利用規約</title>
+<style>
+  :root {
+    --bg: #0a0e0a;
+    --bg2: #0d1410;
+    --green: #33ff66;
+    --green-dim: #1a8a3a;
+    --text: #d8ffe0;
+    --text-dim: #7fa88f;
+    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    line-height: 1.8;
+    padding: 72px 20px 60px;
+  }
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: var(--green);
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+    text-shadow: 0 0 12px rgba(51,255,102,0.4);
+  }
+  h3 {
+    color: var(--green);
+    font-size: 1rem;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--green-dim);
+    padding-left: 10px;
+  }
+  p {
+    color: var(--text);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+  }
+
+  /* ===== FSSH COMMON MENU ===== */
+  .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
+  .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
+  .fssh-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
+  .fssh-overlay.open { display: block; }
+  .fssh-drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 80vw; background: #0a0e0a; border-right: 1px solid #1a8a3a; z-index: 1002; transform: translateX(-100%); transition: transform 0.25s ease; font-family: var(--mono); overflow-y: auto; }
+  .fssh-drawer.open { transform: translateX(0); }
+  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; }
+  .fssh-drawer nav { padding: 8px 0; }
+  .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
+  .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
+  .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
+  .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
+  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+<div class="fssh-overlay" id="fssh-overlay"></div>
+<div class="fssh-drawer" id="fssh-drawer">
+  <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
+  <div class="fssh-drawer-header">MENU</div>
+  <nav>
+    <a href="index.html">ホーム</a>
+    <a href="queue.html">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
+    <a href="ranking.html">ランキング</a>
+    <a href="terms.html">利用規約</a>
+    <a href="faq.html">Q&amp;A</a>
+    <a href="howto.html">How to</a>
+    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <div class="fssh-sub">
+      <div class="fssh-sub-label">姉妹ツール</div>
+      <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
+      <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
+      <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
+    </div>
+  </nav>
+</div>
+
+<div class="page">
+<h1>利用規約</h1>
+
+<h3>【サイトの性質について】</h3>
+<p>本サイトは、個人が制作する『FULL STRIDE』の非公式ファンツールであり、株式会社Blue Bullet（以下「開発元」）とは一切関係のない、非営利の個人運営サイトです。開発元とは提携・後援・監修等の関係は一切ありません。本サイトを利用した時点で、以下の全項目に同意いただいたものとみなされます。</p>
+
+<h3>【知的財産権について】</h3>
+<p>『FULL STRIDE』の名称は、開発元に帰属する商標です。本サイトが提供するマッチング機能・レーティング計算方式・対戦用シート等のロジック・デザインは当サイト運営者に帰属する著作物です。個人学習目的での参照は許可しますが、複製して別サービスとして公開する等の商用利用は禁止します。</p>
+
+<h3>【参加条件・アカウントについて】</h3>
+<p>本サービスの利用にはDiscordアカウントによるログインが必要です。参加資格に制限はなく、誰でも自由にご参加いただけます。ログイン時に取得する情報はDiscordのユーザーID・ユーザー名のみで、それ以外の個人情報は取得しません。</p>
+
+<h3>【データの取り扱いについて】</h3>
+<p>ログイン後に登録されるジョッキーネーム・レート・対戦履歴・アイコン設定等は、本サービスのデータベースに保存されます。これらはランキング表示・プロフィール公開機能により、本サービス上で誰でも閲覧可能です。Discordの実際のユーザー名は画面上に表示されません。</p>
+
+<h3>【禁止事項】</h3>
+<p>以下の行為を禁止します。意図的な虚偽の勝敗報告／正当な理由のない対戦放棄（ノーコンテストの濫用）／複数アカウントでの参加／対戦相手や運営への迷惑行為・誹謗中傷。該当すると判断した場合、運営者の裁量によりアカウントの利用制限・ランキングからの除外等の措置を行う場合があります。</p>
+
+<h3>【賭博行為との関係について】</h3>
+<p>本サイトはプレイヤー同士の技量を測る非営利のランクマッチサービスであり、金銭のやり取りを一切伴いません。馬券の購入その他の賭博行為とは一切関係ありません。</p>
+
+<h3>【免責事項】</h3>
+<p>本サイトのご利用によって生じたいかなる損害についても、運営に故意または重大な過失がある場合を除き責任を負いません。法令により責任を負うべき場合でも、賠償額は1,000円を上限とします。レート・対戦履歴等のデータは予告なく変更・リセット・消失する場合があります。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。</p>
+
+<h3>【管轄裁判所】</h3>
+<p>本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。</p>
+
+<h3>【お問い合わせ】</h3>
+<p>ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。</p>
+</div>
+
+<script>
+(function () {
+  var toggle = document.getElementById('fssh-menu-toggle');
+  var overlay = document.getElementById('fssh-overlay');
+  var drawer = document.getElementById('fssh-drawer');
+  var closeBtn = document.getElementById('fssh-close');
+  function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  toggle.addEventListener('click', openMenu);
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+  fetch('/api/queue/status', { credentials: 'same-origin' }).then(function (res) {
+    if (res.status === 401) return null;
+    return res.json();
+  }).then(function (body) {
+    if (body && body.account && body.account.discord_id) {
+      var el = document.getElementById('fssh-nav-profile');
+      el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
+      el.style.display = 'block';
+    }
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>

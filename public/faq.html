@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSShowdown - Q&A</title>
+<style>
+  :root {
+    --bg: #0a0e0a;
+    --bg2: #0d1410;
+    --green: #33ff66;
+    --green-dim: #1a8a3a;
+    --text: #d8ffe0;
+    --text-dim: #7fa88f;
+    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    line-height: 1.8;
+    padding: 72px 20px 60px;
+  }
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: var(--green);
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+    text-shadow: 0 0 12px rgba(51,255,102,0.4);
+  }
+  h3 {
+    color: var(--green);
+    font-size: 1.05rem;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--green-dim);
+    padding-bottom: 6px;
+  }
+  .qa-block {
+    background: var(--bg2);
+    border: 1px solid var(--green-dim);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .qa-q {
+    color: var(--orange, #ff8833);
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  .qa-a {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+  }
+
+  /* ===== FSSH COMMON MENU ===== */
+  .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
+  .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
+  .fssh-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
+  .fssh-overlay.open { display: block; }
+  .fssh-drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 80vw; background: #0a0e0a; border-right: 1px solid #1a8a3a; z-index: 1002; transform: translateX(-100%); transition: transform 0.25s ease; font-family: var(--mono); overflow-y: auto; }
+  .fssh-drawer.open { transform: translateX(0); }
+  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; }
+  .fssh-drawer nav { padding: 8px 0; }
+  .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
+  .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
+  .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
+  .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
+  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+<div class="fssh-overlay" id="fssh-overlay"></div>
+<div class="fssh-drawer" id="fssh-drawer">
+  <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
+  <div class="fssh-drawer-header">MENU</div>
+  <nav>
+    <a href="index.html">ホーム</a>
+    <a href="queue.html">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
+    <a href="ranking.html">ランキング</a>
+    <a href="terms.html">利用規約</a>
+    <a href="faq.html">Q&amp;A</a>
+    <a href="howto.html">How to</a>
+    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <div class="fssh-sub">
+      <div class="fssh-sub-label">姉妹ツール</div>
+      <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
+      <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
+      <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
+    </div>
+  </nav>
+</div>
+
+<div class="page">
+<h1>Q&amp;A</h1>
+
+<h3>参加について</h3>
+<div class="qa-block"><div class="qa-q">Q. 参加費用はかかりますか？</div><div class="qa-a">A. 無料です。Discordアカウントがあれば誰でも参加できます。</div></div>
+<div class="qa-block"><div class="qa-q">Q. Full Strideを持っていないと使えませんか？</div><div class="qa-a">A. 本編『Full Stride』が必要です。FSShはあくまでマッチング支援ツールで、レース自体は本編上で行います。</div></div>
+<div class="qa-block"><div class="qa-q">Q. ジョッキーネームは後から変更できますか？</div><div class="qa-a">A. はい、いつでもプロフィール編集画面から変更可能です。</div></div>
+<div class="qa-block"><div class="qa-q">Q. 対戦相手にDiscordのアカウント名は知られますか？</div><div class="qa-a">A. いいえ、表示されるのはジョッキーネームのみで、Discordの実名は一切表示されません。</div></div>
+
+<h3>マッチング・対戦について</h3>
+<div class="qa-block"><div class="qa-q">Q. マッチング相手が見つかりません。</div><div class="qa-a">A. レートの近い相手が見つかり次第、自動的にマッチングされます。参加者が少ない時間帯は待機時間が長くなることがあります。</div></div>
+<div class="qa-block"><div class="qa-q">Q. マッチング成立後、何をすればいいですか？</div><div class="qa-a">A. 抽選されたレースを確認し、本編Full Strideで固定パスワード「0716」を使って部屋を作成（または参加）し、実際にレースを行ってください。先に「予約する」を押した方がホストになります。</div></div>
+<div class="qa-block"><div class="qa-q">Q. 15分経っても対戦相手が現れません。</div><div class="qa-a">A. 15分を超えるとノーコンテスト（不成立）扱いになり、レートは変動しません。お手数ですが再度マッチングをやり直してください。</div></div>
+
+<h3>レート・結果報告について</h3>
+<div class="qa-block"><div class="qa-q">Q. レートはどう計算されますか？</div><div class="qa-a">A. イロレーティング方式です。初期値1000、勝敗と相手とのレート差に応じて増減します。</div></div>
+<div class="qa-block"><div class="qa-q">Q. 勝敗の報告が食い違ったらどうなりますか？</div><div class="qa-a">A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。</div></div>
+
+<h3>トラブル対応</h3>
+<div class="qa-block"><div class="qa-q">Q. 不正（虚偽報告等）を見つけました。</div><div class="qa-a">A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。</div></div>
+<div class="qa-block"><div class="qa-q">Q. バグを見つけました。</div><div class="qa-a">A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。</div></div>
+</div>
+
+<script>
+(function () {
+  var toggle = document.getElementById('fssh-menu-toggle');
+  var overlay = document.getElementById('fssh-overlay');
+  var drawer = document.getElementById('fssh-drawer');
+  var closeBtn = document.getElementById('fssh-close');
+  function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  toggle.addEventListener('click', openMenu);
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+  fetch('/api/queue/status', { credentials: 'same-origin' }).then(function (res) {
+    if (res.status === 401) return null;
+    return res.json();
+  }).then(function (body) {
+    if (body && body.account && body.account.discord_id) {
+      var el = document.getElementById('fssh-nav-profile');
+      el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
+      el.style.display = 'block';
+    }
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>

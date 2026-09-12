@@ -14,9 +14,46 @@
   a { color: #7ab0ff; }
   .jockey-icon { width: 88px; height: 88px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; }
   #header-row { display: flex; align-items: center; gap: 16px; }
+
+  /* ===== FSSH COMMON MENU ===== */
+  .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
+  .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
+  .fssh-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
+  .fssh-overlay.open { display: block; }
+  .fssh-drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 80vw; background: #0a0e0a; border-right: 1px solid #1a8a3a; z-index: 1002; transform: translateX(-100%); transition: transform 0.25s ease; font-family: system-ui, sans-serif; overflow-y: auto; }
+  .fssh-drawer.open { transform: translateX(0); }
+  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; }
+  .fssh-drawer nav { padding: 8px 0; }
+  .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
+  .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
+  .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
+  .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
+  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; }
 </style>
 </head>
 <body>
+<button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+<div class="fssh-overlay" id="fssh-overlay"></div>
+<div class="fssh-drawer" id="fssh-drawer">
+  <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
+  <div class="fssh-drawer-header">MENU</div>
+  <nav>
+    <a href="index.html">ホーム</a>
+    <a href="queue.html">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
+    <a href="ranking.html">ランキング</a>
+    <a href="terms.html">利用規約</a>
+    <a href="faq.html">Q&amp;A</a>
+    <a href="howto.html">How to</a>
+    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <div class="fssh-sub">
+      <div class="fssh-sub-label">姉妹ツール</div>
+      <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
+      <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
+      <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
+    </div>
+  </nav>
+</div>
 <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
 <h1 data-i18n="h1_profile">騎手プロフィール</h1>
 
@@ -202,6 +239,30 @@ function renderVenueTable(stats) {
 }
 
 load();
+</script>
+<script>
+(function () {
+  var toggle = document.getElementById('fssh-menu-toggle');
+  var overlay = document.getElementById('fssh-overlay');
+  var drawer = document.getElementById('fssh-drawer');
+  var closeBtn = document.getElementById('fssh-close');
+  function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  toggle.addEventListener('click', openMenu);
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+  fetch('/api/queue/status', { credentials: 'same-origin' }).then(function (res) {
+    if (res.status === 401) return null;
+    return res.json();
+  }).then(function (body) {
+    if (body && body.account && body.account.discord_id) {
+      var el = document.getElementById('fssh-nav-profile');
+      el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
+      el.style.display = 'block';
+    }
+  }).catch(function () {});
+})();
 </script>
 </body>
 </html>
