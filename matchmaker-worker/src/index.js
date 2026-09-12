@@ -52,6 +52,9 @@ export class Matchmaker {
       if (url.pathname === "/reserve" && request.method === "POST") {
         return await this.reserve(await request.json());
       }
+      if (url.pathname === "/report" && request.method === "POST") {
+        return await this.report(await request.json());
+      }
       return json({ error: "not_found" }, 404);
     } catch (err) {
       return json({ error: "matchmaker_error", detail: String(err) }, 500);
@@ -258,6 +261,131 @@ export class Matchmaker {
       role: row.host_id === discord_id ? "host" : "guest",
       host_id: row.host_id,
       race_name: row.race_name,
+    });
+  }
+
+  async report(body) {
+    const { match_id, discord_id, result } = body;
+    if (!match_id || !discord_id || !result) {
+      return json({ error: "missing_params" }, 400);
+    }
+    if (result !== "win" && result !== "loss") {
+      return json({ error: "invalid_result" }, 400);
+    }
+
+    const row = await this.env.DB.prepare(
+      `SELECT id, player1_id, player2_id, status, player1_result, player2_result
+         FROM matches WHERE id = ?1`
+    )
+      .bind(match_id)
+      .first();
+
+    if (!row) return json({ error: "match_not_found" }, 404);
+    if (row.player1_id !== discord_id && row.player2_id !== discord_id) {
+      return json({ error: "not_a_participant" }, 403);
+    }
+    if (row.status !== "reserved") {
+      return json({ error: "invalid_status", status: row.status }, 400);
+    }
+
+    const isPlayer1 = row.player1_id === discord_id;
+    if (isPlayer1) {
+      await this.env.DB.prepare(
+        `UPDATE matches SET player1_result = ?1 WHERE id = ?2`
+      )
+        .bind(result, match_id)
+        .run();
+    } else {
+      await this.env.DB.prepare(
+        `UPDATE matches SET player2_result = ?1 WHERE id = ?2`
+      )
+        .bind(result, match_id)
+        .run();
+    }
+
+    const after = await this.env.DB.prepare(
+      `SELECT player1_id, player2_id, player1_result, player2_result
+         FROM matches WHERE id = ?1`
+    )
+      .bind(match_id)
+      .first();
+
+    if (!after.player1_result || !after.player2_result) {
+      return json({ status: "awaiting_opponent" });
+    }
+
+    const consistent =
+      (after.player1_result === "win" && after.player2_result === "loss") ||
+      (after.player1_result === "loss" && after.player2_result === "win");
+
+    if (!consistent) {
+      await this.env.DB.prepare(
+        `UPDATE matches SET player1_result = NULL, player2_result = NULL WHERE id = ?1`
+      )
+        .bind(match_id)
+        .run();
+      return json({ status: "mismatch" });
+    }
+
+    const winnerId = after.player1_result === "win" ? after.player1_id : after.player2_id;
+    const loserId = winnerId === after.player1_id ? after.player2_id : after.player1_id;
+
+    const winnerAccount = await this.env.DB.prepare(
+      `SELECT rating FROM accounts WHERE discord_id = ?1`
+    )
+      .bind(winnerId)
+      .first();
+    const loserAccount = await this.env.DB.prepare(
+      `SELECT rating FROM accounts WHERE discord_id = ?1`
+    )
+      .bind(loserId)
+      .first();
+
+    const Rw = winnerAccount.rating;
+    const Rl = loserAccount.rating;
+    const ratingDiff = Rw - Rl;
+    const steps = Math.floor(Math.abs(ratingDiff) / 25);
+    let K;
+    if (ratingDiff >= 0) {
+      K = Math.max(1, 16 - steps);
+    } else {
+      K = 16 + steps;
+    }
+    const We = 1 / (1 + Math.pow(10, (Rl - Rw) / 400));
+    const rawDelta = K * (1 - We);
+    let delta = Math.round(rawDelta);
+    delta = Math.min(30, Math.max(1, delta));
+
+    const newWinnerRating = Rw + delta;
+    const newLoserRating = Rl - delta;
+
+    await this.env.DB.prepare(
+      `UPDATE accounts SET rating = ?1 WHERE discord_id = ?2`
+    )
+      .bind(newWinnerRating, winnerId)
+      .run();
+    await this.env.DB.prepare(
+      `UPDATE accounts SET rating = ?1 WHERE discord_id = ?2`
+    )
+      .bind(newLoserRating, loserId)
+      .run();
+    await this.env.DB.prepare(
+      `UPDATE matches SET status = 'completed', rating_delta = ?1 WHERE id = ?2`
+    )
+      .bind(delta, match_id)
+      .run();
+
+    await this.state.storage.delete(`match:${after.player1_id}`);
+    await this.state.storage.delete(`match:${after.player2_id}`);
+
+    const selfIsWinner = discord_id === winnerId;
+    const newRating = selfIsWinner ? newWinnerRating : newLoserRating;
+
+    return json({
+      status: "completed",
+      result: selfIsWinner ? "win" : "loss",
+      rating_delta: delta,
+      new_rating: newRating,
     });
   }
 

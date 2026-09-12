@@ -23,6 +23,8 @@
   <button type="button" id="btn-join">マッチング開始</button>
   <button type="button" id="btn-leave">キュー離脱</button>
   <button type="button" id="btn-reserve" style="display:none">予約する</button>
+  <button type="button" id="btn-win" style="display:none">勝った</button>
+  <button type="button" id="btn-loss" style="display:none">負けた</button>
 </div>
 
 <div id="panel">
@@ -69,13 +71,25 @@ function render(body) {
     if (body.match.status === "reserved") {
       $("v-role").textContent = body.match.host_id === body.account.discord_id ? "あなたがホスト" : "相手がホスト（参加側）";
       $("btn-reserve").style.display = "none";
+      $("btn-win").style.display = "inline-block";
+      $("btn-loss").style.display = "inline-block";
     } else if (body.match.status === "no_contest") {
       $("v-role").textContent = "不成立（15分超過）";
       $("btn-reserve").style.display = "none";
+      $("btn-win").style.display = "none";
+      $("btn-loss").style.display = "none";
+      stopPolling();
+    } else if (body.match.status === "completed") {
+      $("v-role").textContent = "結果確定済み";
+      $("btn-reserve").style.display = "none";
+      $("btn-win").style.display = "none";
+      $("btn-loss").style.display = "none";
       stopPolling();
     } else {
       $("v-role").textContent = "未予約";
       $("btn-reserve").style.display = "inline-block";
+      $("btn-win").style.display = "none";
+      $("btn-loss").style.display = "none";
     }
   } else {
     currentMatchId = null;
@@ -85,6 +99,8 @@ function render(body) {
     $("v-role").textContent = "-";
     $("v-remain").textContent = "-";
     $("btn-reserve").style.display = "none";
+    $("btn-win").style.display = "none";
+    $("btn-loss").style.display = "none";
   }
 }
 
@@ -137,6 +153,31 @@ $("btn-reserve").addEventListener("click", async function () {
   log("reserve", res.body);
   refresh();
 });
+
+async function sendReport(result) {
+  if (!currentMatchId) return;
+  const res = await api("/api/match/" + encodeURIComponent(currentMatchId) + "/report", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ result: result }),
+  });
+  log("report:" + result, res.body);
+  if (res.body && res.body.status === "completed") {
+    log("結果確定", {
+      result: res.body.result,
+      rating_delta: res.body.rating_delta,
+      new_rating: res.body.new_rating,
+    });
+  } else if (res.body && res.body.status === "mismatch") {
+    log("結果不一致、再送信してください", res.body);
+  } else if (res.body && res.body.status === "awaiting_opponent") {
+    log("相手の報告待ち", res.body);
+  }
+  refresh();
+}
+
+$("btn-win").addEventListener("click", function () { sendReport("win"); });
+$("btn-loss").addEventListener("click", function () { sendReport("loss"); });
 
 setInterval(tickRemain, 1000);
 refresh();
