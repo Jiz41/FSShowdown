@@ -78,7 +78,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 40px 20px;
+    padding: 96px 20px 40px;
   }
 
   .hero-bg {
@@ -410,10 +410,7 @@
 
   /* ===== LANG TOGGLE ===== */
   .lang-toggle {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 1000;
+    position: static;
     background: var(--green);
     color: var(--bg);
     border: none;
@@ -425,11 +422,26 @@
   }
 
   /* ===== FSSH COMMON MENU ===== */
-  .fssh-menu-btn {
+  .fssh-header {
     position: fixed;
-    top: 16px;
-    left: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
     z-index: 1000;
+    background: #0a0e0a;
+    border-bottom: 1px solid #1a8a3a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  .fssh-header-logo {
+    height: 32px;
+    width: auto;
+  }
+  .fssh-menu-btn {
+    position: static;
     width: 40px;
     height: 40px;
     background: #0a0e0a;
@@ -450,7 +462,10 @@
   }
   .fssh-overlay {
     position: fixed;
-    inset: 0;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0,0,0,0.6);
     z-index: 1001;
     display: none;
@@ -458,20 +473,19 @@
   .fssh-overlay.open { display: block; }
   .fssh-drawer {
     position: fixed;
-    top: 0;
+    top: 56px;
     left: 0;
-    bottom: 0;
-    width: 260px;
-    max-width: 80vw;
+    right: 0;
+    width: auto;
+    max-height: 0;
     background: #0a0e0a;
-    border-right: 1px solid #1a8a3a;
+    border-bottom: 1px solid #1a8a3a;
     z-index: 1002;
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
+    transition: max-height 0.25s ease;
     font-family: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
     overflow-y: auto;
   }
-  .fssh-drawer.open { transform: translateX(0); }
+  .fssh-drawer.open { max-height: 600px; }
   .fssh-drawer-header {
     padding: 16px;
     color: #33ff66;
@@ -514,7 +528,11 @@
 </head>
 <body>
 
-<button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+<div class="fssh-header">
+  <button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+  <img src="images/fssh_logo.png" alt="FSShowdown" class="fssh-header-logo">
+  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+</div>
 <div class="fssh-overlay" id="fssh-overlay"></div>
 <div class="fssh-drawer" id="fssh-drawer">
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
@@ -538,7 +556,6 @@
 </div>
 
 <section class="hero">
-  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
   <div class="hero-bg"></div>
   <div class="track-lines">
     <div class="track-line"></div>
