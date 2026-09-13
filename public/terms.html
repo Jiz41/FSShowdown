@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +46,20 @@
     margin-bottom: 4px;
     white-space: pre-wrap;
   }
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
@@ -71,16 +85,16 @@
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
   <div class="fssh-drawer-header">MENU</div>
   <nav>
-    <a href="index2.html">ホーム</a>
-    <a href="queue.html">マッチング</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
-    <a href="ranking.html">ランキング</a>
-    <a href="terms.html">利用規約</a>
-    <a href="faq.html">Q&amp;A</a>
-    <a href="howto.html">How to</a>
-    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="howto.html" data-i18n="menu_howto">How to</a>
+    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
     <div class="fssh-sub">
-      <div class="fssh-sub-label">姉妹ツール</div>
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
       <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
       <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
@@ -88,38 +102,151 @@
   </nav>
 </div>
 
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
 <div class="page">
-<h1>利用規約</h1>
-<p style="margin-bottom:20px;"><a href="terms-kids.html" style="color:#33ff66; text-decoration:underline;">めんどくさい人はこちら → やさしい版を見る</a></p>
+<h1 data-i18n="h1_terms">利用規約</h1>
+<p style="margin-bottom:20px;"><a href="terms-kids.html" style="color:#33ff66; text-decoration:underline;" data-i18n="terms_kids_link">めんどくさい人はこちら → やさしい版を見る</a></p>
 
-<h3>【サイトの性質について】</h3>
-<p>本サイトは、個人が制作する『FULL STRIDE』の非公式ファンツールであり、株式会社Blue Bullet（以下「開発元」）とは一切関係のない、非営利の個人運営サイトです。開発元とは提携・後援・監修等の関係は一切ありません。本サイトを利用した時点で、以下の全項目に同意いただいたものとみなされます。</p>
+<h3 data-i18n="terms_title_1">【サイトの性質について】</h3>
+<p data-i18n="terms_body_1">本サイトは、個人が制作する『FULL STRIDE』の非公式ファンツールであり、株式会社Blue Bullet（以下「開発元」）とは一切関係のない、非営利の個人運営サイトです。開発元とは提携・後援・監修等の関係は一切ありません。本サイトを利用した時点で、以下の全項目に同意いただいたものとみなされます。</p>
 
-<h3>【知的財産権について】</h3>
-<p>『FULL STRIDE』の名称は、開発元に帰属する商標です。本サイトが提供するマッチング機能・レーティング計算方式・対戦用シート等のロジック・デザインは当サイト運営者に帰属する著作物です。個人学習目的での参照は許可しますが、複製して別サービスとして公開する等の商用利用は禁止します。</p>
+<h3 data-i18n="terms_title_2">【知的財産権について】</h3>
+<p data-i18n="terms_body_2">『FULL STRIDE』の名称は、開発元に帰属する商標です。本サイトが提供するマッチング機能・レーティング計算方式・対戦用シート等のロジック・デザインは当サイト運営者に帰属する著作物です。個人学習目的での参照は許可しますが、複製して別サービスとして公開する等の商用利用は禁止します。</p>
 
-<h3>【参加条件・アカウントについて】</h3>
-<p>本サービスの利用にはDiscordアカウントによるログインが必要です。参加資格に制限はなく、誰でも自由にご参加いただけます。ログイン時に取得する情報はDiscordのユーザーID・ユーザー名のみで、それ以外の個人情報は取得しません。</p>
+<h3 data-i18n="terms_title_3">【参加条件・アカウントについて】</h3>
+<p data-i18n="terms_body_3">本サービスの利用にはDiscordアカウントによるログインが必要です。参加資格に制限はなく、誰でも自由にご参加いただけます。ログイン時に取得する情報はDiscordのユーザーID・ユーザー名のみで、それ以外の個人情報は取得しません。</p>
 
-<h3>【データの取り扱いについて】</h3>
-<p>ログイン後に登録されるジョッキーネーム・レート・対戦履歴・アイコン設定等は、本サービスのデータベースに保存されます。これらはランキング表示・プロフィール公開機能により、本サービス上で誰でも閲覧可能です。Discordの実際のユーザー名は画面上に表示されません。</p>
+<h3 data-i18n="terms_title_4">【データの取り扱いについて】</h3>
+<p data-i18n="terms_body_4">ログイン後に登録されるジョッキーネーム・レート・対戦履歴・アイコン設定等は、本サービスのデータベースに保存されます。これらはランキング表示・プロフィール公開機能により、本サービス上で誰でも閲覧可能です。Discordの実際のユーザー名は画面上に表示されません。</p>
 
-<h3>【禁止事項】</h3>
-<p>以下の行為を禁止します。意図的な虚偽の勝敗報告／正当な理由のない対戦放棄（ノーコンテストの濫用）／複数アカウントでの参加／対戦相手や運営への迷惑行為・誹謗中傷。該当すると判断した場合、運営者の裁量によりアカウントの利用制限・ランキングからの除外等の措置を行う場合があります。</p>
+<h3 data-i18n="terms_title_5">【禁止事項】</h3>
+<p data-i18n="terms_body_5">以下の行為を禁止します。意図的な虚偽の勝敗報告／正当な理由のない対戦放棄（ノーコンテストの濫用）／複数アカウントでの参加／対戦相手や運営への迷惑行為・誹謗中傷。該当すると判断した場合、運営者の裁量によりアカウントの利用制限・ランキングからの除外等の措置を行う場合があります。</p>
 
-<h3>【賭博行為との関係について】</h3>
-<p>本サイトはプレイヤー同士の技量を測る非営利のランクマッチサービスであり、金銭のやり取りを一切伴いません。馬券の購入その他の賭博行為とは一切関係ありません。</p>
+<h3 data-i18n="terms_title_6">【賭博行為との関係について】</h3>
+<p data-i18n="terms_body_6">本サイトはプレイヤー同士の技量を測る非営利のランクマッチサービスであり、金銭のやり取りを一切伴いません。馬券の購入その他の賭博行為とは一切関係ありません。</p>
 
-<h3>【免責事項】</h3>
-<p>本サイトのご利用によって生じたいかなる損害についても、運営に故意または重大な過失がある場合を除き責任を負いません。本サイトの利用に関連してプレイヤー同士、またはプレイヤーと第三者との間で生じたトラブル（対戦相手との連絡・言動に関するトラブル、外部サービス上でのやり取りに起因するトラブル等を含む）についても、運営は一切責任を負いません。法令により責任を負うべき場合でも、賠償額は1,000円を上限とします。レート・対戦履歴等のデータは予告なく変更・リセット・消失する場合があります。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。</p>
+<h3 data-i18n="terms_title_7">【免責事項】</h3>
+<p data-i18n="terms_body_7">本サイトのご利用によって生じたいかなる損害についても、運営に故意または重大な過失がある場合を除き責任を負いません。本サイトの利用に関連してプレイヤー同士、またはプレイヤーと第三者との間で生じたトラブル（対戦相手との連絡・言動に関するトラブル、外部サービス上でのやり取りに起因するトラブル等を含む）についても、運営は一切責任を負いません。法令により責任を負うべき場合でも、賠償額は1,000円を上限とします。レート・対戦履歴等のデータは予告なく変更・リセット・消失する場合があります。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。</p>
 
-<h3>【管轄裁判所】</h3>
-<p>本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。</p>
+<h3 data-i18n="terms_title_8">【管轄裁判所】</h3>
+<p data-i18n="terms_body_8">本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。</p>
 
-<h3>【お問い合わせ】</h3>
-<p>ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。</p>
+<h3 data-i18n="terms_title_9">【お問い合わせ】</h3>
+<p data-i18n="terms_body_9">ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。</p>
 </div>
 
+<script>
+const I18N = {
+  ja: {
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discordサーバー",
+    menu_sistertools_label: "姉妹ツール",
+    h1_terms: "利用規約",
+    terms_kids_link: "めんどくさい人はこちら → やさしい版を見る",
+    terms_title_1: "【サイトの性質について】",
+    terms_body_1: "本サイトは、個人が制作する『FULL STRIDE』の非公式ファンツールであり、株式会社Blue Bullet（以下「開発元」）とは一切関係のない、非営利の個人運営サイトです。開発元とは提携・後援・監修等の関係は一切ありません。本サイトを利用した時点で、以下の全項目に同意いただいたものとみなされます。",
+    terms_title_2: "【知的財産権について】",
+    terms_body_2: "『FULL STRIDE』の名称は、開発元に帰属する商標です。本サイトが提供するマッチング機能・レーティング計算方式・対戦用シート等のロジック・デザインは当サイト運営者に帰属する著作物です。個人学習目的での参照は許可しますが、複製して別サービスとして公開する等の商用利用は禁止します。",
+    terms_title_3: "【参加条件・アカウントについて】",
+    terms_body_3: "本サービスの利用にはDiscordアカウントによるログインが必要です。参加資格に制限はなく、誰でも自由にご参加いただけます。ログイン時に取得する情報はDiscordのユーザーID・ユーザー名のみで、それ以外の個人情報は取得しません。",
+    terms_title_4: "【データの取り扱いについて】",
+    terms_body_4: "ログイン後に登録されるジョッキーネーム・レート・対戦履歴・アイコン設定等は、本サービスのデータベースに保存されます。これらはランキング表示・プロフィール公開機能により、本サービス上で誰でも閲覧可能です。Discordの実際のユーザー名は画面上に表示されません。",
+    terms_title_5: "【禁止事項】",
+    terms_body_5: "以下の行為を禁止します。意図的な虚偽の勝敗報告／正当な理由のない対戦放棄（ノーコンテストの濫用）／複数アカウントでの参加／対戦相手や運営への迷惑行為・誹謗中傷。該当すると判断した場合、運営者の裁量によりアカウントの利用制限・ランキングからの除外等の措置を行う場合があります。",
+    terms_title_6: "【賭博行為との関係について】",
+    terms_body_6: "本サイトはプレイヤー同士の技量を測る非営利のランクマッチサービスであり、金銭のやり取りを一切伴いません。馬券の購入その他の賭博行為とは一切関係ありません。",
+    terms_title_7: "【免責事項】",
+    terms_body_7: "本サイトのご利用によって生じたいかなる損害についても、運営に故意または重大な過失がある場合を除き責任を負いません。本サイトの利用に関連してプレイヤー同士、またはプレイヤーと第三者との間で生じたトラブル（対戦相手との連絡・言動に関するトラブル、外部サービス上でのやり取りに起因するトラブル等を含む）についても、運営は一切責任を負いません。法令により責任を負うべき場合でも、賠償額は1,000円を上限とします。レート・対戦履歴等のデータは予告なく変更・リセット・消失する場合があります。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。",
+    terms_title_8: "【管轄裁判所】",
+    terms_body_8: "本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。",
+    terms_title_9: "【お問い合わせ】",
+    terms_body_9: "ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。"
+  },
+  en: {
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discord Server",
+    menu_sistertools_label: "Sister Tools",
+    h1_terms: "Terms of Service",
+    terms_kids_link: "Too much text? → View the easy version",
+    terms_title_1: "About This Site",
+    terms_body_1: "This site is an unofficial fan tool for \"FULL STRIDE,\" created and operated by an individual. It has no affiliation with Blue Bullet Co., Ltd. (the \"Developer\"). There is no partnership, endorsement, or supervisory relationship with the Developer. By using this site, you are considered to have agreed to all of the following terms.",
+    terms_title_2: "Intellectual Property",
+    terms_body_2: "The name \"FULL STRIDE\" is a trademark belonging to the Developer. The matchmaking features, rating calculation method, standardized horse-data sheet, and other logic and design provided by this site are copyrighted works belonging to the site operator. Reference for personal study is permitted, but commercial use such as copying and republishing as a separate service is prohibited.",
+    terms_title_3: "Participation & Accounts",
+    terms_body_3: "Use of this service requires login via a Discord account. There are no restrictions on eligibility; anyone may participate freely. The only information obtained at login is your Discord user ID and username; no other personal information is collected.",
+    terms_title_4: "Handling of Data",
+    terms_body_4: "Your jockey name, rating, match history, and icon settings registered after login are stored in this service's database. These are publicly viewable by anyone through the ranking and profile display features. Your actual Discord username is never shown on screen.",
+    terms_title_5: "Prohibited Conduct",
+    terms_body_5: "The following actions are prohibited: intentionally false win/loss reporting; abandoning matches without legitimate reason (abuse of the no-contest system); participating with multiple accounts; harassment or defamation directed at opponents or the operator. If such conduct is determined to have occurred, the operator may, at its discretion, restrict account use or exclude the account from rankings.",
+    terms_title_6: "Relationship to Gambling",
+    terms_body_6: "This site is a non-commercial ranked matchmaking service for measuring skill between players and involves no exchange of money whatsoever. It has no relation to betting on horse races or any other form of gambling.",
+    terms_title_7: "Disclaimer",
+    terms_body_7: "The operator is not liable for any damages arising from use of this site, except in cases of intent or gross negligence on the operator's part. The operator is also not liable for any troubles arising between players, or between a player and a third party, in connection with use of this site (including troubles related to communication or conduct with opponents, and troubles arising from exchanges on external services). Even where liability is required by law, the amount of compensation is capped at 1,000 yen. Data such as ratings and match history may be changed, reset, or lost without notice. Additionally, this site may change its content, suspend features, or terminate service without notice, due to maintenance or technical circumstances.",
+    terms_title_8: "Governing Jurisdiction",
+    terms_body_8: "Any disputes arising in connection with this service shall be subject to the exclusive agreed jurisdiction of the court having jurisdiction over the operator's place of residence, as the court of first instance.",
+    terms_title_9: "Contact",
+    terms_body_9: "For comments, reports, or trouble-related inquiries, please contact us via the official FSSh Discord server."
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
+
+setupLangToggle();
+</script>
 <script>
 (function () {
   var toggle = document.getElementById('fssh-menu-toggle');

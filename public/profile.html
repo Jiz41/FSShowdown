@@ -7,7 +7,7 @@
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #14161a; color: #e8e8e8; }
   h1 { font-size: 20px; }
-  .lang-toggle { background: #33ff66; color: #14161a; border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; margin-bottom: 12px; }
+  .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 1000; background: #33ff66; color: #14161a; border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; margin-bottom: 12px; }
   #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
   .row { margin: 10px 0; }
   .label { color: #9aa4b2; display: inline-block; min-width: 6em; }
@@ -38,16 +38,16 @@
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
   <div class="fssh-drawer-header">MENU</div>
   <nav>
-    <a href="index2.html">ホーム</a>
-    <a href="queue.html">マッチング</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
-    <a href="ranking.html">ランキング</a>
-    <a href="terms.html">利用規約</a>
-    <a href="faq.html">Q&amp;A</a>
-    <a href="howto.html">How to</a>
-    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="howto.html" data-i18n="menu_howto">How to</a>
+    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
     <div class="fssh-sub">
-      <div class="fssh-sub-label">姉妹ツール</div>
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
       <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
       <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
@@ -88,7 +88,16 @@ const I18N = {
     losses_suffix: "敗",
     races_suffix: "戦",
     distance_title: "距離別成績",
-    venue_title: "場別成績"
+    venue_title: "場別成績",
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discordサーバー",
+    menu_sistertools_label: "姉妹ツール"
   },
   en: {
     h1_profile: "Jockey Profile",
@@ -102,7 +111,16 @@ const I18N = {
     losses_suffix: "L",
     races_suffix: " Races",
     distance_title: "Record by Distance",
-    venue_title: "Record by Venue"
+    venue_title: "Record by Venue",
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discord Server",
+    menu_sistertools_label: "Sister Tools"
   }
 };
 
@@ -130,6 +148,7 @@ function applyLanguage(lang) {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     el.textContent = t(el.getAttribute("data-i18n"));
   });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
 }
 
 function setupLangToggle() {
@@ -151,6 +170,14 @@ function setupLangToggle() {
 
   updateLabel();
 }
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
 
 setupLangToggle();
 

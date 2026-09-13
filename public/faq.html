@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +58,20 @@
     font-size: 0.9rem;
     white-space: pre-wrap;
   }
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
@@ -83,16 +97,16 @@
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
   <div class="fssh-drawer-header">MENU</div>
   <nav>
-    <a href="index2.html">ホーム</a>
-    <a href="queue.html">マッチング</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
-    <a href="ranking.html">ランキング</a>
-    <a href="terms.html">利用規約</a>
-    <a href="faq.html">Q&amp;A</a>
-    <a href="howto.html">How to</a>
-    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="howto.html" data-i18n="menu_howto">How to</a>
+    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
     <div class="fssh-sub">
-      <div class="fssh-sub-label">姉妹ツール</div>
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
       <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
       <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
@@ -100,29 +114,156 @@
   </nav>
 </div>
 
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
 <div class="page">
-<h1>Q&amp;A</h1>
+<h1 data-i18n="h1_faq">Q&amp;A</h1>
 
-<h3>参加について</h3>
-<div class="qa-block"><div class="qa-q">Q. 参加費用はかかりますか？</div><div class="qa-a">A. 無料です。Discordアカウントがあれば誰でも参加できます。</div></div>
-<div class="qa-block"><div class="qa-q">Q. Full Strideを持っていないと使えませんか？</div><div class="qa-a">A. 本編『Full Stride』が必要です。FSShはあくまでマッチング支援ツールで、レース自体は本編上で行います。</div></div>
-<div class="qa-block"><div class="qa-q">Q. ジョッキーネームは後から変更できますか？</div><div class="qa-a">A. はい、いつでもプロフィール編集画面から変更可能です。</div></div>
-<div class="qa-block"><div class="qa-q">Q. 対戦相手にDiscordのアカウント名は知られますか？</div><div class="qa-a">A. いいえ、表示されるのはジョッキーネームのみで、Discordの実名は一切表示されません。</div></div>
+<h3 data-i18n="faq_cat_1">参加について</h3>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_1">Q. 参加費用はかかりますか？</div><div class="qa-a" data-i18n="faq_a_1">A. 無料です。Discordアカウントがあれば誰でも参加できます。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_2">Q. Full Strideを持っていないと使えませんか？</div><div class="qa-a" data-i18n="faq_a_2">A. 本編『Full Stride』が必要です。FSShはあくまでマッチング支援ツールで、レース自体は本編上で行います。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_3">Q. ジョッキーネームは後から変更できますか？</div><div class="qa-a" data-i18n="faq_a_3">A. はい、いつでもプロフィール編集画面から変更可能です。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_4">Q. 対戦相手にDiscordのアカウント名は知られますか？</div><div class="qa-a" data-i18n="faq_a_4">A. いいえ、表示されるのはジョッキーネームのみで、Discordの実名は一切表示されません。</div></div>
 
-<h3>マッチング・対戦について</h3>
-<div class="qa-block"><div class="qa-q">Q. マッチング相手が見つかりません。</div><div class="qa-a">A. レートの近い相手が見つかり次第、自動的にマッチングされます。参加者が少ない時間帯は待機時間が長くなることがあります。</div></div>
-<div class="qa-block"><div class="qa-q">Q. マッチング成立後、何をすればいいですか？</div><div class="qa-a">A. 抽選されたレースを確認し、本編Full Strideで固定パスワード「0716」を使って部屋を作成（または参加）し、実際にレースを行ってください。先に「予約する」を押した方がホストになります。</div></div>
-<div class="qa-block"><div class="qa-q">Q. 15分経っても対戦相手が現れません。</div><div class="qa-a">A. 15分を超えるとノーコンテスト（不成立）扱いになり、レートは変動しません。お手数ですが再度マッチングをやり直してください。</div></div>
+<h3 data-i18n="faq_cat_2">マッチング・対戦について</h3>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_5">Q. マッチング相手が見つかりません。</div><div class="qa-a" data-i18n="faq_a_5">A. レートの近い相手が見つかり次第、自動的にマッチングされます。参加者が少ない時間帯は待機時間が長くなることがあります。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_6">Q. マッチング成立後、何をすればいいですか？</div><div class="qa-a" data-i18n="faq_a_6">A. 抽選されたレースを確認し、本編Full Strideで固定パスワード「0716」を使って部屋を作成（または参加）し、実際にレースを行ってください。先に「予約する」を押した方がホストになります。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_7">Q. 15分経っても対戦相手が現れません。</div><div class="qa-a" data-i18n="faq_a_7">A. 15分を超えるとノーコンテスト（不成立）扱いになり、レートは変動しません。お手数ですが再度マッチングをやり直してください。</div></div>
 
-<h3>レート・結果報告について</h3>
-<div class="qa-block"><div class="qa-q">Q. レートはどう計算されますか？</div><div class="qa-a">A. イロレーティング方式です。初期値1000、勝敗と相手とのレート差に応じて増減します。</div></div>
-<div class="qa-block"><div class="qa-q">Q. 勝敗の報告が食い違ったらどうなりますか？</div><div class="qa-a">A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。</div></div>
+<h3 data-i18n="faq_cat_3">レート・結果報告について</h3>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_8">Q. レートはどう計算されますか？</div><div class="qa-a" data-i18n="faq_a_8">A. イロレーティング方式です。初期値1000、勝敗と相手とのレート差に応じて増減します。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_9">Q. 勝敗の報告が食い違ったらどうなりますか？</div><div class="qa-a" data-i18n="faq_a_9">A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。</div></div>
 
-<h3>トラブル対応</h3>
-<div class="qa-block"><div class="qa-q">Q. 不正（虚偽報告等）を見つけました。</div><div class="qa-a">A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。</div></div>
-<div class="qa-block"><div class="qa-q">Q. バグを見つけました。</div><div class="qa-a">A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。</div></div>
+<h3 data-i18n="faq_cat_4">トラブル対応</h3>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_10">Q. 不正（虚偽報告等）を見つけました。</div><div class="qa-a" data-i18n="faq_a_10">A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_11">Q. バグを見つけました。</div><div class="qa-a" data-i18n="faq_a_11">A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。</div></div>
 </div>
 
+<script>
+const I18N = {
+  ja: {
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discordサーバー",
+    menu_sistertools_label: "姉妹ツール",
+    h1_faq: "Q&A",
+    faq_cat_1: "参加について",
+    faq_q_1: "Q. 参加費用はかかりますか？",
+    faq_a_1: "A. 無料です。Discordアカウントがあれば誰でも参加できます。",
+    faq_q_2: "Q. Full Strideを持っていないと使えませんか？",
+    faq_a_2: "A. 本編『Full Stride』が必要です。FSShはあくまでマッチング支援ツールで、レース自体は本編上で行います。",
+    faq_q_3: "Q. ジョッキーネームは後から変更できますか？",
+    faq_a_3: "A. はい、いつでもプロフィール編集画面から変更可能です。",
+    faq_q_4: "Q. 対戦相手にDiscordのアカウント名は知られますか？",
+    faq_a_4: "A. いいえ、表示されるのはジョッキーネームのみで、Discordの実名は一切表示されません。",
+    faq_cat_2: "マッチング・対戦について",
+    faq_q_5: "Q. マッチング相手が見つかりません。",
+    faq_a_5: "A. レートの近い相手が見つかり次第、自動的にマッチングされます。参加者が少ない時間帯は待機時間が長くなることがあります。",
+    faq_q_6: "Q. マッチング成立後、何をすればいいですか？",
+    faq_a_6: "A. 抽選されたレースを確認し、本編Full Strideで固定パスワード「0716」を使って部屋を作成（または参加）し、実際にレースを行ってください。先に「予約する」を押した方がホストになります。",
+    faq_q_7: "Q. 15分経っても対戦相手が現れません。",
+    faq_a_7: "A. 15分を超えるとノーコンテスト（不成立）扱いになり、レートは変動しません。お手数ですが再度マッチングをやり直してください。",
+    faq_cat_3: "レート・結果報告について",
+    faq_q_8: "Q. レートはどう計算されますか？",
+    faq_a_8: "A. イロレーティング方式です。初期値1000、勝敗と相手とのレート差に応じて増減します。",
+    faq_q_9: "Q. 勝敗の報告が食い違ったらどうなりますか？",
+    faq_a_9: "A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。",
+    faq_cat_4: "トラブル対応",
+    faq_q_10: "Q. 不正（虚偽報告等）を見つけました。",
+    faq_a_10: "A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。",
+    faq_q_11: "Q. バグを見つけました。",
+    faq_a_11: "A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。"
+  },
+  en: {
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discord Server",
+    menu_sistertools_label: "Sister Tools",
+    h1_faq: "Q&A",
+    faq_cat_1: "About Participation",
+    faq_q_1: "Q. Is there a fee to participate?",
+    faq_a_1: "A. It's free. Anyone with a Discord account can participate.",
+    faq_q_2: "Q. Do I need to own Full Stride to use this?",
+    faq_a_2: "A. Yes, you need the main game \"Full Stride.\" FSSh is only a matchmaking support tool; the actual races take place in the main game.",
+    faq_q_3: "Q. Can I change my Jockey Name later?",
+    faq_a_3: "A. Yes, you can change it anytime from the profile edit screen.",
+    faq_q_4: "Q. Will my opponent see my Discord account name?",
+    faq_a_4: "A. No. Only your Jockey Name is shown; your real Discord name is never displayed.",
+    faq_cat_2: "About Matchmaking & Races",
+    faq_q_5: "Q. I can't find a match.",
+    faq_a_5: "A. You'll be matched automatically once an opponent with a similar rating is found. Wait times may be longer during low-traffic hours.",
+    faq_q_6: "Q. What do I do after a match is made?",
+    faq_a_6: "A. Check the randomly selected race, then create (or join) a room in the main game Full Stride using the fixed password \"0716.\" Whoever presses \"Reserve\" first becomes the host.",
+    faq_q_7: "Q. My opponent hasn't shown up after 15 minutes.",
+    faq_a_7: "A. After 15 minutes, the match is treated as a \"no contest\" and your rating won't change. Please try matchmaking again.",
+    faq_cat_3: "About Rating & Results",
+    faq_q_8: "Q. How is the rating calculated?",
+    faq_a_8: "A. It uses the Elo rating system. Starting rating is 1000, and it goes up or down based on the result and the rating difference with your opponent.",
+    faq_q_9: "Q. What happens if our win/loss reports don't match?",
+    faq_a_9: "A. If your reports disagree, your rating won't change, and you can resubmit your report.",
+    faq_cat_4: "Troubleshooting",
+    faq_q_10: "Q. I found someone cheating (e.g. false reporting).",
+    faq_a_10: "A. Please report it on the official FSSh Discord server.",
+    faq_q_11: "Q. I found a bug.",
+    faq_a_11: "A. Please report it in the dev-help channel on the Discord server as well."
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
+
+setupLangToggle();
+</script>
 <script>
 (function () {
   var toggle = document.getElementById('fssh-menu-toggle');

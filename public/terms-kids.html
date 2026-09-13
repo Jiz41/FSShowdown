@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,6 +72,20 @@
     color: #3a3323;
     white-space: pre-wrap;
   }
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
@@ -97,16 +111,16 @@
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
   <div class="fssh-drawer-header">MENU</div>
   <nav>
-    <a href="index2.html">ホーム</a>
-    <a href="queue.html">マッチング</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
-    <a href="ranking.html">ランキング</a>
-    <a href="terms.html">利用規約</a>
-    <a href="faq.html">Q&amp;A</a>
-    <a href="howto.html">How to</a>
-    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="howto.html" data-i18n="menu_howto">How to</a>
+    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
     <div class="fssh-sub">
-      <div class="fssh-sub-label">姉妹ツール</div>
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
       <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
       <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
@@ -114,41 +128,42 @@
   </nav>
 </div>
 
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
 <div class="page">
-<h1>利用規約（やさしい版）</h1>
+<h1 data-i18n="h1_terms_kids">利用規約（やさしい版）</h1>
 
-<a class="top-link" href="terms.html">📋 正式な利用規約はこちら</a>
+<a class="top-link" href="terms.html" data-i18n="official_link">📋 正式な利用規約はこちら</a>
 
-<div class="notice">これは正式な利用規約をやさしい言葉で言い換えたものです。内容がくいちがう場合は、正式な利用規約が優先します。</div>
+<div class="notice" data-i18n="notice_text">これは正式な利用規約をやさしい言葉で言い換えたものです。内容がくいちがう場合は、正式な利用規約が優先します。</div>
 
 <section class="card">
-<h2>📋 この文章について</h2>
-<p>これは、正式な「利用規約」をやさしい言葉で言い換えたものです。もし内容がくいちがっていたら、正式な利用規約のほうが優先されます。くわしいことが知りたい人は、そちらを見てください。</p>
+<h2 data-i18n="kids_title_1">📋 この文章について</h2>
+<p data-i18n="kids_body_1">これは、正式な「利用規約」をやさしい言葉で言い換えたものです。もし内容がくいちがっていたら、正式な利用規約のほうが優先されます。くわしいことが知りたい人は、そちらを見てください。</p>
 </section>
 
 <section class="card">
-<h2>🐴 サイトの性質について</h2>
-<p>このサイトは、ある人が個人で作った『フルストライド』のファンサイトです。ゲームを作った会社（ブルーバレット社）とはかんけいありません。応援や協力をしてもらっているわけでもありません。このサイトを使った時点で、下に書いてあることぜんぶに賛成したことになります。</p>
+<h2 data-i18n="kids_title_2">🐴 サイトの性質について</h2>
+<p data-i18n="kids_body_2">このサイトは、ある人が個人で作った『フルストライド』のファンサイトです。ゲームを作った会社（ブルーバレット社）とはかんけいありません。応援や協力をしてもらっているわけでもありません。このサイトを使った時点で、下に書いてあることぜんぶに賛成したことになります。</p>
 </section>
 
 <section class="card">
-<h2>©️ 知的財産権について</h2>
-<p>『フルストライド』という名前は、ゲームを作った会社のものです。このサイトのマッチングのしくみ・レートの計算方法・馬データのシートなどは、このサイトを作った人のものです。見て参考にするのはOKですが、まるごとコピーして別のサービスを作って公開するのはダメです。</p>
+<h2 data-i18n="kids_title_3">©️ 知的財産権について</h2>
+<p data-i18n="kids_body_3">『フルストライド』という名前は、ゲームを作った会社のものです。このサイトのマッチングのしくみ・レートの計算方法・馬データのシートなどは、このサイトを作った人のものです。見て参考にするのはOKですが、まるごとコピーして別のサービスを作って公開するのはダメです。</p>
 </section>
 
 <section class="card">
-<h2>🔑 参加条件・アカウントについて</h2>
-<p>このサイトを使うにはDiscordのアカウントでログインする必要があります。だれでも参加できます。ログインするとDiscordのID・ユーザー名だけをもらいます。それ以外の個人情報はもらいません。</p>
+<h2 data-i18n="kids_title_4">🔑 参加条件・アカウントについて</h2>
+<p data-i18n="kids_body_4">このサイトを使うにはDiscordのアカウントでログインする必要があります。だれでも参加できます。ログインするとDiscordのID・ユーザー名だけをもらいます。それ以外の個人情報はもらいません。</p>
 </section>
 
 <section class="card">
-<h2>💾 データの取り扱いについて</h2>
-<p>ログインしたあとに登録する名前（ジョッキーネーム）・レート・対戦した記録・アイコンは、このサイトに保存されます。これらはランキングやプロフィールページでだれでも見れるようになります。Discordの本当のユーザー名は画面には出ません。</p>
+<h2 data-i18n="kids_title_5">💾 データの取り扱いについて</h2>
+<p data-i18n="kids_body_5">ログインしたあとに登録する名前（ジョッキーネーム）・レート・対戦した記録・アイコンは、このサイトに保存されます。これらはランキングやプロフィールページでだれでも見れるようになります。Discordの本当のユーザー名は画面には出ません。</p>
 </section>
 
 <section class="card">
-<h2>🙅 やってはいけないこと</h2>
-<p>・わざとうそのかち・まけを報告すること
+<h2 data-i18n="kids_title_6">🙅 やってはいけないこと</h2>
+<p data-i18n="kids_body_6">・わざとうそのかち・まけを報告すること
 ・ちゃんとした理由もなく対戦をすっぽかすこと（ノーコンテストの乱用）
 ・ひとりで複数のアカウントを使うこと
 ・対戦相手や運営にいやがらせをしたり、悪口を言ったりすること
@@ -156,28 +171,146 @@
 </section>
 
 <section class="card">
-<h2>🚫 賭博（ギャンブル）との関係について</h2>
-<p>このサイトはうまさをくらべあうだけの、無料のサービスです。お金のやりとりは一切ありません。馬券を買うことなどのギャンブルとはまったく関係ありません。</p>
+<h2 data-i18n="kids_title_7">🚫 賭博（ギャンブル）との関係について</h2>
+<p data-i18n="kids_body_7">このサイトはうまさをくらべあうだけの、無料のサービスです。お金のやりとりは一切ありません。馬券を買うことなどのギャンブルとはまったく関係ありません。</p>
 </section>
 
 <section class="card">
-<h2>⚠️ 責任について</h2>
-<p>このサイトを使ったことで何かこまったことが起きても、運営にわざとやったことや、ひどい不注意がないかぎり、責任は負いません。対戦相手とのトラブルや、DiscordなどSNSでのやりとりでこまったことになっても、運営は責任を負いません。もし法律で責任を負わなければいけない場合でも、弁償するお金は1,000円までとします。レートや対戦記録などのデータは、予告なしに変わったり消えたりすることがあります。また、このサイトはメンテナンスなどの理由で、予告なしに内容を変えたり、機能を止めたり、サービスをやめたりすることがあります。</p>
+<h2 data-i18n="kids_title_8">⚠️ 責任について</h2>
+<p data-i18n="kids_body_8">このサイトを使ったことで何かこまったことが起きても、運営にわざとやったことや、ひどい不注意がないかぎり、責任は負いません。対戦相手とのトラブルや、DiscordなどSNSでのやりとりでこまったことになっても、運営は責任を負いません。もし法律で責任を負わなければいけない場合でも、弁償するお金は1,000円までとします。レートや対戦記録などのデータは、予告なしに変わったり消えたりすることがあります。また、このサイトはメンテナンスなどの理由で、予告なしに内容を変えたり、機能を止めたり、サービスをやめたりすることがあります。</p>
 </section>
 
 <section class="card">
-<h2>⚖️ もめごとになったとき</h2>
-<p>このサイトについてもめごとが起きたときは、運営が住んでいる場所の裁判所で話し合うことになります。</p>
+<h2 data-i18n="kids_title_9">⚖️ もめごとになったとき</h2>
+<p data-i18n="kids_body_9">このサイトについてもめごとが起きたときは、運営が住んでいる場所の裁判所で話し合うことになります。</p>
 </section>
 
 <section class="card">
-<h2>💬 れんらくさき</h2>
-<p>意見・報告・こまったことの相談は、FSSh公式のDiscordサーバーへどうぞ。</p>
+<h2 data-i18n="kids_title_10">💬 れんらくさき</h2>
+<p data-i18n="kids_body_10">意見・報告・こまったことの相談は、FSSh公式のDiscordサーバーへどうぞ。</p>
 </section>
 
-<a class="bottom-link" href="terms.html">📋 正式な利用規約はこちら</a>
+<a class="bottom-link" href="terms.html" data-i18n="official_link">📋 正式な利用規約はこちら</a>
 </div>
 
+<script>
+const I18N = {
+  ja: {
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discordサーバー",
+    menu_sistertools_label: "姉妹ツール",
+    h1_terms_kids: "利用規約（やさしい版）",
+    official_link: "📋 正式な利用規約はこちら",
+    notice_text: "これは正式な利用規約をやさしい言葉で言い換えたものです。内容がくいちがう場合は、正式な利用規約が優先します。",
+    kids_title_1: "📋 この文章について",
+    kids_body_1: "これは、正式な「利用規約」をやさしい言葉で言い換えたものです。もし内容がくいちがっていたら、正式な利用規約のほうが優先されます。くわしいことが知りたい人は、そちらを見てください。",
+    kids_title_2: "🐴 サイトの性質について",
+    kids_body_2: "このサイトは、ある人が個人で作った『フルストライド』のファンサイトです。ゲームを作った会社（ブルーバレット社）とはかんけいありません。応援や協力をしてもらっているわけでもありません。このサイトを使った時点で、下に書いてあることぜんぶに賛成したことになります。",
+    kids_title_3: "©️ 知的財産権について",
+    kids_body_3: "『フルストライド』という名前は、ゲームを作った会社のものです。このサイトのマッチングのしくみ・レートの計算方法・馬データのシートなどは、このサイトを作った人のものです。見て参考にするのはOKですが、まるごとコピーして別のサービスを作って公開するのはダメです。",
+    kids_title_4: "🔑 参加条件・アカウントについて",
+    kids_body_4: "このサイトを使うにはDiscordのアカウントでログインする必要があります。だれでも参加できます。ログインするとDiscordのID・ユーザー名だけをもらいます。それ以外の個人情報はもらいません。",
+    kids_title_5: "💾 データの取り扱いについて",
+    kids_body_5: "ログインしたあとに登録する名前（ジョッキーネーム）・レート・対戦した記録・アイコンは、このサイトに保存されます。これらはランキングやプロフィールページでだれでも見れるようになります。Discordの本当のユーザー名は画面には出ません。",
+    kids_title_6: "🙅 やってはいけないこと",
+    kids_body_6: "・わざとうそのかち・まけを報告すること\n・ちゃんとした理由もなく対戦をすっぽかすこと（ノーコンテストの乱用）\n・ひとりで複数のアカウントを使うこと\n・対戦相手や運営にいやがらせをしたり、悪口を言ったりすること\nもしこれをやったと運営が判断したら、アカウントを使えなくしたり、ランキングからはずしたりすることがあります。",
+    kids_title_7: "🚫 賭博（ギャンブル）との関係について",
+    kids_body_7: "このサイトはうまさをくらべあうだけの、無料のサービスです。お金のやりとりは一切ありません。馬券を買うことなどのギャンブルとはまったく関係ありません。",
+    kids_title_8: "⚠️ 責任について",
+    kids_body_8: "このサイトを使ったことで何かこまったことが起きても、運営にわざとやったことや、ひどい不注意がないかぎり、責任は負いません。対戦相手とのトラブルや、DiscordなどSNSでのやりとりでこまったことになっても、運営は責任を負いません。もし法律で責任を負わなければいけない場合でも、弁償するお金は1,000円までとします。レートや対戦記録などのデータは、予告なしに変わったり消えたりすることがあります。また、このサイトはメンテナンスなどの理由で、予告なしに内容を変えたり、機能を止めたり、サービスをやめたりすることがあります。",
+    kids_title_9: "⚖️ もめごとになったとき",
+    kids_body_9: "このサイトについてもめごとが起きたときは、運営が住んでいる場所の裁判所で話し合うことになります。",
+    kids_title_10: "💬 れんらくさき",
+    kids_body_10: "意見・報告・こまったことの相談は、FSSh公式のDiscordサーバーへどうぞ。"
+  },
+  en: {
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discord Server",
+    menu_sistertools_label: "Sister Tools",
+    h1_terms_kids: "Terms of Service (Easy Version)",
+    official_link: "📋 View the official Terms of Service",
+    notice_text: "This is the official Terms of Service written in easier words. If anything here is different from the official Terms, the official Terms come first. Please check that page for full details.",
+    kids_title_1: "📋 About This Text",
+    kids_body_1: "This is the official Terms of Service written in easier words. If anything here is different from the official Terms, the official Terms come first. Please check that page for full details.",
+    kids_title_2: "🐴 About This Website",
+    kids_body_2: "This is a fan-made website for \"Full Stride,\" made by one person just for fun. It has nothing to do with the company that made the game (Blue Bullet). They didn't help make it or say it's okay. By using this site, you agree to everything written below.",
+    kids_title_3: "©️ About Copyright",
+    kids_body_3: "The name \"Full Stride\" belongs to the company that made the game. The matching system, rating system, and horse-data sheet on this site belong to the person who made this site. You can look at them to learn, but don't copy them to make your own service.",
+    kids_title_4: "🔑 Joining & Accounts",
+    kids_body_4: "You need a Discord account to log in and use this site. Anyone can join. When you log in, we only get your Discord ID and username. We don't get any other personal information.",
+    kids_title_5: "💾 About Your Data",
+    kids_body_5: "After you log in, things like your jockey name, rating, match history, and icon are saved on this site. Anyone can see these on the ranking and profile pages. Your real Discord username is never shown.",
+    kids_title_6: "🙅 Things You Must Not Do",
+    kids_body_6: "Lying about winning or losing on purpose. Skipping matches for no good reason (abusing \"no contest\"). Using more than one account. Being mean or rude to other players or the operator. If the operator thinks you did one of these, they might stop you from using the site or remove you from the rankings.",
+    kids_title_7: "🚫 About Gambling",
+    kids_body_7: "This site is just for comparing skill between players, for free. No money is exchanged at all. It has nothing to do with betting on horse races or any other gambling.",
+    kids_title_8: "⚠️ About Responsibility",
+    kids_body_8: "If something goes wrong from using this site, the operator is not responsible, unless they did it on purpose or were very careless. The operator is also not responsible for trouble between players, or trouble from talking on Discord or other places outside this site. Even if the law says the operator must pay, the most they will pay is 1,000 yen. Things like your rating and match history can change or disappear without warning. This site might also change, stop working, or shut down without warning, because of maintenance or other reasons.",
+    kids_title_9: "⚖️ If There's a Big Problem",
+    kids_body_9: "If there's ever a serious disagreement about this site, it will be settled in a court near where the operator lives.",
+    kids_title_10: "💬 How to Contact Us",
+    kids_body_10: "If you have a question, a report, or a problem, please contact us on the official FSSh Discord server."
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
+
+setupLangToggle();
+</script>
 <script>
 (function () {
   var toggle = document.getElementById('fssh-menu-toggle');

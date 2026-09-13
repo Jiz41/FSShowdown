@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +36,20 @@
     color: var(--text-dim);
     font-size: 1rem;
   }
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-menu-btn { position: fixed; top: 16px; left: 16px; z-index: 1000; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
@@ -61,16 +75,16 @@
   <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
   <div class="fssh-drawer-header">MENU</div>
   <nav>
-    <a href="index2.html">ホーム</a>
-    <a href="queue.html">マッチング</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
-    <a href="ranking.html">ランキング</a>
-    <a href="terms.html">利用規約</a>
-    <a href="faq.html">Q&amp;A</a>
-    <a href="howto.html">How to</a>
-    <a href="#" target="_blank" rel="noopener">Discordサーバー</a>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="howto.html" data-i18n="menu_howto">How to</a>
+    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
     <div class="fssh-sub">
-      <div class="fssh-sub-label">姉妹ツール</div>
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
       <a href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">FSSplicer</a>
       <a href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">FSstriders</a>
@@ -78,11 +92,88 @@
   </nav>
 </div>
 
+<button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
 <div class="page">
-<h1>ランキング</h1>
-<p class="placeholder">準備中</p>
+<h1 data-i18n="h1_ranking">ランキング</h1>
+<p class="placeholder" data-i18n="ranking_placeholder">準備中</p>
 </div>
 
+<script>
+const I18N = {
+  ja: {
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discordサーバー",
+    menu_sistertools_label: "姉妹ツール",
+    h1_ranking: "ランキング",
+    ranking_placeholder: "準備中"
+  },
+  en: {
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_discord: "Discord Server",
+    menu_sistertools_label: "Sister Tools",
+    h1_ranking: "Ranking",
+    ranking_placeholder: "Coming soon"
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
+
+setupLangToggle();
+</script>
 <script>
 (function () {
   var toggle = document.getElementById('fssh-menu-toggle');
