@@ -14,6 +14,12 @@
   a { color: #7ab0ff; }
   .jockey-icon { width: 88px; height: 88px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; }
   #header-row { display: flex; align-items: center; gap: 16px; }
+  #profile-edit-panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
+  .icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid #444; background: #22262d; color: #e8e8e8; cursor: pointer; }
+  .icon-choice.selected { outline: 2px solid #3a6ea5; }
+  input[type="text"] { font-size: 15px; padding: 8px 10px; border-radius: 6px; border: 1px solid #444; background: #0d0f12; color: #e8e8e8; min-width: 240px; }
+  button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: #3a6ea5; color: #fff; cursor: pointer; }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-header { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 1000; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
@@ -83,6 +89,32 @@
   <table id="venue-table" style="border-collapse:collapse; width:100%;"></table>
 </div>
 
+<div id="profile-edit-panel" style="display:none">
+  <h2 data-i18n="h2_profile_edit">プロフィール編集</h2>
+  <div class="row">
+    <input type="text" id="edit-display-tag" data-i18n-placeholder="ph_jockey_name" placeholder="ジョッキーネーム" maxlength="40">
+    <button type="button" id="btn-save-display-tag" data-i18n="btn_save">保存</button>
+  </div>
+  <div class="row">
+    <input type="text" id="edit-x-link" placeholder="https://x.com/your_account">
+    <button type="button" id="btn-save-x-link" data-i18n="btn_save">保存</button>
+  </div>
+  <div class="row">
+    <div class="label" data-i18n="label_bg_color">背景色</div>
+    <div class="icon-choices" id="choices-bg"></div>
+  </div>
+  <div class="row">
+    <div class="label" data-i18n="label_border">枠</div>
+    <div class="icon-choices" id="choices-border"></div>
+  </div>
+  <div class="row">
+    <div class="label" data-i18n="label_crest">紋章</div>
+    <div class="icon-choices" id="choices-crest"></div>
+  </div>
+  <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
+  <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
+</div>
+
 <script>
 const I18N = {
   ja: {
@@ -98,6 +130,14 @@ const I18N = {
     races_suffix: "戦",
     distance_title: "距離別成績",
     venue_title: "場別成績",
+    h2_profile_edit: "プロフィール編集",
+    ph_jockey_name: "ジョッキーネーム",
+    btn_save: "保存",
+    label_bg_color: "背景色",
+    label_border: "枠",
+    label_crest: "紋章",
+    label_preview: "プレビュー",
+    btn_save_icon: "アイコンを保存",
     menu_home: "ホーム",
     menu_matching: "マッチング",
     menu_myprofile: "マイプロフィール",
@@ -120,6 +160,14 @@ const I18N = {
     races_suffix: " Races",
     distance_title: "Record by Distance",
     venue_title: "Record by Venue",
+    h2_profile_edit: "Edit Profile",
+    ph_jockey_name: "Jockey Name",
+    btn_save: "Save",
+    label_bg_color: "Background",
+    label_border: "Frame",
+    label_crest: "Crest",
+    label_preview: "Preview",
+    btn_save_icon: "Save Icon",
     menu_home: "Home",
     menu_matching: "Matching",
     menu_myprofile: "My Profile",
@@ -190,6 +238,9 @@ setupLangToggle();
 
 const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
 const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
+const ICON_BG_KEYS = Object.keys(ICON_BG);
+const ICON_BORDER_KEYS = Object.keys(ICON_BORDER_STYLE);
 
 function renderIcon(el, bg, border, crest) {
   el.style.background = ICON_BG[bg] || "#444";
@@ -198,6 +249,94 @@ function renderIcon(el, bg, border, crest) {
 }
 
 const $ = (id) => document.getElementById(id);
+
+let selectedBg = "blue";
+let selectedBorder = "solid";
+let selectedCrest = "🐎";
+let isSelfProfile = false;
+
+function buildChoices(containerId, values, selectedGetter, onSelect) {
+  const container = $(containerId);
+  container.innerHTML = "";
+  values.forEach((v) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "icon-choice" + (selectedGetter() === v ? " selected" : "");
+    btn.textContent = v;
+    btn.addEventListener("click", function () {
+      onSelect(v);
+      Array.from(container.children).forEach((c) => c.classList.remove("selected"));
+      btn.classList.add("selected");
+      renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function initIconChoices() {
+  buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; });
+  buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; });
+  buildChoices("choices-crest", ICON_CREST, () => selectedCrest, (v) => { selectedCrest = v; });
+  renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
+}
+
+async function checkSelfAndShowEditPanel(profileId) {
+  $("profile-edit-panel").style.display = "none";
+  if (!profileId) return;
+  let body = null;
+  try {
+    const res = await fetch('/api/queue/status', { credentials: 'same-origin' });
+    if (res.status === 401) return;
+    body = await res.json();
+  } catch (e) {
+    return;
+  }
+  if (!body || !body.account || !body.account.discord_id) return;
+  if (String(body.account.discord_id) !== String(profileId)) return;
+  isSelfProfile = true;
+  $("profile-edit-panel").style.display = "block";
+  const profRes = await fetch("/api/account/profile?id=" + encodeURIComponent(profileId));
+  if (profRes.status !== 200) return;
+  const profBody = await profRes.json();
+  if (profBody.display_tag) $("edit-display-tag").value = profBody.display_tag;
+  if (profBody.x_link) $("edit-x-link").value = profBody.x_link;
+  if (profBody.icon_bg) selectedBg = profBody.icon_bg;
+  if (profBody.icon_border) selectedBorder = profBody.icon_border;
+  if (profBody.icon_crest) selectedCrest = profBody.icon_crest;
+  initIconChoices();
+}
+
+async function apiPost(path, data) {
+  const res = await fetch(path, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  let body = null;
+  try { body = await res.json(); } catch (e) { body = null; }
+  return { status: res.status, body: body };
+}
+
+$("btn-save-display-tag").addEventListener("click", async function () {
+  const name = $("edit-display-tag").value.trim();
+  if (!name) return;
+  await apiPost("/api/account/profile", { display_tag: name });
+  load();
+});
+
+$("btn-save-x-link").addEventListener("click", async function () {
+  const value = $("edit-x-link").value.trim();
+  await apiPost("/api/account/profile", { x_link: value });
+  load();
+});
+
+$("btn-save-icon").addEventListener("click", async function () {
+  const res = await apiPost("/api/account/profile", { icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest });
+  if (res.status === 200) {
+    load();
+  }
+});
 
 async function load() {
   const params = new URLSearchParams(window.location.search);
@@ -230,6 +369,7 @@ async function load() {
   } else {
     $("p-xlink").textContent = t("not_set");
   }
+  checkSelfAndShowEditPanel(id);
 }
 
 function renderDistanceTable(stats) {

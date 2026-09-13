@@ -17,7 +17,7 @@
   .label { color: #9aa4b2; display: inline-block; min-width: 7em; }
   pre { background: #0d0f12; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
   a { color: #7ab0ff; }
-  #jockey-gate, #profile-panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
+  #jockey-gate { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
   .icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
   .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid #444; background: #22262d; color: #e8e8e8; cursor: pointer; }
   .icon-choice.selected { outline: 2px solid #3a6ea5; }
@@ -110,31 +110,7 @@
     <div class="row"><span class="label" data-i18n="label_remain">残り時間</span><span id="v-remain">-</span></div>
   </div>
 
-  <div id="profile-panel">
-    <h2 data-i18n="h2_profile_edit">プロフィール編集</h2>
-    <div class="row">
-      <input type="text" id="edit-display-tag" data-i18n-placeholder="ph_jockey_name" placeholder="ジョッキーネーム" maxlength="40">
-      <button type="button" id="btn-save-display-tag" data-i18n="btn_save">保存</button>
-    </div>
-    <div class="row">
-      <input type="text" id="edit-x-link" placeholder="https://x.com/your_account">
-      <button type="button" id="btn-save-x-link" data-i18n="btn_save">保存</button>
-    </div>
-    <div class="row">
-      <div class="label" data-i18n="label_bg_color">背景色</div>
-      <div class="icon-choices" id="choices-bg"></div>
-    </div>
-    <div class="row">
-      <div class="label" data-i18n="label_border">枠</div>
-      <div class="icon-choices" id="choices-border"></div>
-    </div>
-    <div class="row">
-      <div class="label" data-i18n="label_crest">紋章</div>
-      <div class="icon-choices" id="choices-crest"></div>
-    </div>
-    <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
-    <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
-  </div>
+
 </div>
 
 <pre id="log"></pre>
@@ -159,13 +135,6 @@ const I18N = {
     label_opponent: "対戦相手",
     label_host: "ホスト",
     label_remain: "残り時間",
-    h2_profile_edit: "プロフィール編集",
-    btn_save: "保存",
-    label_bg_color: "背景色",
-    label_border: "枠",
-    label_crest: "紋章",
-    label_preview: "プレビュー",
-    btn_save_icon: "アイコンを保存",
     not_logged_in: "未ログイン",
     host_you: "あなたがホスト",
     host_opponent: "相手がホスト（参加側）",
@@ -205,13 +174,6 @@ const I18N = {
     label_opponent: "Opponent",
     label_host: "Host",
     label_remain: "Time Left",
-    h2_profile_edit: "Edit Profile",
-    btn_save: "Save",
-    label_bg_color: "Background",
-    label_border: "Frame",
-    label_crest: "Crest",
-    label_preview: "Preview",
-    btn_save_icon: "Save Icon",
     not_logged_in: "Not logged in",
     host_you: "You are the host",
     host_opponent: "Opponent is host (joining)",
@@ -284,25 +246,10 @@ function setupLangToggle() {
 
 setupLangToggle();
 
-const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
-const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
-const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
-const ICON_BG_KEYS = Object.keys(ICON_BG);
-const ICON_BORDER_KEYS = Object.keys(ICON_BORDER_STYLE);
-
-function renderIcon(el, bg, border, crest) {
-  el.style.background = ICON_BG[bg] || "#444";
-  el.style.border = ICON_BORDER_STYLE[border] || "3px solid #fff";
-  el.textContent = crest || "";
-}
-
 let currentMatchId = null;
 let currentExpiresAt = null;
 let polling = null;
 let selfAccount = null;
-let selectedBg = "blue";
-let selectedBorder = "solid";
-let selectedCrest = "🐎";
 
 const $ = (id) => document.getElementById(id);
 
@@ -316,31 +263,6 @@ async function api(path, options) {
   let body = null;
   try { body = await res.json(); } catch (e) { body = { error: "invalid_json" }; }
   return { status: res.status, body: body };
-}
-
-function buildChoices(containerId, values, selectedGetter, onSelect) {
-  const container = $(containerId);
-  container.innerHTML = "";
-  values.forEach((v) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "icon-choice" + (selectedGetter() === v ? " selected" : "");
-    btn.textContent = v;
-    btn.addEventListener("click", function () {
-      onSelect(v);
-      Array.from(container.children).forEach((c) => c.classList.remove("selected"));
-      btn.classList.add("selected");
-      renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
-    });
-    container.appendChild(btn);
-  });
-}
-
-function initIconChoices() {
-  buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; });
-  buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; });
-  buildChoices("choices-crest", ICON_CREST, () => selectedCrest, (v) => { selectedCrest = v; });
-  renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
 }
 
 function render(body) {
@@ -422,7 +344,6 @@ function applyGate(account) {
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "block";
     $("self-name").textContent = account.display_tag + t("rating_suffix") + account.rating + "）";
-    $("edit-display-tag").value = account.display_tag;
   }
 }
 
@@ -441,18 +362,6 @@ async function refresh() {
   render(res.body);
 }
 
-async function loadProfile() {
-  if (!selfAccount) return;
-  const res = await api("/api/account/profile?id=" + encodeURIComponent(selfAccount.discord_id));
-  if (res.status !== 200) return;
-  if (res.body.icon_bg) selectedBg = res.body.icon_bg;
-  if (res.body.icon_border) selectedBorder = res.body.icon_border;
-  if (res.body.icon_crest) selectedCrest = res.body.icon_crest;
-  initIconChoices();
-  renderIcon($("self-icon"), selectedBg, selectedBorder, selectedCrest);
-  if (res.body.x_link) $("edit-x-link").value = res.body.x_link;
-}
-
 $("btn-register-jockey").addEventListener("click", async function () {
   const name = $("jockey-name-input").value.trim();
   if (!name) return;
@@ -463,41 +372,7 @@ $("btn-register-jockey").addEventListener("click", async function () {
   });
   log("register jockey", res.body);
   if (res.status === 200) {
-    refresh().then(loadProfile);
-  }
-});
-
-$("btn-save-display-tag").addEventListener("click", async function () {
-  const name = $("edit-display-tag").value.trim();
-  if (!name) return;
-  const res = await api("/api/account/profile", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ display_tag: name }),
-  });
-  log("save display_tag", res.body);
-  refresh();
-});
-
-$("btn-save-x-link").addEventListener("click", async function () {
-  const value = $("edit-x-link").value.trim();
-  const res = await api("/api/account/profile", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ x_link: value }),
-  });
-  log("save x_link", res.body);
-});
-
-$("btn-save-icon").addEventListener("click", async function () {
-  const res = await api("/api/account/profile", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest }),
-  });
-  log("save icon", res.body);
-  if (res.status === 200) {
-    renderIcon($("self-icon"), selectedBg, selectedBorder, selectedCrest);
+    refresh();
   }
 });
 
@@ -549,9 +424,8 @@ async function sendReport(result) {
 $("btn-win").addEventListener("click", function () { sendReport("win"); });
 $("btn-loss").addEventListener("click", function () { sendReport("loss"); });
 
-initIconChoices();
 setInterval(tickRemain, 1000);
-refresh().then(loadProfile);
+refresh();
 startPolling();
 </script>
 <script>
