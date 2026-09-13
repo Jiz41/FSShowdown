@@ -83,6 +83,7 @@
     font-size: 0.75rem;
     font-family: var(--mono);
     cursor: pointer;
+    line-height: 1;
   }
 
   /* ===== FSSH COMMON MENU ===== */
@@ -94,7 +95,7 @@
   .fssh-overlay.open { display: block; }
   .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }
   .fssh-drawer.open { max-height: 600px; }
-  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; }
+  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; line-height: 1.4; }
   .fssh-drawer nav { padding: 8px 0; }
   .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
   .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
@@ -103,7 +104,7 @@
   .fssh-drawer .fssh-sub-link { display: flex; flex-direction: column; padding-left: 32px; }
   .fssh-drawer .fssh-sub-name { font-size: 0.82rem; }
   .fssh-drawer .fssh-sub-caption { font-size: 0.7rem; color: #7fa88f; white-space: normal; line-height: 1.4; }
-  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; }
+  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; line-height: 1; }
   .fssh-header-right { display: flex; align-items: center; gap: 8px; }
   .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
 </style>
