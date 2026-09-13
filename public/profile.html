@@ -5,21 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FSShowdown - 騎手プロフィール</title>
 <style>
-  body { font-family: system-ui, sans-serif; margin: 0; padding: 80px 24px 24px; background: #14161a; color: #e8e8e8; }
+  :root {
+    --bg: #0a0e0a;
+    --bg2: #0d1410;
+    --green: #33ff66;
+    --green-dim: #1a8a3a;
+    --orange: #ff8833;
+    --text: #d8ffe0;
+    --text-dim: #7fa88f;
+    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+  }
+  body { font-family: var(--mono); margin: 0; padding: 80px 24px 24px; background: var(--bg); color: var(--text); }
   h1 { font-size: 20px; }
-  .lang-toggle { position: static; background: #33ff66; color: #14161a; border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
-  #panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
+  .lang-toggle { position: static; background: var(--green); color: var(--bg); border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
+  #panel { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
   .row { margin: 10px 0; }
-  .label { color: #9aa4b2; display: inline-block; min-width: 6em; }
-  a { color: #7ab0ff; }
+  .label { color: var(--text-dim); display: inline-block; min-width: 6em; }
+  a { color: var(--green); }
   .jockey-icon { width: 88px; height: 88px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; }
   #header-row { display: flex; align-items: center; gap: 16px; }
-  #profile-edit-panel { border: 1px solid #333; border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
+  #profile-edit-panel { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
   .icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-  .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid #444; background: #22262d; color: #e8e8e8; cursor: pointer; }
-  .icon-choice.selected { outline: 2px solid #3a6ea5; }
-  input[type="text"] { font-size: 15px; padding: 8px 10px; border-radius: 6px; border: 1px solid #444; background: #0d0f12; color: #e8e8e8; min-width: 240px; }
-  button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: #3a6ea5; color: #fff; cursor: pointer; }
+  .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); cursor: pointer; }
+  .icon-choice.selected { outline: 2px solid var(--green); }
+  input[type="text"] { font-size: 15px; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); min-width: 240px; }
+  button { font-size: 16px; padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: var(--green); color: var(--bg); cursor: pointer; }
 
   /* ===== FSSH COMMON MENU ===== */
   .fssh-header { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 1000; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
@@ -28,7 +38,7 @@
   .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
   .fssh-overlay { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
   .fssh-overlay.open { display: block; }
-  .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: system-ui, sans-serif; overflow-y: auto; }
+  .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }
   .fssh-drawer.open { max-height: 600px; }
   .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; }
   .fssh-drawer nav { padding: 8px 0; }
