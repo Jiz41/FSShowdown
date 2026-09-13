@@ -524,6 +524,9 @@
     font-size: 1.2rem;
     cursor: pointer;
   }
+  .fssh-header-right { display: flex; align-items: center; gap: 8px; }
+  .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
+  .hero-discord-cta { display: inline-block; margin-top: 16px; padding: 10px 20px; background: var(--green, #33ff66); color: var(--bg, #0a0e0a); border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.85rem; }
 </style>
 </head>
 <body>
@@ -531,7 +534,10 @@
 <div class="fssh-header">
   <button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
   <img src="images/fssh_logo.png" alt="FSShowdown" class="fssh-header-logo">
-  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  <div class="fssh-header-right">
+    <a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener" class="fssh-discord-btn" aria-label="Discord">💬</a>
+    <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  </div>
 </div>
 <div class="fssh-overlay" id="fssh-overlay"></div>
 <div class="fssh-drawer" id="fssh-drawer">
@@ -542,10 +548,9 @@
     <a href="queue.html" data-i18n="menu_matching">マッチング</a>
     <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
     <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
-    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
-    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
     <a href="howto.html" data-i18n="menu_howto">How to</a>
-    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
     <div class="fssh-sub">
       <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
@@ -571,6 +576,7 @@
       <ruby>FSShowdown<rt>誰よりも疾くゴール</rt></ruby>せよ。
     </div>
     <div class="hero-sub">PLAYER-DRIVEN RANK MATCH FOR FULL STRIDE</div>
+    <a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener" class="hero-discord-cta">💬 Discordサーバーに参加する / Join our Discord</a>
   </div>
   <div class="scroll-hint">SCROLL ▼</div>
 </section>
@@ -725,7 +731,6 @@
       menu_terms: "利用規約",
       menu_faq: "Q&A",
       menu_howto: "How to",
-      menu_discord: "Discordサーバー",
       menu_sistertools_label: "姉妹ツール"
     },
     en: {
@@ -769,7 +774,6 @@
       menu_terms: "Terms of Service",
       menu_faq: "Q&A",
       menu_howto: "How to",
-      menu_discord: "Discord Server",
       menu_sistertools_label: "Sister Tools"
     }
   };

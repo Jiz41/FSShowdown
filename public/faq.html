@@ -86,6 +86,8 @@
   .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
   .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
   .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; }
+  .fssh-header-right { display: flex; align-items: center; gap: 8px; }
+  .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
 </style>
 </head>
 <body>
@@ -93,7 +95,10 @@
 <div class="fssh-header">
   <button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
   <img src="images/fssh_logo.png" alt="FSShowdown" class="fssh-header-logo">
-  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  <div class="fssh-header-right">
+    <a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener" class="fssh-discord-btn" aria-label="Discord">💬</a>
+    <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  </div>
 </div>
 <div class="fssh-overlay" id="fssh-overlay"></div>
 <div class="fssh-drawer" id="fssh-drawer">
@@ -104,10 +109,9 @@
     <a href="queue.html" data-i18n="menu_matching">マッチング</a>
     <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
     <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
-    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
-    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
     <a href="howto.html" data-i18n="menu_howto">How to</a>
-    <a href="#" target="_blank" rel="noopener" data-i18n="menu_discord">Discordサーバー</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
     <div class="fssh-sub">
       <div class="fssh-sub-label" data-i18n="menu_sistertools_label">姉妹ツール</div>
       <a href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">FSScreener</a>
@@ -136,8 +140,8 @@
 <div class="qa-block"><div class="qa-q" data-i18n="faq_q_9">Q. 勝敗の報告が食い違ったらどうなりますか？</div><div class="qa-a" data-i18n="faq_a_9">A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。</div></div>
 
 <h3 data-i18n="faq_cat_4">トラブル対応</h3>
-<div class="qa-block"><div class="qa-q" data-i18n="faq_q_10">Q. 不正（虚偽報告等）を見つけました。</div><div class="qa-a" data-i18n="faq_a_10">A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。</div></div>
-<div class="qa-block"><div class="qa-q" data-i18n="faq_q_11">Q. バグを見つけました。</div><div class="qa-a" data-i18n="faq_a_11">A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_10">Q. 不正（虚偽報告等）を見つけました。</div><div class="qa-a" data-i18n="faq_a_10">A. FSSh公式Discordサーバーの#report-issuesチャンネルに書き込んでください。テンプレートが用意されています。紛争時は動画の提出をお願いする場合があります。</div></div>
+<div class="qa-block"><div class="qa-q" data-i18n="faq_q_11">Q. バグを見つけました。</div><div class="qa-a" data-i18n="faq_a_11">A. 同じく#report-issuesチャンネルへご報告ください。</div></div>
 </div>
 
 <script>
@@ -150,7 +154,6 @@ const I18N = {
     menu_terms: "利用規約",
     menu_faq: "Q&A",
     menu_howto: "How to",
-    menu_discord: "Discordサーバー",
     menu_sistertools_label: "姉妹ツール",
     h1_faq: "Q&A",
     faq_cat_1: "参加について",
@@ -176,9 +179,9 @@ const I18N = {
     faq_a_9: "A. お互いの申告が一致しない場合、レートは変動せず、再度報告し直すことができます。",
     faq_cat_4: "トラブル対応",
     faq_q_10: "Q. 不正（虚偽報告等）を見つけました。",
-    faq_a_10: "A. FSSh公式Discordサーバーまでご報告ください。紛争時は動画の提出をお願いする場合があります。",
+    faq_a_10: "A. FSSh公式Discordサーバーの#report-issuesチャンネルに書き込んでください。テンプレートが用意されています。紛争時は動画の提出をお願いする場合があります。",
     faq_q_11: "Q. バグを見つけました。",
-    faq_a_11: "A. 同じくDiscordサーバーの開発協力チャンネルへご報告ください。"
+    faq_a_11: "A. 同じく#report-issuesチャンネルへご報告ください。"
   },
   en: {
     menu_home: "Home",
@@ -188,7 +191,6 @@ const I18N = {
     menu_terms: "Terms of Service",
     menu_faq: "Q&A",
     menu_howto: "How to",
-    menu_discord: "Discord Server",
     menu_sistertools_label: "Sister Tools",
     h1_faq: "Q&A",
     faq_cat_1: "About Participation",
@@ -214,9 +216,9 @@ const I18N = {
     faq_a_9: "A. If your reports disagree, your rating won't change, and you can resubmit your report.",
     faq_cat_4: "Troubleshooting",
     faq_q_10: "Q. I found someone cheating (e.g. false reporting).",
-    faq_a_10: "A. Please report it on the official FSSh Discord server.",
+    faq_a_10: "A. Please write in the #report-issues channel on the official FSSh Discord server. A template is provided there. In case of a dispute, we may ask you to submit a video.",
     faq_q_11: "Q. I found a bug.",
-    faq_a_11: "A. Please report it in the dev-help channel on the Discord server as well."
+    faq_a_11: "A. Please report it in the #report-issues channel as well."
   }
 };
 
