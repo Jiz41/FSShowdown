@@ -149,6 +149,19 @@
 </style>
 </head>
 <body>
+<div id="debug-rect" style="position:fixed; top:60px; left:0; right:0; z-index:9999; background:red; color:white; font-size:11px; padding:4px; word-break:break-all;"></div>
+<script>
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var h = document.querySelector('.fssh-header');
+    var l = document.querySelector('.fssh-header-logo');
+    var d = document.getElementById('debug-rect');
+    if (h && l && d) {
+      d.textContent = 'header:' + JSON.stringify(h.getBoundingClientRect()) + ' logo:' + JSON.stringify(l.getBoundingClientRect());
+    }
+  }, 500);
+});
+</script>
 <div class="fssh-header">
   <button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
   <a href="index2.html"><img src="images/fssh_logo.png" alt="FSShowdown" class="fssh-header-logo"></a>
