@@ -18,6 +18,8 @@ export async function onRequestGet({ request, env }) {
         discord_id: account.discord_id,
         display_tag: account.display_tag,
         rating: account.rating,
+        rating_ps5: account.rating_ps5,
+        rating_pc: account.rating_pc,
       },
     },
     result.status
