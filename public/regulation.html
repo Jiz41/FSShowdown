@@ -59,7 +59,7 @@
 <p data-i18n="reg_rating_1">初期レートは1000からスタートします。</p>
 <p data-i18n="reg_rating_2">マッチングは「最近傍レート同士」を自動で組み合わせる方式です（レート帯を区切った分割は行っていません）。</p>
 <p data-i18n="reg_rating_3">マッチングはプラットフォーム（PS5・PC）ごとに完全に分離されています。Full Strideはクロスプレイに対応していないため、異なるプラットフォームのプレイヤー同士がマッチすることはありません。</p>
-<p data-i18n="reg_rating_4">レート計算はイロレーティング方式を採用し、以下の計算式で自動算出されます。<br>
+<p data-i18n-html="reg_rating_4">レート計算はイロレーティング方式を採用し、以下の計算式で自動算出されます。<br>
 　- 期待勝率 We = 1 / (1 + 10^((相手のレート − 自分のレート) / 400))<br>
 　- K値は同レート時16を基準とし、レート差25ごとに、格上が格下に勝った場合は-1、格下が格上に勝った場合は+1されます。<br>
 　- 1試合あたりのレート変動幅は、上限30・下限1です。</p>
@@ -103,10 +103,11 @@
 
 <h2 data-i18n="h2_reg_dispute">紛争・違反対応</h2>
 <p data-i18n="reg_body_dispute_1">対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。</p>
-<p data-i18n="reg_dispute2_1">意図的な虚偽の勝敗報告</p>
-<p data-i18n="reg_dispute2_2">正当な理由のない対戦放棄（ノーコンテストの繰り返し）</p>
-<p data-i18n="reg_dispute2_3">複数アカウントでの参加</p>
-<p data-i18n="reg_dispute2_4">対戦相手や運営への迷惑行為・誹謗中傷</p>
+<p data-i18n="reg_body_dispute_2">以下のような行為には、運営判断によりアカウントの利用制限等の措置を行う場合があります。</p>
+<p data-i18n="reg_dispute2_1">・意図的な虚偽の勝敗報告</p>
+<p data-i18n="reg_dispute2_2">・正当な理由のない対戦放棄（ノーコンテストの繰り返し）</p>
+<p data-i18n="reg_dispute2_3">・複数アカウントでの参加</p>
+<p data-i18n="reg_dispute2_4">・対戦相手や運営への迷惑行為・誹謗中傷</p>
 <p data-i18n="reg_body_dispute_3">なお、具体的な処分基準（違反回数と措置内容の対応表等）は現時点では定めておらず、今後整備していく予定です。</p>
 
 <h2 data-i18n="h2_reg_join">参加条件</h2>
@@ -157,10 +158,11 @@ const I18N = {
     reg_dist_col2: "距離範囲",
     reg_body_report: "対戦結果は、両プレイヤーがそれぞれ自己申告で報告します。双方の申告が一致した時点で結果が確定し、レートが自動更新されます。双方の申告が食い違った場合（勝ち×勝ち等）はレート変動なしのまま両者の申告がリセットされ、再度報告し直すことができます。双方合意の上で確定した結果は、原則として事後の訂正はできません。",
     reg_body_dispute_1: "対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。",
-    reg_dispute2_1: "意図的な虚偽の勝敗報告",
-    reg_dispute2_2: "正当な理由のない対戦放棄（ノーコンテストの繰り返し）",
-    reg_dispute2_3: "複数アカウントでの参加",
-    reg_dispute2_4: "対戦相手や運営への迷惑行為・誹謗中傷",
+    reg_body_dispute_2: "以下のような行為には、運営判断によりアカウントの利用制限等の措置を行う場合があります。",
+    reg_dispute2_1: "・意図的な虚偽の勝敗報告",
+    reg_dispute2_2: "・正当な理由のない対戦放棄（ノーコンテストの繰り返し）",
+    reg_dispute2_3: "・複数アカウントでの参加",
+    reg_dispute2_4: "・対戦相手や運営への迷惑行為・誹謗中傷",
     reg_body_dispute_3: "なお、具体的な処分基準（違反回数と措置内容の対応表等）は現時点では定めておらず、今後整備していく予定です。",
     reg_body_join: "FSShowdownは誰でも自由に参加できる公開ツールです。承認制・招待制は設けていません。",
 
@@ -211,10 +213,11 @@ const I18N = {
     reg_dist_col2: "Distance Range",
     reg_body_report: "Both players self-report the match result. Once both reports agree, the result is finalized and ratings update automatically. If the reports conflict (e.g. both claim a win), no rating change occurs and both reports are cleared so you can resubmit. Once a result is finalized by mutual agreement, it generally cannot be corrected afterward.",
     reg_body_dispute_1: "If a dispute arises over a match result or its details, we may ask for video evidence (video submission is not required for every match by default). Disputes are resolved on the official FSSh Discord server.",
-    reg_dispute2_1: "Intentionally false result reporting",
-    reg_dispute2_2: "Abandoning matches without good reason (repeated No Contests)",
-    reg_dispute2_3: "Participating with multiple accounts",
-    reg_dispute2_4: "Harassing or abusing opponents or staff",
+    reg_body_dispute_2: "The following may result in account restrictions at the operator's discretion:",
+    reg_dispute2_1: "- Intentionally false result reporting",
+    reg_dispute2_2: "- Abandoning matches without good reason (repeated No Contests)",
+    reg_dispute2_3: "- Participating with multiple accounts",
+    reg_dispute2_4: "- Harassing or abusing opponents or staff",
     reg_body_dispute_3: "Specific enforcement thresholds (e.g. how many violations trigger what action) have not yet been defined and will be established in the future.",
     reg_body_join: "FSShowdown is open to everyone — join freely, with no approval or invitation required.",
 
@@ -237,6 +240,9 @@ function applyLanguage(lang) {
   document.documentElement.setAttribute("data-lang", lang);
   document.querySelectorAll("[data-i18n]").forEach(el => {
     el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    el.innerHTML = t(el.getAttribute("data-i18n-html"));
   });
   try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
 }
