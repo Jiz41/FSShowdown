@@ -127,6 +127,21 @@ button, input, select, textarea { font: inherit; }
 
 .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
 
+.fssh-header-auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 10px;
+  background: var(--bg, #0a0e0a);
+  border: 1px solid var(--green, #33ff66);
+  border-radius: 6px;
+  color: var(--green, #33ff66);
+  text-decoration: none;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
 .fssh-footer {
   margin-top: 40px;
   padding: 24px 16px;
