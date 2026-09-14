@@ -216,7 +216,7 @@
   </div>
 
   <div class="row">
-    <button type="button" id="btn-join" data-i18n="btn_join">マッチング開始</button>
+    <button type="button" id="btn-join" data-i18n="btn_join" disabled>マッチング開始</button>
     <button type="button" id="btn-leave" data-i18n="btn_leave">キュー離脱</button>
     <button type="button" id="btn-reserve" style="display:none" data-i18n="btn_reserve">予約する</button>
     <button type="button" id="btn-win" style="display:none" data-i18n="btn_win">勝った</button>
@@ -512,6 +512,10 @@ $("btn-register-jockey").addEventListener("click", async function () {
   if (res.status === 200) {
     refresh();
   }
+});
+
+$("platform-select").addEventListener("change", function () {
+  $("btn-join").disabled = !$("platform-select").value;
 });
 
 $("btn-join").addEventListener("click", async function () {
