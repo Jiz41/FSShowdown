@@ -98,7 +98,7 @@ button, input, select, textarea { font: inherit; }
 }
 
 .fssh-menu-disabled {
-  color: #556b5f;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
