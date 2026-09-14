@@ -94,8 +94,12 @@ button, input, select, textarea { font: inherit; }
     color: #33ff66;
   }
 
-.fssh-menu-group-end {
-  border-bottom: 1px solid rgba(255,51,68,0.4) !important;
+.fssh-menu-group-start {
+  margin-top: 12px;
+}
+
+.fssh-drawer .fssh-sub {
+  margin-top: 12px;
 }
 
 .fssh-drawer .fssh-sub-label {
