@@ -18,9 +18,7 @@
   </div>
 </div>
 <div class="fssh-overlay" id="fssh-overlay"></div>
-<div class="fssh-drawer" id="fssh-drawer">
-  <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
-  <div class="fssh-drawer-header">MENU</div>
+<div class="fssh-drawer" id="fssh-drawer">  <div class="fssh-drawer-header">MENU</div>
   <nav>
     <a href="index2.html" data-i18n="menu_home">ホーム</a>
     <a class="fssh-menu-group-end" href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
@@ -330,14 +328,16 @@
   (function () {
     var toggle = document.getElementById('fssh-menu-toggle');
     var overlay = document.getElementById('fssh-overlay');
-    var drawer = document.getElementById('fssh-drawer');
-    var closeBtn = document.getElementById('fssh-close');
-    function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); }
-    function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); }
-    toggle.addEventListener('click', openMenu);
+    var drawer = document.getElementById('fssh-drawer');    function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); toggle.classList.add('open'); }
+    function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); toggle.classList.remove('open'); }
+    toggle.addEventListener('click', function () {
+    if (drawer.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
     overlay.addEventListener('click', closeMenu);
-    closeBtn.addEventListener('click', closeMenu);
-
     fetch('/api/queue/status', { credentials: 'same-origin' }).then(function (res) {
       if (res.status === 401) return null;
       return res.json();
