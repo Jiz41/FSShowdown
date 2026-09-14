@@ -13,7 +13,7 @@ export async function onRequestGet({ request, env }) {
   }
 
   const account = await env.DB.prepare(
-    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest, rating, rating_ps5, rating_pc
+    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest
        FROM accounts WHERE discord_id = ?1`
   )
     .bind(discordId)
@@ -22,6 +22,11 @@ export async function onRequestGet({ request, env }) {
   if (!account) {
     return json({ error: "not_found" }, 404);
   }
+
+  const ratingsResult = await env.DB.prepare(
+    `SELECT platform, rating FROM ratings WHERE discord_id = ?1`
+  ).bind(discordId).all();
+  const ratings = (ratingsResult && ratingsResult.results) ? ratingsResult.results : [];
 
   const winsRow = await env.DB.prepare(
     `SELECT COUNT(*) AS n FROM matches
@@ -85,9 +90,7 @@ export async function onRequestGet({ request, env }) {
     icon_bg: account.icon_bg,
     icon_border: account.icon_border,
     icon_crest: account.icon_crest,
-    rating: account.rating,
-    rating_ps5: account.rating_ps5,
-    rating_pc: account.rating_pc,
+    ratings: ratings,
     wins,
     losses,
     total: wins + losses,

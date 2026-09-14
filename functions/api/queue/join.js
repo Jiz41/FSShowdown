@@ -22,8 +22,6 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "invalid_platform" }, 400);
   }
 
-  const rating = platform === "ps5" ? account.rating_ps5 : account.rating_pc;
-
   return callMatchmaker(env, "/join", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -31,7 +29,6 @@ export async function onRequestPost({ request, env }) {
       discord_id: account.discord_id,
       username: account.username,
       display_tag: account.display_tag,
-      rating: rating,
       platform: platform,
     }),
   });

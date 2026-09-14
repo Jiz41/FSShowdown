@@ -4,6 +4,11 @@ export async function onRequestGet({ request, env }) {
   const { account, response } = await requireAccount(env, request);
   if (response) return response;
 
+  const ratingsResult = await env.DB.prepare(
+    `SELECT platform, rating FROM ratings WHERE discord_id = ?1`
+  ).bind(account.discord_id).all();
+  const ratings = (ratingsResult && ratingsResult.results) ? ratingsResult.results : [];
+
   const result = await callMatchmaker(
     env,
     `/status?discord_id=${encodeURIComponent(account.discord_id)}`,
@@ -17,9 +22,7 @@ export async function onRequestGet({ request, env }) {
       account: {
         discord_id: account.discord_id,
         display_tag: account.display_tag,
-        rating: account.rating,
-        rating_ps5: account.rating_ps5,
-        rating_pc: account.rating_pc,
+        ratings: ratings,
       },
     },
     result.status

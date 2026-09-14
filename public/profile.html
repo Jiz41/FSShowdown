@@ -234,6 +234,9 @@ const I18N = {
     h1_profile: "騎手プロフィール",
     loading: "読み込み中...",
     label_rating: "レート",
+    platform_label_ps5: "PS5",
+    platform_label_pc: "PC（Steam等）",
+    no_ratings_yet: "対戦記録なし",
     label_record: "戦績",
     id_missing: "IDが指定されていません",
     not_found: "騎手が見つかりません",
@@ -267,6 +270,9 @@ const I18N = {
     h1_profile: "Jockey Profile",
     loading: "Loading...",
     label_rating: "Rating",
+    platform_label_ps5: "PS5",
+    platform_label_pc: "PC (Steam, etc.)",
+    no_ratings_yet: "No matches played yet",
     label_record: "Record",
     id_missing: "No ID specified",
     not_found: "Jockey not found",
@@ -457,6 +463,14 @@ $("btn-save-icon").addEventListener("click", async function () {
   }
 });
 
+const PLATFORM_RATING_LABEL_KEYS = { ps5: "platform_label_ps5", pc: "platform_label_pc" };
+function formatRatings(ratings) {
+  if (!ratings || ratings.length === 0) return t("no_ratings_yet");
+  return ratings
+    .map((r) => (t(PLATFORM_RATING_LABEL_KEYS[r.platform]) || r.platform) + ": " + r.rating)
+    .join(" / ");
+}
+
 async function load() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -471,7 +485,7 @@ async function load() {
   }
   const body = await res.json();
   $("p-name").textContent = body.display_tag;
-  $("p-rating").textContent = "PS5: " + body.rating_ps5 + " / PC: " + body.rating_pc;
+  $("p-rating").textContent = formatRatings(body.ratings);
   const total = body.total !== undefined ? body.total : (body.wins + body.losses);
   $("p-record").textContent = total + t("races_suffix") + body.wins + t("wins_suffix") + body.losses + t("losses_suffix");
   renderIcon($("p-icon"), body.icon_bg, body.icon_border, body.icon_crest);

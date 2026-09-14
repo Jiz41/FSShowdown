@@ -255,6 +255,7 @@ const I18N = {
     opt_platform_ps5: "PS5",
     opt_platform_pc: "PC（Steam等）",
     err_platform_required: "プラットフォームを選択してください",
+    no_ratings_yet: "対戦記録なし",
     label_account: "ログイン",
     v_account_default: "未確認",
     label_state: "状態",
@@ -302,6 +303,7 @@ const I18N = {
     opt_platform_ps5: "PS5",
     opt_platform_pc: "PC (Steam, etc.)",
     err_platform_required: "Please select a platform",
+    no_ratings_yet: "No matches played yet",
     label_account: "Login",
     v_account_default: "Unverified",
     label_state: "Status",
@@ -403,10 +405,18 @@ async function api(path, options) {
   return { status: res.status, body: body };
 }
 
+const PLATFORM_RATING_LABEL_KEYS = { ps5: "opt_platform_ps5", pc: "opt_platform_pc" };
+function formatRatings(ratings) {
+  if (!ratings || ratings.length === 0) return t("no_ratings_yet");
+  return ratings
+    .map((r) => (t(PLATFORM_RATING_LABEL_KEYS[r.platform]) || r.platform) + ": " + r.rating)
+    .join(" / ");
+}
+
 function render(body) {
   if (body.account) {
     selfAccount = body.account;
-    $("v-account").textContent = body.account.display_tag + "（PS5: " + body.account.rating_ps5 + " / PC: " + body.account.rating_pc + "）";
+    $("v-account").textContent = body.account.display_tag + "（" + formatRatings(body.account.ratings) + "）";
   }
   $("v-state").textContent = body.status || "-";
 
@@ -481,7 +491,7 @@ function applyGate(account) {
   } else {
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "block";
-    $("self-name").textContent = account.display_tag + "（PS5: " + account.rating_ps5 + " / PC: " + account.rating_pc + "）";
+    $("self-name").textContent = account.display_tag + "（" + formatRatings(account.ratings) + "）";
   }
 }
 

@@ -78,9 +78,14 @@ export class Matchmaker {
   }
 
   async join(body) {
-    const { discord_id, display_tag, rating, platform } = body;
+    const { discord_id, display_tag, platform } = body;
     if (!discord_id) return json({ error: "missing_discord_id" }, 400);
     if (!platform) return json({ error: "missing_platform" }, 400);
+
+    const ratingRow = await this.env.DB.prepare(
+      `SELECT rating FROM ratings WHERE discord_id = ?1 AND platform = ?2`
+    ).bind(discord_id, platform).first();
+    const rating = ratingRow ? ratingRow.rating : 1000;
 
     const existing = await this.findActiveMatch(discord_id);
     if (existing) {
@@ -294,9 +299,7 @@ export class Matchmaker {
       return json({ error: "invalid_status", status: row.status }, 400);
     }
 
-    const RATING_COLUMN = { ps5: "rating_ps5", pc: "rating_pc" };
-    const ratingColumn = RATING_COLUMN[row.platform];
-    if (!ratingColumn) {
+    if (!row.platform) {
       return json({ error: "invalid_platform_on_match" }, 500);
     }
 
@@ -342,19 +345,14 @@ export class Matchmaker {
     const winnerId = after.player1_result === "win" ? after.player1_id : after.player2_id;
     const loserId = winnerId === after.player1_id ? after.player2_id : after.player1_id;
 
-    const winnerAccount = await this.env.DB.prepare(
-      `SELECT ${ratingColumn} AS rating FROM accounts WHERE discord_id = ?1`
-    )
-      .bind(winnerId)
-      .first();
-    const loserAccount = await this.env.DB.prepare(
-      `SELECT ${ratingColumn} AS rating FROM accounts WHERE discord_id = ?1`
-    )
-      .bind(loserId)
-      .first();
-
-    const Rw = winnerAccount.rating;
-    const Rl = loserAccount.rating;
+    const winnerRow = await this.env.DB.prepare(
+      `SELECT rating FROM ratings WHERE discord_id = ?1 AND platform = ?2`
+    ).bind(winnerId, row.platform).first();
+    const Rw = winnerRow ? winnerRow.rating : 1000;
+    const loserRow = await this.env.DB.prepare(
+      `SELECT rating FROM ratings WHERE discord_id = ?1 AND platform = ?2`
+    ).bind(loserId, row.platform).first();
+    const Rl = loserRow ? loserRow.rating : 1000;
     const ratingDiff = Rw - Rl;
     const steps = Math.floor(Math.abs(ratingDiff) / 25);
     let K;
@@ -372,15 +370,13 @@ export class Matchmaker {
     const newLoserRating = Rl - delta;
 
     await this.env.DB.prepare(
-      `UPDATE accounts SET ${ratingColumn} = ?1 WHERE discord_id = ?2`
-    )
-      .bind(newWinnerRating, winnerId)
-      .run();
+      `INSERT INTO ratings (discord_id, platform, rating) VALUES (?1, ?2, ?3)
+       ON CONFLICT(discord_id, platform) DO UPDATE SET rating = excluded.rating`
+    ).bind(winnerId, row.platform, newWinnerRating).run();
     await this.env.DB.prepare(
-      `UPDATE accounts SET ${ratingColumn} = ?1 WHERE discord_id = ?2`
-    )
-      .bind(newLoserRating, loserId)
-      .run();
+      `INSERT INTO ratings (discord_id, platform, rating) VALUES (?1, ?2, ?3)
+       ON CONFLICT(discord_id, platform) DO UPDATE SET rating = excluded.rating`
+    ).bind(loserId, row.platform, newLoserRating).run();
     await this.env.DB.prepare(
       `UPDATE matches SET status = 'completed', rating_delta = ?1 WHERE id = ?2`
     )
