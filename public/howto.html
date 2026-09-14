@@ -18,7 +18,7 @@
 <div class="fssh-drawer" id="fssh-drawer">  <div class="fssh-drawer-header">MENU</div>
   <nav>
     <a href="index2.html">ホーム</a>
-    <a href="profile.html" id="fssh-nav-profile" style="display:none">マイプロフィール</a>
+    <a href="/auth/login" id="fssh-nav-profile" class="fssh-menu-disabled">マイプロフィール</a>
     <a class="fssh-menu-group-start" href="howto.html">使い方</a>
     <a href="queue.html">マッチング</a>
     <a class="fssh-menu-group-start" href="regulation.html">レギュレーション<span class="fssh-menu-sub">シーズン<span class="fssh-menu-sub-num">0</span>概要</span></a>
@@ -88,7 +88,7 @@
     if (body && body.account && body.account.discord_id) {
       var el = document.getElementById('fssh-nav-profile');
       el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
-      el.style.display = 'block';
+      el.classList.remove('fssh-menu-disabled');
     }
   }).catch(function () {});
 })();

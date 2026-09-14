@@ -98,6 +98,11 @@ button, input, select, textarea { font: inherit; }
   margin-top: 12px;
 }
 
+.fssh-menu-disabled {
+  color: #556b5f;
+  cursor: not-allowed;
+}
+
 .fssh-drawer .fssh-sub {
   margin-top: 12px;
 }
