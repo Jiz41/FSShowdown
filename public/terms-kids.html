@@ -4,110 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FSShowdown - 利用規約（やさしい版）</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="terms-kids.css">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0e0a;
-    --bg2: #0d1410;
-    --green: #33ff66;
-    --green-dim: #1a8a3a;
-    --text: #d8ffe0;
-    --text-dim: #7fa88f;
-    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  button, input, select, textarea { font: inherit; }
-  body {
-    background: linear-gradient(160deg, #fff6cf 0%, #cdeeff 100%);
-    color: #3a3323;
-    font-family: 'Rounded Mplus 1c', 'M PLUS Rounded 1c', sans-serif;
-    line-height: 1.9;
-    padding: 72px 20px 60px;
-  }
-  .page {
-    max-width: 780px;
-    margin: 0 auto;
-  }
-  h1 {
-    color: #ff8fab;
-    font-size: 1.7rem;
-    margin-bottom: 20px;
-    font-weight: 800;
-  }
-  .notice {
-    background: #fff6a8;
-    border: 3px solid #ffd93d;
-    border-radius: 20px;
-    padding: 16px 20px;
-    font-size: 0.95rem;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  }
-  .top-link, .bottom-link {
-    display: inline-block;
-    margin-bottom: 24px;
-    background: #ffffff;
-    border-radius: 999px;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #3a3323;
-    font-weight: 700;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  }
-  .bottom-link { margin-top: 8px; margin-bottom: 0; }
-  section.card {
-    background: #ffffff;
-    border-radius: 24px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-    padding: 20px 22px;
-    margin-bottom: 20px;
-  }
-  section.card h2 {
-    font-size: 1.1rem;
-    color: #ff6f91;
-    margin-bottom: 10px;
-    font-weight: 800;
-  }
-  section.card p {
-    font-size: 0.98rem;
-    color: #3a3323;
-    white-space: pre-wrap;
-  }
-  .lang-toggle {
-    position: static;
-    background: var(--green);
-    color: var(--bg);
-    border: none;
-    border-radius: 4px;
-    padding: 0.25rem 0.55rem;
-    font-size: 0.75rem;
-    font-family: var(--mono);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  /* ===== FSSH COMMON MENU ===== */
-  .fssh-header { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 1000; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
-  .fssh-header-logo { height: 32px; width: auto; }
-  .fssh-menu-btn { position: static; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
-  .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
-  .fssh-overlay { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
-  .fssh-overlay.open { display: block; }
-  .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }
-  .fssh-drawer.open { max-height: 600px; }
-  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; line-height: 1.4; }
-  .fssh-drawer nav { padding: 8px 0; }
-  .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
-  .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
-  .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
-  .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
-  .fssh-drawer .fssh-sub-link { display: flex; flex-direction: column; padding-left: 32px; }
-  .fssh-drawer .fssh-sub-name { font-size: 0.82rem; }
-  .fssh-drawer .fssh-sub-caption { font-size: 0.7rem; color: #7fa88f; white-space: normal; line-height: 1.4; }
-  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; line-height: 1; }
-  .fssh-header-right { display: flex; align-items: center; gap: 8px; }
-  .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
-</style>
 </head>
 <body>
 
@@ -249,7 +148,11 @@ const I18N = {
     kids_title_9: "⚖️ もめごとになったとき",
     kids_body_9: "このサイトについてもめごとが起きたときは、運営が住んでいる場所の裁判所で話し合うことになります。",
     kids_title_10: "💬 れんらくさき",
-    kids_body_10: "意見・報告・こまったことの相談は、FSSh公式のDiscordサーバーへどうぞ。"
+    kids_body_10: "意見・報告・こまったことの相談は、FSSh公式のDiscordサーバーへどうぞ。",
+  
+    footer_unofficial: "本ツールはファンによる非公式マッチングツールです。",
+    footer_trademark_pre: "『FULL STRIDE』の名称は、",
+    footer_trademark_post: "の商標または登録商標です。",
   },
   en: {
     menu_home: "Home",
@@ -285,7 +188,11 @@ const I18N = {
     kids_title_9: "⚖️ If There's a Big Problem",
     kids_body_9: "If there's ever a serious disagreement about this site, it will be settled in a court near where the operator lives.",
     kids_title_10: "💬 How to Contact Us",
-    kids_body_10: "If you have a question, a report, or a problem, please contact us on the official FSSh Discord server."
+    kids_body_10: "If you have a question, a report, or a problem, please contact us on the official FSSh Discord server.",
+  
+    footer_unofficial: "This is an unofficial fan-made matchmaking tool.",
+    footer_trademark_pre: "The name \"FULL STRIDE\" is a trademark or registered trademark of ",
+    footer_trademark_post: ".",
   }
 };
 
@@ -359,5 +266,10 @@ setupLangToggle();
   }).catch(function () {});
 })();
 </script>
+<footer class="fssh-footer">
+  <p class="fssh-fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式マッチングツールです。</p>
+  <p class="fssh-fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
+  <p class="fssh-fnote fssh-footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a></p>
+</footer>
 </body>
 </html>

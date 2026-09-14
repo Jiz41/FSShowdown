@@ -1,0 +1,89 @@
+:root {
+    --bg: #0a0e0a;
+    --bg2: #0d1410;
+    --green: #33ff66;
+    --green-dim: #1a8a3a;
+    --text: #d8ffe0;
+    --text-dim: #7fa88f;
+    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+  }
+
+body {
+    background: linear-gradient(160deg, #fff6cf 0%, #cdeeff 100%);
+    color: #3a3323;
+    font-family: 'Rounded Mplus 1c', 'M PLUS Rounded 1c', sans-serif;
+    line-height: 1.9;
+    padding: 72px 20px 60px;
+  }
+
+.page {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+h1 {
+    color: #ff8fab;
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
+
+.notice {
+    background: #fff6a8;
+    border: 3px solid #ffd93d;
+    border-radius: 20px;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+
+.top-link, .bottom-link {
+    display: inline-block;
+    margin-bottom: 24px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #3a3323;
+    font-weight: 700;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+.bottom-link { margin-top: 8px; margin-bottom: 0; }
+
+section.card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+
+section.card h2 {
+    font-size: 1.1rem;
+    color: #ff6f91;
+    margin-bottom: 10px;
+    font-weight: 800;
+  }
+
+section.card p {
+    font-size: 0.98rem;
+    color: #3a3323;
+    white-space: pre-wrap;
+  }
+
+.lang-toggle {
+    position: static;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+.fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }

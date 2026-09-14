@@ -1,0 +1,61 @@
+:root {
+    --bg: #0a0e0a;
+    --bg2: #0d1410;
+    --green: #33ff66;
+    --green-dim: #1a8a3a;
+    --orange: #ff8833;
+    --text: #d8ffe0;
+    --text-dim: #7fa88f;
+    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+  }
+
+body { font-family: var(--mono); margin: 0; padding: 80px 24px 24px; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+h1 { font-size: 20px; }
+
+.lang-toggle { position: static; background: var(--green); color: var(--bg); border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; font-family: var(--mono); cursor: pointer; line-height: 1; margin: 0; }
+
+h2 { font-size: 16px; margin-top: 24px; }
+
+button:not(.fssh-close):not(.fssh-menu-btn):not(.lang-toggle) { font-size: 16px; font-family: var(--mono); padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: var(--green); color: var(--bg); cursor: pointer; }
+
+button:disabled { background: var(--text-dim); cursor: not-allowed; }
+
+input[type="text"] { font-size: 15px; font-family: var(--mono); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); min-width: 240px; }
+
+#panel { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
+
+.row { margin: 6px 0; }
+
+.label { color: var(--text-dim); display: inline-block; min-width: 7em; }
+
+pre { background: var(--bg2); color: var(--text); padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
+
+a { color: var(--green); }
+
+#jockey-gate { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
+
+.icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+
+.icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); cursor: pointer; }
+
+.icon-choice.selected { outline: 2px solid var(--green); }
+
+.jockey-icon { width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; vertical-align: middle; }
+
+#self-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+
+.fssh-drawer {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    width: auto;
+    max-height: 0;
+    background: #0a0e0a;
+    border-bottom: 1px solid #1a8a3a;
+    z-index: 1002;
+    transition: max-height 0.25s ease;
+    font-family: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+    overflow-y: auto;
+  }

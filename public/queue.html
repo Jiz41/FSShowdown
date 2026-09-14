@@ -4,149 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FSShowdown - マッチング（動作確認用）</title>
-<style>
-  :root {
-    --bg: #0a0e0a;
-    --bg2: #0d1410;
-    --green: #33ff66;
-    --green-dim: #1a8a3a;
-    --orange: #ff8833;
-    --text: #d8ffe0;
-    --text-dim: #7fa88f;
-    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  button, input, select, textarea { font: inherit; }
-  body { font-family: var(--mono); margin: 0; padding: 80px 24px 24px; background: var(--bg); color: var(--text); overflow-x: hidden; }
-  h1 { font-size: 20px; }
-  .lang-toggle { position: static; background: var(--green); color: var(--bg); border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; font-family: var(--mono); cursor: pointer; line-height: 1; margin: 0; }
-  h2 { font-size: 16px; margin-top: 24px; }
-  button:not(.fssh-close):not(.fssh-menu-btn):not(.lang-toggle) { font-size: 16px; font-family: var(--mono); padding: 10px 18px; margin: 6px 6px 6px 0; border: 0; border-radius: 6px; background: var(--green); color: var(--bg); cursor: pointer; }
-  button:disabled { background: var(--text-dim); cursor: not-allowed; }
-  input[type="text"] { font-size: 15px; font-family: var(--mono); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); min-width: 240px; }
-  #panel { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
-  .row { margin: 6px 0; }
-  .label { color: var(--text-dim); display: inline-block; min-width: 7em; }
-  pre { background: var(--bg2); color: var(--text); padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
-  a { color: var(--green); }
-  #jockey-gate { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 640px; }
-  .icon-choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-  .icon-choice { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--green-dim); background: var(--bg2); color: var(--text); cursor: pointer; }
-  .icon-choice.selected { outline: 2px solid var(--green); }
-  .jockey-icon { width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; vertical-align: middle; }
-  #self-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-
-  /* ===== FSSH COMMON MENU ===== */
-  .fssh-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 56px;
-    z-index: 1000;
-    background: #0a0e0a;
-    border-bottom: 1px solid #1a8a3a;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-  }
-  .fssh-header-logo {
-    height: 32px;
-    width: auto;
-  }
-  .fssh-menu-btn {
-    position: static;
-    width: 40px;
-    height: 40px;
-    background: #0a0e0a;
-    border: 1px solid #33ff66;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-  }
-  .fssh-menu-btn span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: #33ff66;
-  }
-  .fssh-overlay {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 1001;
-    display: none;
-  }
-  .fssh-overlay.open { display: block; }
-  .fssh-drawer {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    width: auto;
-    max-height: 0;
-    background: #0a0e0a;
-    border-bottom: 1px solid #1a8a3a;
-    z-index: 1002;
-    transition: max-height 0.25s ease;
-    font-family: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
-    overflow-y: auto;
-  }
-  .fssh-drawer.open { max-height: 600px; }
-  .fssh-drawer-header {
-    padding: 16px;
-    color: #33ff66;
-    font-weight: 700;
-    border-bottom: 1px solid #1a8a3a;
-    line-height: 1.4;
-  }
-  .fssh-drawer nav { padding: 8px 0; }
-  .fssh-drawer a {
-    display: block;
-    padding: 12px 16px;
-    color: #d8ffe0;
-    text-decoration: none;
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(26,138,58,0.3);
-  }
-  .fssh-drawer a:hover {
-    background: rgba(51,255,102,0.1);
-    color: #33ff66;
-  }
-  .fssh-drawer .fssh-sub-label {
-    padding: 12px 16px 4px;
-    color: #7fa88f;
-    font-size: 0.78rem;
-  }
-  .fssh-drawer .fssh-sub a {
-    padding-left: 32px;
-    font-size: 0.82rem;
-  }
-  .fssh-drawer .fssh-sub-link { display: flex; flex-direction: column; padding-left: 32px; }
-  .fssh-drawer .fssh-sub-name { font-size: 0.82rem; }
-  .fssh-drawer .fssh-sub-caption { font-size: 0.7rem; color: #7fa88f; white-space: normal; line-height: 1.4; }
-  .fssh-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: none;
-    border: none;
-    color: #33ff66;
-    font-size: 1.2rem;
-    cursor: pointer;
-    line-height: 1;
-  }
-  .fssh-header-right { display: flex; align-items: center; gap: 8px; }
-  .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
-</style>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="queue.css">
 </head>
 <body>
 <div class="fssh-header">
@@ -285,7 +144,11 @@ const I18N = {
     menu_sistertools_label: "LINK",
     link_desc_fssc: "条件検索でフルストに登場する史実馬の中から理想の1頭を探せる",
     link_desc_fssp: "自分だけの馬データ作りをサポートするツール",
-    link_desc_fsst: "フルスト勢向け自己紹介カードジェネレーター"
+    link_desc_fsst: "フルスト勢向け自己紹介カードジェネレーター",
+  
+    footer_unofficial: "本ツールはファンによる非公式マッチングツールです。",
+    footer_trademark_pre: "『FULL STRIDE』の名称は、",
+    footer_trademark_post: "の商標または登録商標です。",
   },
   en: {
     h1_title: "FSShowdown Matchmaking (Phase 1 / Test Build)",
@@ -333,7 +196,11 @@ const I18N = {
     menu_sistertools_label: "Links",
     link_desc_fssc: "Find your ideal historical racehorse from FULL STRIDE with detailed search filters",
     link_desc_fssp: "A tool that helps you create your own custom horse data",
-    link_desc_fsst: "Player self-introduction card generator for the Full Stride community"
+    link_desc_fsst: "Player self-introduction card generator for the Full Stride community",
+  
+    footer_unofficial: "This is an unofficial fan-made matchmaking tool.",
+    footer_trademark_pre: "The name \"FULL STRIDE\" is a trademark or registered trademark of ",
+    footer_trademark_post: ".",
   }
 };
 
@@ -613,5 +480,10 @@ startPolling();
   }).catch(function () {});
 })();
 </script>
+<footer class="fssh-footer">
+  <p class="fssh-fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式マッチングツールです。</p>
+  <p class="fssh-fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
+  <p class="fssh-fnote fssh-footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a></p>
+</footer>
 </body>
 </html>

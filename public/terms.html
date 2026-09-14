@@ -4,84 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FSShowdown - 利用規約</title>
-<style>
-  :root {
-    --bg: #0a0e0a;
-    --bg2: #0d1410;
-    --green: #33ff66;
-    --green-dim: #1a8a3a;
-    --text: #d8ffe0;
-    --text-dim: #7fa88f;
-    --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  button, input, select, textarea { font: inherit; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    line-height: 1.8;
-    padding: 72px 20px 60px;
-  }
-  .page {
-    max-width: 780px;
-    margin: 0 auto;
-  }
-  h1 {
-    color: var(--green);
-    font-size: 1.5rem;
-    margin-bottom: 28px;
-    text-shadow: 0 0 12px rgba(51,255,102,0.4);
-  }
-  h3 {
-    color: var(--green);
-    font-size: 1rem;
-    margin-top: 28px;
-    margin-bottom: 8px;
-    border-left: 3px solid var(--green-dim);
-    padding-left: 10px;
-  }
-  p {
-    color: var(--text);
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-    white-space: pre-wrap;
-  }
-  .lang-toggle {
-    position: static;
-    background: var(--green);
-    color: var(--bg);
-    border: none;
-    border-radius: 4px;
-    padding: 0.25rem 0.55rem;
-    font-size: 0.75rem;
-    font-family: var(--mono);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  /* ===== FSSH COMMON MENU ===== */
-  .fssh-header { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 1000; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
-  .fssh-header-logo { height: 32px; width: auto; }
-  .fssh-menu-btn { position: static; width: 40px; height: 40px; background: #0a0e0a; border: 1px solid #33ff66; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
-  .fssh-menu-btn span { display: block; width: 20px; height: 2px; background: #33ff66; }
-  .fssh-overlay { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1001; display: none; }
-  .fssh-overlay.open { display: block; }
-  .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }
-  .fssh-drawer.open { max-height: 600px; }
-  .fssh-drawer-header { padding: 16px; color: #33ff66; font-weight: 700; border-bottom: 1px solid #1a8a3a; line-height: 1.4; }
-  .fssh-drawer nav { padding: 8px 0; }
-  .fssh-drawer a { display: block; padding: 12px 16px; color: #d8ffe0; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid rgba(26,138,58,0.3); }
-  .fssh-drawer a:hover { background: rgba(51,255,102,0.1); color: #33ff66; }
-  .fssh-drawer .fssh-sub-label { padding: 12px 16px 4px; color: #7fa88f; font-size: 0.78rem; }
-  .fssh-drawer .fssh-sub a { padding-left: 32px; font-size: 0.82rem; }
-  .fssh-drawer .fssh-sub-link { display: flex; flex-direction: column; padding-left: 32px; }
-  .fssh-drawer .fssh-sub-name { font-size: 0.82rem; }
-  .fssh-drawer .fssh-sub-caption { font-size: 0.7rem; color: #7fa88f; white-space: normal; line-height: 1.4; }
-  .fssh-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #33ff66; font-size: 1.2rem; cursor: pointer; line-height: 1; }
-  .fssh-header-right { display: flex; align-items: center; gap: 8px; }
-  .fssh-discord-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg, #0a0e0a); border: 1px solid var(--green, #33ff66); border-radius: 6px; text-decoration: none; font-size: 1rem; }
-</style>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="terms.css">
 </head>
 <body>
 
@@ -189,7 +113,11 @@ const I18N = {
     terms_title_8: "【管轄裁判所】",
     terms_body_8: "本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。",
     terms_title_9: "【お問い合わせ】",
-    terms_body_9: "ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。"
+    terms_body_9: "ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。",
+  
+    footer_unofficial: "本ツールはファンによる非公式マッチングツールです。",
+    footer_trademark_pre: "『FULL STRIDE』の名称は、",
+    footer_trademark_post: "の商標または登録商標です。",
   },
   en: {
     menu_home: "Home",
@@ -222,7 +150,11 @@ const I18N = {
     terms_title_8: "Governing Jurisdiction",
     terms_body_8: "Any disputes arising in connection with this service shall be subject to the exclusive agreed jurisdiction of the court having jurisdiction over the operator's place of residence, as the court of first instance.",
     terms_title_9: "Contact",
-    terms_body_9: "For comments, reports, or trouble-related inquiries, please contact us via the official FSSh Discord server."
+    terms_body_9: "For comments, reports, or trouble-related inquiries, please contact us via the official FSSh Discord server.",
+  
+    footer_unofficial: "This is an unofficial fan-made matchmaking tool.",
+    footer_trademark_pre: "The name \"FULL STRIDE\" is a trademark or registered trademark of ",
+    footer_trademark_post: ".",
   }
 };
 
@@ -296,5 +228,10 @@ setupLangToggle();
   }).catch(function () {});
 })();
 </script>
+<footer class="fssh-footer">
+  <p class="fssh-fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式マッチングツールです。</p>
+  <p class="fssh-fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
+  <p class="fssh-fnote fssh-footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a></p>
+</footer>
 </body>
 </html>
