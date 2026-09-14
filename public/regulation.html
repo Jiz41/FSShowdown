@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSShowdown - レギュレーション</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="regulation.css">
+</head>
+<body>
+
+<div class="fssh-header">
+  <button class="fssh-menu-btn" id="fssh-menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+  <a href="index2.html" style="display:block;line-height:0;"><img src="images/fssh_logo.png" alt="FSShowdown" class="fssh-header-logo"></a>
+  <div class="fssh-header-right">
+    <a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener" class="fssh-discord-btn" aria-label="Discord"><svg viewBox="0 0 24 24" width="18" height="18" fill="#33ff66"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
+    <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  </div>
+</div>
+<div class="fssh-overlay" id="fssh-overlay"></div>
+<div class="fssh-drawer" id="fssh-drawer">
+  <button class="fssh-close" id="fssh-close" aria-label="閉じる">×</button>
+  <div class="fssh-drawer-header">MENU</div>
+  <nav>
+    <a href="index2.html" data-i18n="menu_home">ホーム</a>
+    <a href="howto.html" data-i18n="menu_howto">使い方</a>
+    <a href="queue.html" data-i18n="menu_matching">マッチング</a>
+    <a href="profile.html" id="fssh-nav-profile" style="display:none" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
+    <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
+    <a href="terms.html" data-i18n="menu_terms">利用規約</a>
+    <a href="regulation.html" data-i18n="menu_regulation">レギュレーション</a>
+    <div class="fssh-sub">
+      <div class="fssh-sub-label" data-i18n="menu_sistertools_label">LINK</div>
+      <a class="fssh-sub-link" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">
+        <span class="fssh-sub-name">FSScreener</span>
+        <span class="fssh-sub-caption" data-i18n="link_desc_fssc">条件検索でフルストに登場する史実馬の中から理想の1頭を探せる</span>
+      </a>
+      <a class="fssh-sub-link" href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">
+        <span class="fssh-sub-name">FSSplicer</span>
+        <span class="fssh-sub-caption" data-i18n="link_desc_fssp">自分だけの馬データ作りをサポートするツール</span>
+      </a>
+      <a class="fssh-sub-link" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">
+        <span class="fssh-sub-name">FSstriders</span>
+        <span class="fssh-sub-caption" data-i18n="link_desc_fsst">フルスト勢向け自己紹介カードジェネレーター</span>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<div class="page">
+<h1 data-i18n="h1_regulation">レギュレーション</h1>
+<p class="regulation-sub" data-i18n="regulation_sub">シーズン0概要</p>
+
+<h2 data-i18n="h2_reg_season">シーズンについて</h2>
+<p data-i18n="reg_body_season">FSShowdownは現在「シーズン0」として運営しています。シーズン0には終了期限を設けておらず、レートは通常通り積み上がっていきます。プレイヤー数が一定数まで増えた段階で、運営判断によりシーズン0を終え、正式なシーズン1へ移行します（この移行タイミングは自動化された条件ではなく、運営の目視判断によるものです）。シーズン1以降は、期間を区切って運用し、各シーズンの終了時にレートがリセットされ、上位者には称号のような形で贈呈を予定しています（詳細は今後確定次第、このページで更新します）。</p>
+
+<h2 data-i18n="h2_reg_rating">レート・マッチング</h2>
+<p data-i18n="reg_rating_1">初期レートは1000からスタートします。</p>
+<p data-i18n="reg_rating_2">マッチングは「最近傍レート同士」を自動で組み合わせる方式です（レート帯を区切った分割は行っていません）。</p>
+<p data-i18n="reg_rating_3">マッチングはプラットフォーム（PS5・PC）ごとに完全に分離されています。Full Strideはクロスプレイに対応していないため、異なるプラットフォームのプレイヤー同士がマッチすることはありません。</p>
+<p data-i18n="reg_rating_4">レート計算はイロレーティング方式を採用し、以下の計算式で自動算出されます。<br>
+　- 期待勝率 We = 1 / (1 + 10^((相手のレート − 自分のレート) / 400))<br>
+　- K値は同レート時16を基準とし、レート差25ごとに、格上が格下に勝った場合は-1、格下が格上に勝った場合は+1されます。<br>
+　- 1試合あたりのレート変動幅は、上限30・下限1です。</p>
+
+<h2 data-i18n="h2_reg_tier">ティア表示（構想）</h2>
+<p data-i18n="reg_body_tier">今後、レートとは別の表示専用の区分として「ティア」表示の導入を予定しています（マッチング自体をティアで区切ることはありません）。現時点ではあくまで構想段階で、以下は検討中の叩き台です（正式な仕様ではなく、内容は変更される可能性があります）。</p>
+<table class="reg-table">
+<tr><th data-i18n="reg_tier_col1">ティア</th><th data-i18n="reg_tier_col2">レート範囲</th></tr>
+<tr><td>ブロンズ</td><td>〜849</td></tr>
+<tr><td>シルバー</td><td>850〜999</td></tr>
+<tr><td>ゴールド</td><td>1000〜1149</td></tr>
+<tr><td>プラチナ</td><td>1150〜1299</td></tr>
+<tr><td>ダイヤ</td><td>1300〜1449</td></tr>
+<tr><td>マスター</td><td>1450〜</td></tr>
+</table>
+
+<h2 data-i18n="h2_reg_flow">対戦の流れ</h2>
+<ol>
+<li data-i18n="reg_flow_1">近傍レートの相手と自動でマッチングが成立します。</li>
+<li data-i18n="reg_flow_2">対戦用のレースが、21競走のプールからランダムに1つ自動抽選されます。</li>
+<li data-i18n="reg_flow_3">マッチング成立から15分以内に、先に「予約」ボタンを押した側がホストとなり、本編Full Strideで固定パスワード「0716」の部屋を作成します。もう一方のプレイヤーはその部屋に参加してください。</li>
+<li data-i18n="reg_flow_4">15分を超えて対戦が成立しなかった場合は「ノーコンテスト」（不成立）となり、レートは変動しません。再度マッチングをやり直してください。</li>
+</ol>
+
+<h2 data-i18n="h2_reg_races">レース・距離分類</h2>
+<p data-i18n="reg_body_races_1">対戦レースは、中央競馬GI・平地競走（2歳GIを除く）21競走のプールからランダムに抽選されます。</p>
+<p data-i18n="reg_body_races_2">対象21競走：フェブラリーステークス／高松宮記念／大阪杯／桜花賞／皐月賞／天皇賞（春）／NHKマイルカップ／ヴィクトリアマイル／オークス／日本ダービー／安田記念／宝塚記念／スプリンターズステークス／秋華賞／菊花賞／天皇賞（秋）／エリザベス女王杯／マイルチャンピオンシップ／ジャパンカップ／チャンピオンズカップ／有馬記念</p>
+<p data-i18n="reg_body_races_3">距離は以下の6分類で統計に反映されます。</p>
+<table class="reg-table">
+<tr><th data-i18n="reg_dist_col1">分類</th><th data-i18n="reg_dist_col2">距離範囲</th></tr>
+<tr><td>短距離</td><td>1000〜1300m</td></tr>
+<tr><td>マイル</td><td>1301〜1899m</td></tr>
+<tr><td>中距離</td><td>1900〜2100m</td></tr>
+<tr><td>クラシック</td><td>2400m（固定）</td></tr>
+<tr><td>長距離</td><td>2101〜2700m（2400mを除く）</td></tr>
+<tr><td>超長距離</td><td>2701m以上</td></tr>
+</table>
+
+<h2 data-i18n="h2_reg_report">結果報告</h2>
+<p data-i18n="reg_body_report">対戦結果は、両プレイヤーがそれぞれ自己申告で報告します。双方の申告が一致した時点で結果が確定し、レートが自動更新されます。双方の申告が食い違った場合（勝ち×勝ち等）はレート変動なしのまま両者の申告がリセットされ、再度報告し直すことができます。双方合意の上で確定した結果は、原則として事後の訂正はできません。</p>
+
+<h2 data-i18n="h2_reg_dispute">紛争・違反対応</h2>
+<p data-i18n="reg_body_dispute_1">対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。</p>
+<p data-i18n="reg_dispute2_1">意図的な虚偽の勝敗報告</p>
+<p data-i18n="reg_dispute2_2">正当な理由のない対戦放棄（ノーコンテストの繰り返し）</p>
+<p data-i18n="reg_dispute2_3">複数アカウントでの参加</p>
+<p data-i18n="reg_dispute2_4">対戦相手や運営への迷惑行為・誹謗中傷</p>
+<p data-i18n="reg_body_dispute_3">なお、具体的な処分基準（違反回数と措置内容の対応表等）は現時点では定めておらず、今後整備していく予定です。</p>
+
+<h2 data-i18n="h2_reg_join">参加条件</h2>
+<p data-i18n="reg_body_join">FSShowdownは誰でも自由に参加できる公開ツールです。承認制・招待制は設けていません。</p>
+</div>
+
+<script>
+const I18N = {
+  ja: {
+    menu_home: "ホーム",
+    menu_matching: "マッチング",
+    menu_myprofile: "マイプロフィール",
+    menu_ranking: "ランキング",
+    menu_terms: "利用規約",
+    menu_regulation: "レギュレーション",
+    menu_faq: "Q&A",
+    menu_howto: "使い方",
+    menu_sistertools_label: "LINK",
+    link_desc_fssc: "条件検索でフルストに登場する史実馬の中から理想の1頭を探せる",
+    link_desc_fssp: "自分だけの馬データ作りをサポートするツール",
+    link_desc_fsst: "フルスト勢向け自己紹介カードジェネレーター",
+    h1_regulation: "レギュレーション",
+    regulation_sub: "シーズン0概要",
+    h2_reg_season: "シーズンについて",
+    h2_reg_rating: "レート・マッチング",
+    h2_reg_tier: "ティア表示（構想）",
+    h2_reg_flow: "対戦の流れ",
+    h2_reg_races: "レース・距離分類",
+    h2_reg_report: "結果報告",
+    h2_reg_dispute: "紛争・違反対応",
+    h2_reg_join: "参加条件",
+    reg_body_season: "FSShowdownは現在「シーズン0」として運営しています。シーズン0には終了期限を設けておらず、レートは通常通り積み上がっていきます。プレイヤー数が一定数まで増えた段階で、運営判断によりシーズン0を終え、正式なシーズン1へ移行します（この移行タイミングは自動化された条件ではなく、運営の目視判断によるものです）。シーズン1以降は、期間を区切って運用し、各シーズンの終了時にレートがリセットされ、上位者には称号のような形で贈呈を予定しています（詳細は今後確定次第、このページで更新します）。",
+    reg_rating_1: "初期レートは1000からスタートします。",
+    reg_rating_2: "マッチングは「最近傍レート同士」を自動で組み合わせる方式です（レート帯を区切った分割は行っていません）。",
+    reg_rating_3: "マッチングはプラットフォーム（PS5・PC）ごとに完全に分離されています。Full Strideはクロスプレイに対応していないため、異なるプラットフォームのプレイヤー同士がマッチすることはありません。",
+    reg_rating_4: "レート計算はイロレーティング方式を採用し、以下の計算式で自動算出されます。<br>\n　- 期待勝率 We = 1 / (1 + 10^((相手のレート − 自分のレート) / 400))<br>\n　- K値は同レート時16を基準とし、レート差25ごとに、格上が格下に勝った場合は-1、格下が格上に勝った場合は+1されます。<br>\n　- 1試合あたりのレート変動幅は、上限30・下限1です。",
+    reg_body_tier: "今後、レートとは別の表示専用の区分として「ティア」表示の導入を予定しています（マッチング自体をティアで区切ることはありません）。現時点ではあくまで構想段階で、以下は検討中の叩き台です（正式な仕様ではなく、内容は変更される可能性があります）。",
+    reg_tier_col1: "ティア",
+    reg_tier_col2: "レート範囲",
+    reg_flow_1: "近傍レートの相手と自動でマッチングが成立します。",
+    reg_flow_2: "対戦用のレースが、21競走のプールからランダムに1つ自動抽選されます。",
+    reg_flow_3: "マッチング成立から15分以内に、先に「予約」ボタンを押した側がホストとなり、本編Full Strideで固定パスワード「0716」の部屋を作成します。もう一方のプレイヤーはその部屋に参加してください。",
+    reg_flow_4: "15分を超えて対戦が成立しなかった場合は「ノーコンテスト」（不成立）となり、レートは変動しません。再度マッチングをやり直してください。",
+    reg_body_races_1: "対戦レースは、中央競馬GI・平地競走（2歳GIを除く）21競走のプールからランダムに抽選されます。",
+    reg_body_races_2: "対象21競走：フェブラリーステークス／高松宮記念／大阪杯／桜花賞／皐月賞／天皇賞（春）／NHKマイルカップ／ヴィクトリアマイル／オークス／日本ダービー／安田記念／宝塚記念／スプリンターズステークス／秋華賞／菊花賞／天皇賞（秋）／エリザベス女王杯／マイルチャンピオンシップ／ジャパンカップ／チャンピオンズカップ／有馬記念",
+    reg_body_races_3: "距離は以下の6分類で統計に反映されます。",
+    reg_dist_col1: "分類",
+    reg_dist_col2: "距離範囲",
+    reg_body_report: "対戦結果は、両プレイヤーがそれぞれ自己申告で報告します。双方の申告が一致した時点で結果が確定し、レートが自動更新されます。双方の申告が食い違った場合（勝ち×勝ち等）はレート変動なしのまま両者の申告がリセットされ、再度報告し直すことができます。双方合意の上で確定した結果は、原則として事後の訂正はできません。",
+    reg_body_dispute_1: "対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。",
+    reg_dispute2_1: "意図的な虚偽の勝敗報告",
+    reg_dispute2_2: "正当な理由のない対戦放棄（ノーコンテストの繰り返し）",
+    reg_dispute2_3: "複数アカウントでの参加",
+    reg_dispute2_4: "対戦相手や運営への迷惑行為・誹謗中傷",
+    reg_body_dispute_3: "なお、具体的な処分基準（違反回数と措置内容の対応表等）は現時点では定めておらず、今後整備していく予定です。",
+    reg_body_join: "FSShowdownは誰でも自由に参加できる公開ツールです。承認制・招待制は設けていません。",
+
+    footer_unofficial: "本ツールはファンによる非公式マッチングツールです。",
+    footer_trademark_pre: "『FULL STRIDE』の名称は、",
+    footer_trademark_post: "の商標または登録商標です。",
+  },
+  en: {
+    menu_home: "Home",
+    menu_matching: "Matching",
+    menu_myprofile: "My Profile",
+    menu_ranking: "Ranking",
+    menu_terms: "Terms of Service",
+    menu_regulation: "Regulation",
+    menu_faq: "Q&A",
+    menu_howto: "How to",
+    menu_sistertools_label: "Links",
+    link_desc_fssc: "Find your ideal historical racehorse from FULL STRIDE with detailed search filters",
+    link_desc_fssp: "A tool that helps you create your own custom horse data",
+    link_desc_fsst: "Player self-introduction card generator for the Full Stride community",
+    h1_regulation: "Regulation",
+    regulation_sub: "Season 0 Overview",
+    h2_reg_season: "Season",
+    h2_reg_rating: "Rating & Matching",
+    h2_reg_tier: "Tier Display (Concept)",
+    h2_reg_flow: "Match Flow",
+    h2_reg_races: "Races & Distance Categories",
+    h2_reg_report: "Result Reporting",
+    h2_reg_dispute: "Disputes & Violations",
+    h2_reg_join: "How to Join",
+
+    reg_body_season: "FSShowdown is currently operating under \"Season 0.\" Season 0 has no fixed end date, and ratings continue to accumulate as normal. Once the player base grows to a sufficient size, the operator will decide (by manual judgment, not an automated threshold) to end Season 0 and begin the official Season 1. From Season 1 onward, seasons will run for fixed periods, ratings will reset at the end of each season, and top performers will receive a badge-like honor (details to be announced here once finalized).",
+    reg_rating_1: "Starting rating is 1000 for everyone.",
+    reg_rating_2: "Matching pairs the closest-rated players automatically (there's no division into rating brackets).",
+    reg_rating_3: "Matching is completely separated by platform (PS5/PC). Since Full Stride has no cross-play, players on different platforms are never matched together.",
+    reg_rating_4: "Ratings are calculated using an Elo system:<br>\n　- Expected win rate We = 1 / (1 + 10^((opponent's rating − your rating) / 400))<br>\n　- The K-factor starts at 16 for equal ratings, and shifts by 1 for every 25 points of rating difference (−1 when the higher-rated player wins, +1 when the lower-rated player wins).<br>\n　- Rating change per match is capped between 1 and 30.",
+    reg_body_tier: "We're planning to introduce a \"tier\" display as a separate visual layer from your rating (tiers will never be used to divide matchmaking itself). This is still in the concept stage — the table below is a draft under discussion, not a finalized spec, and is subject to change.",
+    reg_tier_col1: "Tier",
+    reg_tier_col2: "Rating Range",
+    reg_flow_1: "You'll be automatically matched with an opponent close to your rating.",
+    reg_flow_2: "A race is randomly drawn from a pool of 21 races for the match.",
+    reg_flow_3: "Within 15 minutes of the match being made, whoever presses \"Reserve\" first becomes the host and creates a room in Full Stride itself using the fixed password \"0716.\" The other player joins that room.",
+    reg_flow_4: "If the match isn't completed within 15 minutes, it's ruled a \"No Contest\" and your rating won't change. Please start matching again.",
+    reg_body_races_1: "Match races are randomly drawn from a pool of 21 Japanese Central GI flat races (excluding 2-year-old GI races).",
+    reg_body_races_2: "The 21 races: February Stakes / Takamatsunomiya Kinen / Osaka Hai / Oka Sho / Satsuki Sho / Tenno Sho (Spring) / NHK Mile Cup / Victoria Mile / Yushun Himba / Tokyo Yushun / Yasuda Kinen / Takarazuka Kinen / Sprinters Stakes / Shuka Sho / Kikuka Sho / Tenno Sho (Autumn) / Queen Elizabeth II Cup / Mile Championship / Japan Cup / Champions Cup / Arima Kinen",
+    reg_body_races_3: "Distances are tracked in 6 categories:",
+    reg_dist_col1: "Category",
+    reg_dist_col2: "Distance Range",
+    reg_body_report: "Both players self-report the match result. Once both reports agree, the result is finalized and ratings update automatically. If the reports conflict (e.g. both claim a win), no rating change occurs and both reports are cleared so you can resubmit. Once a result is finalized by mutual agreement, it generally cannot be corrected afterward.",
+    reg_body_dispute_1: "If a dispute arises over a match result or its details, we may ask for video evidence (video submission is not required for every match by default). Disputes are resolved on the official FSSh Discord server.",
+    reg_dispute2_1: "Intentionally false result reporting",
+    reg_dispute2_2: "Abandoning matches without good reason (repeated No Contests)",
+    reg_dispute2_3: "Participating with multiple accounts",
+    reg_dispute2_4: "Harassing or abusing opponents or staff",
+    reg_body_dispute_3: "Specific enforcement thresholds (e.g. how many violations trigger what action) have not yet been defined and will be established in the future.",
+    reg_body_join: "FSShowdown is open to everyone — join freely, with no approval or invitation required.",
+
+    footer_unofficial: "This is an unofficial fan-made matchmaking tool.",
+    footer_trademark_pre: "The name \"FULL STRIDE\" is a trademark or registered trademark of ",
+    footer_trademark_post: ".",
+  }
+};
+
+function currentLang() {
+  return document.documentElement.getAttribute("data-lang") || "ja";
+}
+
+function t(key) {
+  const lang = currentLang();
+  return (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : (I18N.ja[key] || "");
+}
+
+function applyLanguage(lang) {
+  document.documentElement.setAttribute("data-lang", lang);
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
+}
+
+function setupLangToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("lang-toggle");
+
+  function updateLabel() {
+    const lang = root.getAttribute("data-lang") || "ja";
+    btn.textContent = lang === "ja" ? "ENG" : "JPN";
+  }
+
+  btn.addEventListener("click", () => {
+    const current = root.getAttribute("data-lang") || "ja";
+    const next = current === "ja" ? "en" : "ja";
+    applyLanguage(next);
+    updateLabel();
+  });
+
+  updateLabel();
+}
+
+(function () {
+  try {
+    if (localStorage.getItem('fssh_lang') === 'en') {
+      applyLanguage('en');
+    }
+  } catch (e) {}
+})();
+
+setupLangToggle();
+</script>
+<script>
+(function () {
+  var toggle = document.getElementById('fssh-menu-toggle');
+  var overlay = document.getElementById('fssh-overlay');
+  var drawer = document.getElementById('fssh-drawer');
+  var closeBtn = document.getElementById('fssh-close');
+  function openMenu() { overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeMenu() { overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  toggle.addEventListener('click', openMenu);
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+  fetch('/api/queue/status', { credentials: 'same-origin' }).then(function (res) {
+    if (res.status === 401) return null;
+    return res.json();
+  }).then(function (body) {
+    if (body && body.account && body.account.discord_id) {
+      var el = document.getElementById('fssh-nav-profile');
+      el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
+      el.style.display = 'block';
+    }
+  }).catch(function () {});
+})();
+</script>
+<footer class="fssh-footer">
+  <p class="fssh-fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式マッチングツールです。</p>
+  <p class="fssh-fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
+  <p class="fssh-fnote fssh-footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a></p>
+</footer>
+</body>
+</html>
