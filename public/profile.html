@@ -28,7 +28,7 @@
     <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
     <a href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
     <a href="terms.html" data-i18n="menu_terms">利用規約</a>
-    <a href="regulation.html" data-i18n="menu_regulation">レギュレーション</a>
+    <a href="regulation.html" data-i18n-html="menu_regulation">レギュレーション<span class="fssh-menu-sub">シーズン<span class="fssh-menu-sub-num">0</span>概要</span></a>
     <div class="fssh-sub">
       <div class="fssh-sub-label" data-i18n="menu_sistertools_label">LINK</div>
       <a class="fssh-sub-link" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">
@@ -122,7 +122,7 @@ const I18N = {
     menu_myprofile: "マイプロフィール",
     menu_ranking: "ランキング",
     menu_terms: "利用規約",
-    menu_regulation: "レギュレーション",
+    menu_regulation: "レギュレーション<span class=\"fssh-menu-sub\">シーズン<span class=\"fssh-menu-sub-num\">0</span>概要</span>",
     menu_faq: "Q&A",
     menu_howto: "使い方",
     menu_sistertools_label: "LINK",
@@ -163,7 +163,7 @@ const I18N = {
     menu_myprofile: "My Profile",
     menu_ranking: "Ranking",
     menu_terms: "Terms of Service",
-    menu_regulation: "Regulation",
+    menu_regulation: "Regulation<span class=\"fssh-menu-sub\">Season <span class=\"fssh-menu-sub-num\">0</span> Overview</span>",
     menu_faq: "Q&A",
     menu_howto: "How to",
     menu_sistertools_label: "Links",
@@ -200,6 +200,9 @@ function applyLanguage(lang) {
   document.documentElement.setAttribute("data-lang", lang);
   document.querySelectorAll("[data-i18n]").forEach(el => {
     el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    el.innerHTML = t(el.getAttribute("data-i18n-html"));
   });
   try { localStorage.setItem('fssh_lang', lang); } catch (e) {}
 }

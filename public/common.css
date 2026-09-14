@@ -143,3 +143,16 @@ button, input, select, textarea { font: inherit; }
   margin-top: 8px;
   color: var(--text-dim, #7fa88f);
 }
+
+.fssh-menu-sub {
+  display: block;
+  font-size: 0.65rem;
+  color: #7fa88f;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
+.fssh-menu-sub-num {
+  color: #ff3344;
+  font-weight: 700;
+}
