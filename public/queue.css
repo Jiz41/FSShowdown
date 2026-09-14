@@ -9,7 +9,7 @@
     --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
   }
 
-body { font-family: var(--mono); margin: 0; padding: 80px 24px 24px; background: var(--bg); color: var(--text); overflow-x: hidden; }
+body { font-family: var(--mono); margin: 0; padding: 80px 24px 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
 h1 { font-size: 20px; }
 

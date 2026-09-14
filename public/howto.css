@@ -14,7 +14,7 @@ body {
     color: var(--text);
     font-family: var(--mono);
     line-height: 1.8;
-    padding: 72px 20px 60px;
+    padding: 72px 20px 0;
   }
 
 .page {
