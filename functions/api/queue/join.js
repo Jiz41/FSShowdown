@@ -10,6 +10,20 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "rate_limited" }, 429);
   }
 
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "invalid_json" }, 400);
+  }
+
+  const platform = body ? body.platform : undefined;
+  if (platform !== "ps5" && platform !== "pc") {
+    return json({ error: "invalid_platform" }, 400);
+  }
+
+  const rating = platform === "ps5" ? account.rating_ps5 : account.rating_pc;
+
   return callMatchmaker(env, "/join", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -17,7 +31,8 @@ export async function onRequestPost({ request, env }) {
       discord_id: account.discord_id,
       username: account.username,
       display_tag: account.display_tag,
-      rating: account.rating,
+      rating: rating,
+      platform: platform,
     }),
   });
 }

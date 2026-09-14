@@ -42,8 +42,8 @@ export async function onRequestGet({ request, env }) {
 
   const now = Math.floor(Date.now() / 1000);
   await env.DB.prepare(
-    `INSERT INTO accounts (discord_id, username, display_tag, rating, created_at)
-     VALUES (?1, ?2, ?3, 1000, ?4)
+    `INSERT INTO accounts (discord_id, username, display_tag, rating, rating_ps5, rating_pc, created_at)
+     VALUES (?1, ?2, ?3, 1000, 1000, 1000, ?4)
      ON CONFLICT(discord_id) DO UPDATE SET username = excluded.username`
   )
     .bind(user.id, user.username, "", now)

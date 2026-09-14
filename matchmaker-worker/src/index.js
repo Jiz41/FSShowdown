@@ -78,8 +78,9 @@ export class Matchmaker {
   }
 
   async join(body) {
-    const { discord_id, display_tag, rating } = body;
+    const { discord_id, display_tag, rating, platform } = body;
     if (!discord_id) return json({ error: "missing_discord_id" }, 400);
+    if (!platform) return json({ error: "missing_platform" }, 400);
 
     const existing = await this.findActiveMatch(discord_id);
     if (existing) {
@@ -87,13 +88,16 @@ export class Matchmaker {
     }
 
     const queue = await this.getQueue();
-    const others = queue.filter((entry) => entry.discord_id !== discord_id);
+    const others = queue.filter(
+      (entry) => entry.discord_id !== discord_id && entry.platform === platform
+    );
 
     if (others.length === 0) {
       const self = {
         discord_id,
         display_tag,
         rating,
+        platform,
         joined_at: Math.floor(Date.now() / 1000),
       };
       await this.setQueue([...others, self]);
@@ -116,10 +120,10 @@ export class Matchmaker {
 
     await this.env.DB.prepare(
       `INSERT INTO matches
-         (id, player1_id, player2_id, race_name, status, host_id, matched_at, reserved_at, expires_at, venue, distance, surface)
-       VALUES (?1, ?2, ?3, ?4, 'pending', NULL, ?5, NULL, ?6, ?7, ?8, ?9)`
+         (id, player1_id, player2_id, race_name, status, host_id, matched_at, reserved_at, expires_at, venue, distance, surface, platform)
+       VALUES (?1, ?2, ?3, ?4, 'pending', NULL, ?5, NULL, ?6, ?7, ?8, ?9, ?10)`
     )
-      .bind(matchId, opponent.discord_id, discord_id, raceName, now, expiresAt, race.venue, race.distance, race.surface)
+      .bind(matchId, opponent.discord_id, discord_id, raceName, now, expiresAt, race.venue, race.distance, race.surface, platform)
       .run();
 
     await this.state.storage.put(`match:${opponent.discord_id}`, matchId);
@@ -168,7 +172,7 @@ export class Matchmaker {
 
     const row = await this.env.DB.prepare(
       `SELECT id, player1_id, player2_id, race_name, status, host_id,
-              matched_at, reserved_at, expires_at
+              matched_at, reserved_at, expires_at, platform
          FROM matches WHERE id = ?1`
     )
       .bind(matchId)
@@ -190,6 +194,7 @@ export class Matchmaker {
         expires_at: row.expires_at,
         opponent_discord_id: null,
         opponent_display_tag: null,
+        platform: row.platform,
       };
     }
 
@@ -211,6 +216,7 @@ export class Matchmaker {
       expires_at: row.expires_at,
       opponent_discord_id: opponent ? opponent.discord_id : null,
       opponent_display_tag: opponent ? opponent.display_tag : null,
+      platform: row.platform,
     };
   }
 
@@ -274,7 +280,7 @@ export class Matchmaker {
     }
 
     const row = await this.env.DB.prepare(
-      `SELECT id, player1_id, player2_id, status, player1_result, player2_result
+      `SELECT id, player1_id, player2_id, status, player1_result, player2_result, platform
          FROM matches WHERE id = ?1`
     )
       .bind(match_id)
@@ -286,6 +292,12 @@ export class Matchmaker {
     }
     if (row.status !== "reserved") {
       return json({ error: "invalid_status", status: row.status }, 400);
+    }
+
+    const RATING_COLUMN = { ps5: "rating_ps5", pc: "rating_pc" };
+    const ratingColumn = RATING_COLUMN[row.platform];
+    if (!ratingColumn) {
+      return json({ error: "invalid_platform_on_match" }, 500);
     }
 
     const isPlayer1 = row.player1_id === discord_id;
@@ -331,12 +343,12 @@ export class Matchmaker {
     const loserId = winnerId === after.player1_id ? after.player2_id : after.player1_id;
 
     const winnerAccount = await this.env.DB.prepare(
-      `SELECT rating FROM accounts WHERE discord_id = ?1`
+      `SELECT ${ratingColumn} AS rating FROM accounts WHERE discord_id = ?1`
     )
       .bind(winnerId)
       .first();
     const loserAccount = await this.env.DB.prepare(
-      `SELECT rating FROM accounts WHERE discord_id = ?1`
+      `SELECT ${ratingColumn} AS rating FROM accounts WHERE discord_id = ?1`
     )
       .bind(loserId)
       .first();
@@ -360,12 +372,12 @@ export class Matchmaker {
     const newLoserRating = Rl - delta;
 
     await this.env.DB.prepare(
-      `UPDATE accounts SET rating = ?1 WHERE discord_id = ?2`
+      `UPDATE accounts SET ${ratingColumn} = ?1 WHERE discord_id = ?2`
     )
       .bind(newWinnerRating, winnerId)
       .run();
     await this.env.DB.prepare(
-      `UPDATE accounts SET rating = ?1 WHERE discord_id = ?2`
+      `UPDATE accounts SET ${ratingColumn} = ?1 WHERE discord_id = ?2`
     )
       .bind(newLoserRating, loserId)
       .run();

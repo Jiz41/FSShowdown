@@ -13,7 +13,7 @@ export async function onRequestGet({ request, env }) {
   }
 
   const account = await env.DB.prepare(
-    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest, rating
+    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest, rating, rating_ps5, rating_pc
        FROM accounts WHERE discord_id = ?1`
   )
     .bind(discordId)
@@ -86,6 +86,8 @@ export async function onRequestGet({ request, env }) {
     icon_border: account.icon_border,
     icon_crest: account.icon_crest,
     rating: account.rating,
+    rating_ps5: account.rating_ps5,
+    rating_pc: account.rating_pc,
     wins,
     losses,
     total: wins + losses,

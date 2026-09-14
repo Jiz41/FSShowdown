@@ -36,7 +36,7 @@ export async function getAccount(env, request) {
   if (!token) return null;
   const now = Math.floor(Date.now() / 1000);
   const row = await env.DB.prepare(
-    `SELECT a.discord_id, a.username, a.display_tag, a.rating
+    `SELECT a.discord_id, a.username, a.display_tag, a.rating, a.rating_ps5, a.rating_pc
        FROM sessions s
        JOIN accounts a ON a.discord_id = s.discord_id
       WHERE s.token = ?1 AND s.expires_at > ?2`

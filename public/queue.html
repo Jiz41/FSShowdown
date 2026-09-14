@@ -207,6 +207,15 @@
   </div>
 
   <div class="row">
+    <span class="label" data-i18n="label_platform">プラットフォーム</span>
+    <select id="platform-select">
+      <option value="" data-i18n="opt_platform_placeholder">選択してください</option>
+      <option value="ps5" data-i18n="opt_platform_ps5">PS5</option>
+      <option value="pc" data-i18n="opt_platform_pc">PC（Steam等）</option>
+    </select>
+  </div>
+
+  <div class="row">
     <button type="button" id="btn-join" data-i18n="btn_join">マッチング開始</button>
     <button type="button" id="btn-leave" data-i18n="btn_leave">キュー離脱</button>
     <button type="button" id="btn-reserve" style="display:none" data-i18n="btn_reserve">予約する</button>
@@ -241,6 +250,11 @@ const I18N = {
     btn_reserve: "予約する",
     btn_win: "勝った",
     btn_loss: "負けた",
+    label_platform: "プラットフォーム",
+    opt_platform_placeholder: "選択してください",
+    opt_platform_ps5: "PS5",
+    opt_platform_pc: "PC（Steam等）",
+    err_platform_required: "プラットフォームを選択してください",
     label_account: "ログイン",
     v_account_default: "未確認",
     label_state: "状態",
@@ -283,6 +297,11 @@ const I18N = {
     btn_reserve: "Reserve",
     btn_win: "Win",
     btn_loss: "Loss",
+    label_platform: "Platform",
+    opt_platform_placeholder: "Select...",
+    opt_platform_ps5: "PS5",
+    opt_platform_pc: "PC (Steam, etc.)",
+    err_platform_required: "Please select a platform",
     label_account: "Login",
     v_account_default: "Unverified",
     label_state: "Status",
@@ -387,7 +406,7 @@ async function api(path, options) {
 function render(body) {
   if (body.account) {
     selfAccount = body.account;
-    $("v-account").textContent = body.account.display_tag + t("rating_suffix") + body.account.rating + "）";
+    $("v-account").textContent = body.account.display_tag + "（PS5: " + body.account.rating_ps5 + " / PC: " + body.account.rating_pc + "）";
   }
   $("v-state").textContent = body.status || "-";
 
@@ -462,7 +481,7 @@ function applyGate(account) {
   } else {
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "block";
-    $("self-name").textContent = account.display_tag + t("rating_suffix") + account.rating + "）";
+    $("self-name").textContent = account.display_tag + "（PS5: " + account.rating_ps5 + " / PC: " + account.rating_pc + "）";
   }
 }
 
@@ -496,7 +515,16 @@ $("btn-register-jockey").addEventListener("click", async function () {
 });
 
 $("btn-join").addEventListener("click", async function () {
-  const res = await api("/api/queue/join", { method: "POST" });
+  const platform = $("platform-select").value;
+  if (!platform) {
+    log(t("err_platform_required"));
+    return;
+  }
+  const res = await api("/api/queue/join", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ platform: platform }),
+  });
   log("join", res.body);
   if (res.status === 401) { $("v-account").textContent = t("not_logged_in"); return; }
   render(Object.assign({ account: selfAccount }, res.body));
