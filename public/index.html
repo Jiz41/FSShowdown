@@ -358,42 +358,6 @@
   .release-box p { margin-bottom: 10px; color: var(--text); }
   .release-box p:last-child { margin-bottom: 0; }
 
-  /* ===== SISTER TOOLS ===== */
-  .sister-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  @media (min-width: 640px) {
-    .sister-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  .sister-card {
-    display: block;
-    background: var(--bg2);
-    border: 1px solid var(--green-dim);
-    border-radius: 8px;
-    padding: 20px;
-    text-decoration: none;
-    color: var(--text);
-    text-align: center;
-    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-  }
-  .sister-card:hover {
-    border-color: var(--green);
-    box-shadow: 0 0 20px rgba(51,255,102,0.3);
-    transform: translateY(-3px);
-  }
-  .sister-card .sister-name {
-    color: var(--green);
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 6px;
-  }
-  .sister-card .sister-desc {
-    color: var(--text-dim);
-    font-size: 0.8rem;
-  }
-
   /* ===== FOOTER ===== */
   footer {
     padding: 40px 20px 60px;
@@ -551,25 +515,6 @@
   </div>
 </section>
 
-<section class="section fade-in" id="sisters">
-  <span class="section-label">Sister Tools</span>
-  <h2 data-i18n="h2_sisters">姉妹ツール</h2>
-  <div class="sister-grid">
-    <a class="sister-card" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener">
-      <div class="sister-name">FSScreener</div>
-      <div class="sister-desc" data-i18n="sister_desc_fssc">Full Stride検索ツール</div>
-    </a>
-    <a class="sister-card" href="https://fssplicer.pages.dev/" target="_blank" rel="noopener">
-      <div class="sister-name">FSSplicer</div>
-      <div class="sister-desc" data-i18n="sister_desc_fssp">Full Stride支援ツール</div>
-    </a>
-    <a class="sister-card" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener">
-      <div class="sister-name">FSstriders</div>
-      <div class="sister-desc" data-i18n="sister_desc_fsst">Full Stride支援ツール</div>
-    </a>
-  </div>
-</section>
-
 <footer>
   <p data-i18n="footer_p1">非公式ファンツールです。</p>
   <p data-i18n="footer_p2">Full Strideの商標権はBlue Bullet株式会社に帰属します。</p>
@@ -613,10 +558,6 @@
       release_p2: "特に急がず、じっくり作る方針。ただし協力者が増えれば前倒しもありうる。",
       release_p3: "対応プラットフォームは、Full Stride本体が今後対応するハードに応じて連動して拡大していく予定です。",
       release_p4: "一定期間ごとにレートをリセットし、また一から実力を証明し直す「シーズン制」を導入予定。シーズン上位者には勲章のような称号を贈呈する予定です。",
-      h2_sisters: "姉妹ツール",
-      sister_desc_fssc: "Full Stride検索ツール",
-      sister_desc_fssp: "Full Stride支援ツール",
-      sister_desc_fsst: "Full Stride支援ツール",
       footer_p1: "非公式ファンツールです。",
       footer_p2: "Full Strideの商標権はBlue Bullet株式会社に帰属します。",
       hero_catch: "<ruby>FSShowdown<rt>誰よりも疾くゴール</rt></ruby>せよ。",
@@ -657,10 +598,6 @@
       release_p2: "No rush — built carefully and deliberately. That said, timelines could move up if more contributors join.",
       release_p3: "Supported platforms will expand in step with whatever hardware Full Stride itself supports going forward.",
       release_p4: "We're planning a season system — ratings reset periodically so everyone proves their skill from scratch again. Top performers each season will receive a badge-like honor.",
-      h2_sisters: "Sister Tools",
-      sister_desc_fssc: "Full Stride Search Tool",
-      sister_desc_fssp: "Full Stride Support Tool",
-      sister_desc_fsst: "Full Stride Support Tool",
       footer_p1: "This is an unofficial fan tool.",
       footer_p2: "Full Stride trademarks belong to Blue Bullet Co., Ltd.",
       hero_catch: "FSShowdown — Cross the finish line faster than anyone.",
