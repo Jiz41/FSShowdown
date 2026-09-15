@@ -66,12 +66,12 @@
 <p data-i18n="reg_body_tier">今後、レートとは別の表示専用の区分として「ティア」表示の導入を予定しています（マッチング自体をティアで区切ることはありません）。現時点ではあくまで構想段階で、以下は検討中の叩き台です（正式な仕様ではなく、内容は変更される可能性があります）。</p>
 <table class="reg-table">
 <tr><th data-i18n="reg_tier_col1">ティア</th><th data-i18n="reg_tier_col2">レート範囲</th></tr>
-<tr><td>ブロンズ</td><td>〜849</td></tr>
-<tr><td>シルバー</td><td>850〜999</td></tr>
-<tr><td>ゴールド</td><td>1000〜1149</td></tr>
-<tr><td>プラチナ</td><td>1150〜1299</td></tr>
-<tr><td>ダイヤ</td><td>1300〜1449</td></tr>
-<tr><td>マスター</td><td>1450〜</td></tr>
+<tr><td data-i18n="reg_tier_bronze">ブロンズ</td><td data-i18n="reg_tier_bronze_range">〜849</td></tr>
+<tr><td data-i18n="reg_tier_silver">シルバー</td><td data-i18n="reg_tier_silver_range">850〜999</td></tr>
+<tr><td data-i18n="reg_tier_gold">ゴールド</td><td data-i18n="reg_tier_gold_range">1000〜1149</td></tr>
+<tr><td data-i18n="reg_tier_platinum">プラチナ</td><td data-i18n="reg_tier_platinum_range">1150〜1299</td></tr>
+<tr><td data-i18n="reg_tier_diamond">ダイヤ</td><td data-i18n="reg_tier_diamond_range">1300〜1449</td></tr>
+<tr><td data-i18n="reg_tier_master">マスター</td><td data-i18n="reg_tier_master_range">1450〜</td></tr>
 </table>
 
 <h2 data-i18n="h2_reg_flow">対戦の流れ</h2>
@@ -146,6 +146,18 @@ const I18N = {
     reg_body_tier: "今後、レートとは別の表示専用の区分として「ティア」表示の導入を予定しています（マッチング自体をティアで区切ることはありません）。現時点ではあくまで構想段階で、以下は検討中の叩き台です（正式な仕様ではなく、内容は変更される可能性があります）。",
     reg_tier_col1: "ティア",
     reg_tier_col2: "レート範囲",
+    reg_tier_bronze: "ブロンズ",
+    reg_tier_bronze_range: "〜849",
+    reg_tier_silver: "シルバー",
+    reg_tier_silver_range: "850〜999",
+    reg_tier_gold: "ゴールド",
+    reg_tier_gold_range: "1000〜1149",
+    reg_tier_platinum: "プラチナ",
+    reg_tier_platinum_range: "1150〜1299",
+    reg_tier_diamond: "ダイヤ",
+    reg_tier_diamond_range: "1300〜1449",
+    reg_tier_master: "マスター",
+    reg_tier_master_range: "1450〜",
     reg_flow_1: "近傍レートの相手と自動でマッチングが成立します。",
     reg_flow_2: "対戦用のレースが、21競走のプールからランダムに1つ自動抽選されます。",
     reg_flow_3: "マッチング成立から15分以内に、先に「予約」ボタンを押した側がホストとなり、本編Full Strideで固定パスワード「0716」の部屋を作成します。もう一方のプレイヤーはその部屋に参加してください。",
@@ -216,6 +228,18 @@ const I18N = {
     reg_body_tier: "We're planning to introduce a \"tier\" display as a separate visual layer from your rating (tiers will never be used to divide matchmaking itself). This is still in the concept stage — the table below is a draft under discussion, not a finalized spec, and is subject to change.",
     reg_tier_col1: "Tier",
     reg_tier_col2: "Rating Range",
+    reg_tier_bronze: "Bronze",
+    reg_tier_bronze_range: "–849",
+    reg_tier_silver: "Silver",
+    reg_tier_silver_range: "850–999",
+    reg_tier_gold: "Gold",
+    reg_tier_gold_range: "1000–1149",
+    reg_tier_platinum: "Platinum",
+    reg_tier_platinum_range: "1150–1299",
+    reg_tier_diamond: "Diamond",
+    reg_tier_diamond_range: "1300–1449",
+    reg_tier_master: "Master",
+    reg_tier_master_range: "1450–",
     reg_flow_1: "You'll be automatically matched with an opponent close to your rating.",
     reg_flow_2: "A race is randomly drawn from a pool of 21 races for the match.",
     reg_flow_3: "Within 15 minutes of the match being made, whoever presses \"Reserve\" first becomes the host and creates a room in Full Stride itself using the fixed password \"0716.\" The other player joins that room.",
