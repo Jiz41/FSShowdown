@@ -66,8 +66,14 @@
       <th data-i18n="col_record">戦績</th>
     </tr>
   </thead>
-  <tbody id="ranking-body"></tbody>
+  <tbody id="ranking-body-top"></tbody>
 </table>
+<button type="button" id="ranking-toggle-btn" class="ranking-toggle-btn" hidden>11位以下を表示 ▼</button>
+<div class="ranking-rest-wrap" id="ranking-rest-wrap">
+  <table id="ranking-table-rest" class="ranking-table">
+    <tbody id="ranking-body-rest"></tbody>
+  </table>
+</div>
 </div>
 
 <script>
@@ -96,6 +102,8 @@ const I18N = {
     col_name: "騎手名",
     col_rating: "レート",
     col_record: "戦績",
+    ranking_show_more: "11位以下を表示 ▼",
+    ranking_show_less: "11位以下を閉じる ▲",
 
     header_login: "ログイン",
     header_logout: "ログアウト",
@@ -127,6 +135,8 @@ const I18N = {
     col_name: "Jockey",
     col_rating: "Rating",
     col_record: "Record",
+    ranking_show_more: "Show ranks 11+ ▼",
+    ranking_show_less: "Hide ranks 11+ ▲",
 
     header_login: "Log In",
     header_logout: "Log Out",
@@ -237,11 +247,62 @@ function formatRecord(wins, losses) {
   return total + "戦" + wins + "勝" + losses + "敗";
 }
 
+function buildRankRow(row, rank) {
+  const tr = document.createElement("tr");
+
+  const tdRank = document.createElement("td");
+  tdRank.textContent = String(rank);
+  tr.appendChild(tdRank);
+
+  const tdIcon = document.createElement("td");
+  const iconEl = document.createElement("span");
+  iconEl.className = "jockey-icon jockey-icon-sm";
+  renderIcon(iconEl, row.icon_bg, row.icon_border, row.icon_crest);
+  tdIcon.appendChild(iconEl);
+  tr.appendChild(tdIcon);
+
+  const tdName = document.createElement("td");
+  if (row.flag && FLAG_EMOJI[row.flag]) {
+    const flagEl = document.createElement("span");
+    flagEl.textContent = FLAG_EMOJI[row.flag];
+    flagEl.style.marginRight = "4px";
+    tdName.appendChild(flagEl);
+  }
+  const nameLink = document.createElement("a");
+  nameLink.href = "profile.html?id=" + encodeURIComponent(row.discord_id);
+  nameLink.textContent = row.display_tag;
+  tdName.appendChild(nameLink);
+  tr.appendChild(tdName);
+
+  const tdRating = document.createElement("td");
+  tdRating.textContent = String(row.rating);
+  tr.appendChild(tdRating);
+
+  const tdRecord = document.createElement("td");
+  tdRecord.textContent = formatRecord(row.wins, row.losses);
+  tr.appendChild(tdRecord);
+
+  return tr;
+}
+
+function setToggleButtonText(isOpen) {
+  const btn = document.getElementById("ranking-toggle-btn");
+  btn.textContent = t(isOpen ? "ranking_show_less" : "ranking_show_more");
+}
+
 async function loadRanking(platform) {
-  const tbody = document.getElementById("ranking-body");
+  const tbodyTop = document.getElementById("ranking-body-top");
+  const tbodyRest = document.getElementById("ranking-body-rest");
   const emptyEl = document.getElementById("ranking-empty");
   const table = document.getElementById("ranking-table");
-  tbody.innerHTML = "";
+  const toggleBtn = document.getElementById("ranking-toggle-btn");
+  const restWrap = document.getElementById("ranking-rest-wrap");
+  tbodyTop.innerHTML = "";
+  tbodyRest.innerHTML = "";
+  restWrap.classList.remove("open");
+  toggleBtn.hidden = true;
+  setToggleButtonText(false);
+
   let ranking = [];
   try {
     const res = await fetch("/api/ranking?platform=" + encodeURIComponent(platform));
@@ -259,46 +320,27 @@ async function loadRanking(platform) {
   table.style.display = "";
   emptyEl.hidden = true;
 
-  ranking.forEach((row, idx) => {
-    const tr = document.createElement("tr");
-
-    const tdRank = document.createElement("td");
-    tdRank.textContent = String(idx + 1);
-    tr.appendChild(tdRank);
-
-    const tdIcon = document.createElement("td");
-    const iconEl = document.createElement("span");
-    iconEl.className = "jockey-icon jockey-icon-sm";
-    renderIcon(iconEl, row.icon_bg, row.icon_border, row.icon_crest);
-    tdIcon.appendChild(iconEl);
-    tr.appendChild(tdIcon);
-
-    const tdName = document.createElement("td");
-    if (row.flag && FLAG_EMOJI[row.flag]) {
-      const flagEl = document.createElement("span");
-      flagEl.textContent = FLAG_EMOJI[row.flag];
-      flagEl.style.marginRight = "4px";
-      tdName.appendChild(flagEl);
-    }
-    const nameLink = document.createElement("a");
-    nameLink.href = "profile.html?id=" + encodeURIComponent(row.discord_id);
-    nameLink.textContent = row.display_tag;
-    tdName.appendChild(nameLink);
-    tr.appendChild(tdName);
-
-    const tdRating = document.createElement("td");
-    tdRating.textContent = String(row.rating);
-    tr.appendChild(tdRating);
-
-    const tdRecord = document.createElement("td");
-    tdRecord.textContent = formatRecord(row.wins, row.losses);
-    tr.appendChild(tdRecord);
-
-    tbody.appendChild(tr);
+  ranking.slice(0, 10).forEach((row, idx) => {
+    tbodyTop.appendChild(buildRankRow(row, idx + 1));
   });
+
+  const rest = ranking.slice(10);
+  if (rest.length > 0) {
+    rest.forEach((row, idx) => {
+      tbodyRest.appendChild(buildRankRow(row, idx + 11));
+    });
+    toggleBtn.hidden = false;
+  }
 }
 
 (function () {
+  const toggleBtn = document.getElementById("ranking-toggle-btn");
+  const restWrap = document.getElementById("ranking-rest-wrap");
+  toggleBtn.addEventListener("click", function () {
+    const isOpen = restWrap.classList.toggle("open");
+    setToggleButtonText(isOpen);
+  });
+
   const select = document.getElementById("platform-select");
   select.value = "ps5";
   select.addEventListener("change", function () {

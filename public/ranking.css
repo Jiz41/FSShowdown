@@ -72,6 +72,38 @@ select {
     font-weight: normal;
   }
 
+.ranking-toggle-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--green-dim);
+    border-radius: 4px;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+.ranking-toggle-btn:hover {
+    background: rgba(51,255,102,0.1);
+  }
+
+.ranking-rest-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+.ranking-rest-wrap.open {
+    max-height: 4000px;
+  }
+
+.ranking-rest-wrap .ranking-table {
+    margin-top: 0;
+  }
+
 .jockey-icon-sm {
     width: 40px;
     height: 40px;

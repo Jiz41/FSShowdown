@@ -19,7 +19,7 @@ export async function onRequestGet({ request, env }) {
      WHERE r.platform = ?1
      GROUP BY a.discord_id
      ORDER BY r.rating DESC
-     LIMIT 100`
+     LIMIT 50`
   )
     .bind(platform)
     .all();
