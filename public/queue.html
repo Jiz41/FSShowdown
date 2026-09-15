@@ -75,6 +75,11 @@
   </div>
 
   <div class="row">
+    <label><input type="checkbox" id="notify-dm-toggle"> <span data-i18n="label_notify_dm">マッチング成立をDMでお知らせ</span></label>
+  </div>
+  <div class="row" style="font-size:12px; color:#9aa4b2;" data-i18n="tips_notify_dm">この機能をご利用いただくには、FSSh公式Discordサーバーへの参加と、Discordの「サーバーメンバーからのDM許可」設定が必要です。</div>
+
+  <div class="row">
     <button type="button" id="btn-join" data-i18n="btn_join" disabled>マッチング開始</button>
     <button type="button" id="btn-leave" data-i18n="btn_leave">キュー離脱</button>
     <button type="button" id="btn-reserve" style="display:none" data-i18n="btn_reserve">予約する</button>
@@ -112,6 +117,8 @@ const I18N = {
     opt_platform_placeholder: "選択してください",
     opt_platform_ps5: "PS5",
     opt_platform_pc: "PC（Steam等）",
+    label_notify_dm: "マッチング成立をDMでお知らせ",
+    tips_notify_dm: "この機能をご利用いただくには、FSSh公式Discordサーバーへの参加と、Discordの「サーバーメンバーからのDM許可」設定が必要です。",
     err_platform_required: "プラットフォームを選択してください",
     no_ratings_yet: "対戦記録なし",
     label_account: "ログイン",
@@ -168,6 +175,8 @@ const I18N = {
     opt_platform_placeholder: "Select...",
     opt_platform_ps5: "PS5",
     opt_platform_pc: "PC (Steam, etc.)",
+    label_notify_dm: "Notify me via DM on match found",
+    tips_notify_dm: "To use this feature, you must join the official FSSh Discord server and allow DMs from server members in your Discord privacy settings.",
     err_platform_required: "Please select a platform",
     no_ratings_yet: "No matches played yet",
     label_account: "Login",
@@ -295,6 +304,7 @@ function render(body) {
   if (body.account) {
     selfAccount = body.account;
     $("v-account").textContent = body.account.display_tag + "（" + formatRatings(body.account.ratings) + "）";
+    $("notify-dm-toggle").checked = !!body.account.notify_dm;
   }
   $("v-state").textContent = body.status || "-";
 
@@ -406,6 +416,23 @@ $("btn-register-jockey").addEventListener("click", async function () {
 
 $("platform-select").addEventListener("change", function () {
   $("btn-join").disabled = !$("platform-select").value;
+});
+
+$("notify-dm-toggle").addEventListener("change", async function () {
+  const checkbox = this;
+  const desired = checkbox.checked;
+  try {
+    const res = await api("/api/account/profile", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ notify_dm: desired }),
+    });
+    if (res.status !== 200) {
+      checkbox.checked = !desired;
+    }
+  } catch (e) {
+    checkbox.checked = !desired;
+  }
 });
 
 $("btn-join").addEventListener("click", async function () {

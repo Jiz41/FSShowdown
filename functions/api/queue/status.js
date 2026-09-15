@@ -9,6 +9,11 @@ export async function onRequestGet({ request, env }) {
   ).bind(account.discord_id).all();
   const ratings = (ratingsResult && ratingsResult.results) ? ratingsResult.results : [];
 
+  const notifyDmRow = await env.DB.prepare(
+    `SELECT notify_dm FROM accounts WHERE discord_id = ?1`
+  ).bind(account.discord_id).first();
+  const notifyDm = !!(notifyDmRow && notifyDmRow.notify_dm);
+
   const result = await callMatchmaker(
     env,
     `/status?discord_id=${encodeURIComponent(account.discord_id)}`,
@@ -23,6 +28,7 @@ export async function onRequestGet({ request, env }) {
         discord_id: account.discord_id,
         display_tag: account.display_tag,
         ratings: ratings,
+        notify_dm: notifyDm,
       },
     },
     result.status
