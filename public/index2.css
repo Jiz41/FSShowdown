@@ -209,6 +209,87 @@ p { color: var(--text); }
     .card-grid { grid-template-columns: 1fr 1fr; }
   }
 
+.ranking-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+@media (min-width: 640px) {
+    .ranking-preview-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+.ranking-preview-col {
+    background: var(--bg2);
+    border: 1px solid var(--green-dim);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+.ranking-preview-col h3 {
+    color: var(--green);
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+.ranking-preview-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+.ranking-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+.ranking-preview-row:last-child { border-bottom: none; }
+
+.jockey-icon-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+.ranking-preview-name {
+    flex: 1;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+.ranking-preview-name:hover { text-decoration: underline; }
+
+.ranking-preview-rating {
+    color: var(--green);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+.ranking-preview-empty {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin: 8px 0;
+  }
+
+.ranking-preview-more {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--green);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+.ranking-preview-more:hover { text-decoration: underline; }
+
 .card {
     background: var(--bg2);
     border: 1px solid var(--green-dim);

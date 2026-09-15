@@ -112,7 +112,20 @@
 <section class="section fade-in" id="ranking-preview">
   <span class="section-label">Ranking</span>
   <h2 data-i18n="h2_rankingpreview">ランキング上位者</h2>
-  <p class="lead-line" data-i18n="rankingpreview_p">準備中</p>
+  <div class="ranking-preview-grid">
+    <div class="ranking-preview-col">
+      <h3 data-i18n="ranking_col_ps5">PS5</h3>
+      <ol class="ranking-preview-list" id="ranking-preview-ps5"></ol>
+      <p class="ranking-preview-empty" data-i18n="ranking_empty" hidden></p>
+      <a class="ranking-preview-more" href="ranking.html" data-i18n="ranking_preview_more">ランキング全体を見る</a>
+    </div>
+    <div class="ranking-preview-col">
+      <h3 data-i18n="ranking_col_pc">PC</h3>
+      <ol class="ranking-preview-list" id="ranking-preview-pc"></ol>
+      <p class="ranking-preview-empty" data-i18n="ranking_empty" hidden></p>
+      <a class="ranking-preview-more" href="ranking.html" data-i18n="ranking_preview_more">ランキング全体を見る</a>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -169,6 +182,10 @@
       content_terms_p: "当サイトのルールはここ。読むのが面倒な方のために、やさしい版もご用意しています。",
       h2_rankingpreview: "ランキング上位者",
       rankingpreview_p: "準備中",
+      ranking_col_ps5: "PS5",
+      ranking_col_pc: "PC",
+      ranking_empty: "まだ対戦記録がありません",
+      ranking_preview_more: "ランキング全体を見る",
       concept_main: "馬の能力差を消し、<br>プレイヤーの読みと腕だけを測る",
       menu_home: "ホーム",
       menu_matching: "マッチング",
@@ -241,6 +258,10 @@
       content_terms_p: "Our rules, right here. We've also prepared an easy-reading version for anyone who'd rather skip the fine print.",
       h2_rankingpreview: "Top Rankings",
       rankingpreview_p: "Coming soon",
+      ranking_col_ps5: "PS5",
+      ranking_col_pc: "PC",
+      ranking_empty: "No ranking data yet",
+      ranking_preview_more: "View full ranking",
       concept_main: "Erase the gap in horse ability —<br>measure only the player's judgment and skill.",
       menu_home: "Home",
       menu_matching: "Matching",
@@ -360,6 +381,66 @@
       }
     }).catch(function () {});
   })();
+</script>
+<script>
+const RANKING_PREVIEW_ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
+const RANKING_PREVIEW_ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+
+function renderRankingPreviewIcon(el, bg, border, crest) {
+  el.style.background = RANKING_PREVIEW_ICON_BG[bg] || "#444";
+  el.style.border = RANKING_PREVIEW_ICON_BORDER_STYLE[border] || "3px solid #fff";
+  el.textContent = crest || "";
+}
+
+async function loadRankingPreview(platform, listId) {
+  const list = document.getElementById(listId);
+  const emptyEl = list.parentElement.querySelector(".ranking-preview-empty");
+  list.innerHTML = "";
+  let ranking = [];
+  try {
+    const res = await fetch("/api/ranking?platform=" + encodeURIComponent(platform));
+    if (res.ok) {
+      const body = await res.json();
+      ranking = body.ranking || [];
+    }
+  } catch (e) {}
+
+  ranking = ranking.slice(0, 3);
+
+  if (ranking.length === 0) {
+    list.hidden = true;
+    if (emptyEl) emptyEl.hidden = false;
+    return;
+  }
+  list.hidden = false;
+  if (emptyEl) emptyEl.hidden = true;
+
+  ranking.forEach((row) => {
+    const li = document.createElement("li");
+    li.className = "ranking-preview-row";
+
+    const iconEl = document.createElement("span");
+    iconEl.className = "jockey-icon-sm";
+    renderRankingPreviewIcon(iconEl, row.icon_bg, row.icon_border, row.icon_crest);
+    li.appendChild(iconEl);
+
+    const nameLink = document.createElement("a");
+    nameLink.href = "profile.html?id=" + encodeURIComponent(row.discord_id);
+    nameLink.className = "ranking-preview-name";
+    nameLink.textContent = row.display_tag;
+    li.appendChild(nameLink);
+
+    const ratingEl = document.createElement("span");
+    ratingEl.className = "ranking-preview-rating";
+    ratingEl.textContent = String(row.rating);
+    li.appendChild(ratingEl);
+
+    list.appendChild(li);
+  });
+}
+
+loadRankingPreview("ps5", "ranking-preview-ps5");
+loadRankingPreview("pc", "ranking-preview-pc");
 </script>
 
 <footer class="fssh-footer">
