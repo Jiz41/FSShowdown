@@ -46,6 +46,11 @@
 </div>
 <h1 data-i18n="h1_title">FSShowdown マッチング（段階1・動作確認用）</h1>
 
+<div id="login-gate" style="display:none">
+  <div class="row" data-i18n="login_required_msg">Discordでログインしてから見てね。</div>
+  <a href="/auth/login" class="fssh-header-auth-btn" data-i18n="btn_login_cta">Discordでログイン</a>
+</div>
+
 <div id="jockey-gate" style="display:none">
   <div class="row" data-i18n="jockey_gate_msg">まずジョッキーネームを登録してください。</div>
   <div class="row">
@@ -117,6 +122,8 @@ const I18N = {
     label_host: "ホスト",
     label_remain: "残り時間",
     not_logged_in: "未ログイン",
+    login_required_msg: "Discordでログインしてから見てね。",
+    btn_login_cta: "Discordでログイン",
     host_you: "あなたがホスト",
     host_opponent: "相手がホスト（参加側）",
     no_contest: "不成立（15分超過）",
@@ -171,6 +178,8 @@ const I18N = {
     label_host: "Host",
     label_remain: "Time Left",
     not_logged_in: "Not logged in",
+    login_required_msg: "Please log in with Discord to view this page.",
+    btn_login_cta: "Log in with Discord",
     host_you: "You are the host",
     host_opponent: "Opponent is host (joining)",
     no_contest: "No contest (15 min elapsed)",
@@ -368,11 +377,13 @@ async function refresh() {
   const res = await api("/api/queue/status");
   if (res.status === 401) {
     $("v-account").textContent = t("not_logged_in");
+    $("login-gate").style.display = "block";
     $("jockey-gate").style.display = "none";
     $("main-ui").style.display = "none";
     stopPolling();
     return;
   }
+  $("login-gate").style.display = "none";
   if (res.body.account) {
     applyGate(res.body.account);
   }
