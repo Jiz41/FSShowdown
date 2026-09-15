@@ -101,7 +101,7 @@
 
 <pre id="log"></pre>
 
-<div id="result-dialog-overlay" hidden style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000;">
+<div id="result-dialog-overlay" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:1000;">
   <div style="background:var(--bg2); border:1px solid var(--green-dim); border-radius:8px; padding:24px; max-width:320px;">
     <div style="font-weight:bold; margin-bottom:8px;" data-i18n="result_dialog_title">レース結果</div>
     <div id="result-dialog-body" style="margin-bottom:16px;"></div>
@@ -543,11 +543,11 @@ function showResultDialog(resultBody) {
   ratingEl.textContent = ratingLine;
   dialogBody.appendChild(summaryEl);
   dialogBody.appendChild(ratingEl);
-  $("result-dialog-overlay").hidden = false;
+  $("result-dialog-overlay").style.display = "flex";
 }
 
 $("btn-close-dialog").addEventListener("click", function () {
-  $("result-dialog-overlay").hidden = true;
+  $("result-dialog-overlay").style.display = "none";
 });
 
 $("btn-win").addEventListener("click", function () { sendReport("win"); });
