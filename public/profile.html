@@ -21,7 +21,7 @@
   <nav>
     <a href="index2.html" data-i18n="menu_home">ホーム</a>
     <a href="howto.html" data-i18n="menu_howto">使い方</a>
-    <a class="fssh-menu-group-start fssh-menu-disabled" href="profile.html" id="fssh-nav-profile" data-i18n="menu_myprofile">マイプロフィール</a>
+    <a class="fssh-menu-group-start" href="profile.html" id="fssh-nav-profile" data-i18n="menu_myprofile">マイプロフィール</a>
     <a href="queue.html" data-i18n="menu_matching">マッチング</a>
     <a href="regulation.html" data-i18n-html="menu_regulation">レギュレーション<span class="fssh-menu-sub">シーズン<span class="fssh-menu-sub-num">0</span>概要</span></a>
     <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
@@ -552,7 +552,6 @@ load();
     if (body && body.account && body.account.discord_id) {
       var el = document.getElementById('fssh-nav-profile');
       el.href = 'profile.html?id=' + encodeURIComponent(body.account.discord_id);
-      el.classList.remove('fssh-menu-disabled');
     }
     var authBtn = document.getElementById('fssh-header-auth');
     if (authBtn) {
