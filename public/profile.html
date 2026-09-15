@@ -95,6 +95,10 @@
     <div class="label" data-i18n="label_flag">国籍/居住地</div>
     <div class="icon-choices" id="choices-flag"></div>
   </div>
+  <div class="row">
+    <label><input type="checkbox" id="notify-dm-toggle"> <span data-i18n="label_notify_dm">マッチング成立をDMでお知らせ</span></label>
+  </div>
+  <div class="row" style="font-size:12px; color:#9aa4b2;" data-i18n="tips_notify_dm">この機能をご利用いただくには、FSSh公式Discordサーバーへの参加と、Discordの「サーバーメンバーからのDM許可」設定が必要です。</div>
   <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
   <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
   <div class="row" style="margin-top:24px;">
@@ -130,6 +134,8 @@ const I18N = {
     label_crest: "紋章",
     label_flag: "国籍/居住地",
     flag_option_none: "未選択",
+    label_notify_dm: "マッチング成立をDMでお知らせ",
+    tips_notify_dm: "この機能をご利用いただくには、FSSh公式Discordサーバーへの参加と、Discordの「サーバーメンバーからのDM許可」設定が必要です。",
     label_preview: "プレビュー",
     btn_save_icon: "アイコンを保存",
     btn_delete_account: "アカウント削除",
@@ -179,6 +185,8 @@ const I18N = {
     label_crest: "Crest",
     label_flag: "Country/Region",
     flag_option_none: "None",
+    label_notify_dm: "Notify me via DM on match found",
+    tips_notify_dm: "To use this feature, you must join the official FSSh Discord server and allow DMs from server members in your Discord privacy settings.",
     label_preview: "Preview",
     btn_save_icon: "Save Icon",
     btn_delete_account: "Delete Account",
@@ -357,6 +365,7 @@ async function checkSelfAndShowEditPanel(profileId) {
   if (profBody.icon_crest) selectedCrest = profBody.icon_crest;
   selectedFlag = profBody.flag || null;
   initIconChoices();
+  $("notify-dm-toggle").checked = !!profBody.notify_dm;
 }
 
 async function apiPost(path, data) {
@@ -388,6 +397,19 @@ $("btn-save-icon").addEventListener("click", async function () {
   const res = await apiPost("/api/account/profile", { icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest, flag: selectedFlag });
   if (res.status === 200) {
     load();
+  }
+});
+
+$("notify-dm-toggle").addEventListener("change", async function () {
+  const checkbox = this;
+  const desired = checkbox.checked;
+  try {
+    const res = await apiPost("/api/account/profile", { notify_dm: desired });
+    if (res.status !== 200) {
+      checkbox.checked = !desired;
+    }
+  } catch (e) {
+    checkbox.checked = !desired;
   }
 });
 

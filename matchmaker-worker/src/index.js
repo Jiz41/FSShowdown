@@ -31,6 +31,39 @@ function json(data, status = 200) {
   });
 }
 
+async function notifyMatchByDM(env, discordId, matchedAt) {
+  try {
+    const account = await env.DB.prepare(
+      `SELECT notify_dm FROM accounts WHERE discord_id = ?1`
+    ).bind(discordId).first();
+    if (!account || account.notify_dm !== 1) return;
+
+    const channelRes = await fetch("https://discord.com/api/v10/users/@me/channels", {
+      method: "POST",
+      headers: {
+        Authorization: `Bot ${env.DISCORD_TOKEN}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ recipient_id: discordId }),
+    });
+    const channel = await channelRes.json();
+    if (!channel || !channel.id) return;
+
+    const content = `⚡️HERE COMES A NEW CHALLENGER！⚡️\n<t:${matchedAt}:t>に開始したマッチングに対戦相手が現れました。15分以内にゲートイン（対戦開始）してください。\n[サイトを開く →](https://fsshowdown.pages.dev/queue.html)`;
+
+    await fetch(`https://discord.com/api/v10/channels/${channel.id}/messages`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bot ${env.DISCORD_TOKEN}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ content }),
+    });
+  } catch (err) {
+    // DM送信の失敗（未サーバー参加・DM拒否設定等）はマッチング処理を失敗させない
+  }
+}
+
 export class Matchmaker {
   constructor(state, env) {
     this.state = state;
@@ -134,6 +167,11 @@ export class Matchmaker {
     await this.state.storage.put(`match:${opponent.discord_id}`, matchId);
     await this.state.storage.put(`match:${discord_id}`, matchId);
     await this.scheduleAlarm(expiresAt);
+
+    await Promise.all([
+      notifyMatchByDM(this.env, opponent.discord_id, now),
+      notifyMatchByDM(this.env, discord_id, now),
+    ]);
 
     return json({
       status: "matched",
