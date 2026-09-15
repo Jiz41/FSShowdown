@@ -89,12 +89,12 @@
 <p data-i18n="reg_body_races_3">距離は以下の6分類で統計に反映されます。</p>
 <table class="reg-table">
 <tr><th data-i18n="reg_dist_col1">分類</th><th data-i18n="reg_dist_col2">距離範囲</th></tr>
-<tr><td>短距離</td><td>1000〜1300m</td></tr>
-<tr><td>マイル</td><td>1301〜1899m</td></tr>
-<tr><td>中距離</td><td>1900〜2100m</td></tr>
-<tr><td>クラシック</td><td>2400m（固定）</td></tr>
-<tr><td>長距離</td><td>2101〜2700m（2400mを除く）</td></tr>
-<tr><td>超長距離</td><td>2701m以上</td></tr>
+<tr><td data-i18n="reg_dist_short">短距離</td><td data-i18n="reg_dist_short_range">1000〜1300m</td></tr>
+<tr><td data-i18n="reg_dist_mile">マイル</td><td data-i18n="reg_dist_mile_range">1301〜1899m</td></tr>
+<tr><td data-i18n="reg_dist_mid">中距離</td><td data-i18n="reg_dist_mid_range">1900〜2100m</td></tr>
+<tr><td data-i18n="reg_dist_classic">クラシック</td><td data-i18n="reg_dist_classic_range">2400m（固定）</td></tr>
+<tr><td data-i18n="reg_dist_long">長距離</td><td data-i18n="reg_dist_long_range">2101〜2700m（2400mを除く）</td></tr>
+<tr><td data-i18n="reg_dist_extra">超長距離</td><td data-i18n="reg_dist_extra_range">2701m以上</td></tr>
 </table>
 
 <h2 data-i18n="h2_reg_report">結果報告</h2>
@@ -156,6 +156,18 @@ const I18N = {
     reg_body_races_3: "距離は以下の6分類で統計に反映されます。",
     reg_dist_col1: "分類",
     reg_dist_col2: "距離範囲",
+    reg_dist_short: "短距離",
+    reg_dist_short_range: "1000〜1300m",
+    reg_dist_mile: "マイル",
+    reg_dist_mile_range: "1301〜1899m",
+    reg_dist_mid: "中距離",
+    reg_dist_mid_range: "1900〜2100m",
+    reg_dist_classic: "クラシック",
+    reg_dist_classic_range: "2400m（固定）",
+    reg_dist_long: "長距離",
+    reg_dist_long_range: "2101〜2700m（2400mを除く）",
+    reg_dist_extra: "超長距離",
+    reg_dist_extra_range: "2701m以上",
     reg_body_report: "対戦結果は、両プレイヤーがそれぞれ自己申告で報告します。双方の申告が一致した時点で結果が確定し、レートが自動更新されます。双方の申告が食い違った場合（勝ち×勝ち等）はレート変動なしのまま両者の申告がリセットされ、再度報告し直すことができます。双方合意の上で確定した結果は、原則として事後の訂正はできません。",
     reg_body_dispute_1: "対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。",
     reg_body_dispute_2: "以下のような行為には、運営判断によりアカウントの利用制限等の措置を行う場合があります。",
@@ -214,6 +226,18 @@ const I18N = {
     reg_body_races_3: "Distances are tracked in 6 categories:",
     reg_dist_col1: "Category",
     reg_dist_col2: "Distance Range",
+    reg_dist_short: "Sprint",
+    reg_dist_short_range: "1000–1300m",
+    reg_dist_mile: "Mile",
+    reg_dist_mile_range: "1301–1899m",
+    reg_dist_mid: "Intermediate",
+    reg_dist_mid_range: "1900–2100m",
+    reg_dist_classic: "Classic",
+    reg_dist_classic_range: "2400m (fixed)",
+    reg_dist_long: "Long",
+    reg_dist_long_range: "2101–2700m (excluding 2400m)",
+    reg_dist_extra: "Extended",
+    reg_dist_extra_range: "2701m and above",
     reg_body_report: "Both players self-report the match result. Once both reports agree, the result is finalized and ratings update automatically. If the reports conflict (e.g. both claim a win), no rating change occurs and both reports are cleared so you can resubmit. Once a result is finalized by mutual agreement, it generally cannot be corrected afterward.",
     reg_body_dispute_1: "If a dispute arises over a match result or its details, we may ask for video evidence (video submission is not required for every match by default). Disputes are resolved on the official FSSh Discord server.",
     reg_body_dispute_2: "The following may result in account restrictions at the operator's discretion:",
@@ -271,13 +295,13 @@ function setupLangToggle() {
   updateLabel();
 }
 
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   try {
     if (localStorage.getItem('fssh_lang') === 'en') {
       applyLanguage('en');
     }
   } catch (e) {}
-})();
+});
 
 setupLangToggle();
 </script>

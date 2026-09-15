@@ -76,7 +76,7 @@
 
 <h3 data-i18n="terms_title_9">【お問い合わせ】</h3>
 <p data-i18n="terms_body_9">ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。</p>
-<p><a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener">→ FSSh公式Discordサーバーに参加する</a></p>
+<p><a href="https://discord.gg/KjuzxrRZGx" target="_blank" rel="noopener" data-i18n="terms_discord_link">→ FSSh公式Discordサーバーに参加する</a></p>
 </div>
 
 <script>
@@ -113,6 +113,7 @@ const I18N = {
     terms_title_8: "【管轄裁判所】",
     terms_body_8: "本サービスに関して紛争が生じた場合、運営者の居住地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。",
     terms_title_9: "【お問い合わせ】",
+    terms_discord_link: "→ FSSh公式Discordサーバーに参加する",
     terms_body_9: "ご意見・ご報告・トラブルのご相談等は、FSSh公式Discordサーバーまでご連絡ください。",
   
     header_login: "ログイン",
@@ -153,6 +154,7 @@ const I18N = {
     terms_title_8: "Governing Jurisdiction",
     terms_body_8: "Any disputes arising in connection with this service shall be subject to the exclusive agreed jurisdiction of the court having jurisdiction over the operator's place of residence, as the court of first instance.",
     terms_title_9: "Contact",
+    terms_discord_link: "→ Join the official FSSh Discord server",
     terms_body_9: "For comments, reports, or trouble-related inquiries, please contact us via the official FSSh Discord server.",
   
     header_login: "Log In",
@@ -202,13 +204,13 @@ function setupLangToggle() {
   updateLabel();
 }
 
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   try {
     if (localStorage.getItem('fssh_lang') === 'en') {
       applyLanguage('en');
     }
   } catch (e) {}
-})();
+});
 
 setupLangToggle();
 </script>

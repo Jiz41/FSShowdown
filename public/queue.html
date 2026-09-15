@@ -254,13 +254,13 @@ function setupLangToggle() {
   updateLabel();
 }
 
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   try {
     if (localStorage.getItem('fssh_lang') === 'en') {
       applyLanguage('en');
     }
   } catch (e) {}
-})();
+});
 
 setupLangToggle();
 
