@@ -15,7 +15,7 @@ h1 { font-size: 20px; }
 
 .lang-toggle { position: static; background: var(--green); color: var(--bg); border: none; border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; font-family: var(--mono); cursor: pointer; line-height: 1; margin: 0; }
 
-#panel { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
+#panel, #login-gate { border: 1px solid var(--green-dim); border-radius: 8px; padding: 16px; margin-top: 16px; max-width: 480px; }
 
 .row { margin: 10px 0; }
 

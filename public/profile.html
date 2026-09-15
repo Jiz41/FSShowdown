@@ -20,10 +20,10 @@
 <div class="fssh-drawer" id="fssh-drawer">  <div class="fssh-drawer-header">MENU</div>
   <nav>
     <a href="index2.html" data-i18n="menu_home">ホーム</a>
-    <a href="/auth/login" id="fssh-nav-profile" class="fssh-menu-disabled" data-i18n="menu_myprofile">マイプロフィール</a>
-    <a class="fssh-menu-group-start" href="howto.html" data-i18n="menu_howto">使い方</a>
+    <a href="howto.html" data-i18n="menu_howto">使い方</a>
+    <a class="fssh-menu-group-start fssh-menu-disabled" href="profile.html" id="fssh-nav-profile" data-i18n="menu_myprofile">マイプロフィール</a>
     <a href="queue.html" data-i18n="menu_matching">マッチング</a>
-    <a class="fssh-menu-group-start" href="regulation.html" data-i18n-html="menu_regulation">レギュレーション<span class="fssh-menu-sub">シーズン<span class="fssh-menu-sub-num">0</span>概要</span></a>
+    <a href="regulation.html" data-i18n-html="menu_regulation">レギュレーション<span class="fssh-menu-sub">シーズン<span class="fssh-menu-sub-num">0</span>概要</span></a>
     <a href="ranking.html" data-i18n="menu_ranking">ランキング</a>
     <a class="fssh-menu-group-start" href="faq.html" data-i18n="menu_faq">Q&amp;A</a>
     <a href="terms.html" data-i18n="menu_terms">利用規約</a>
@@ -45,6 +45,11 @@
   </nav>
 </div>
 <h1 data-i18n="h1_profile">騎手プロフィール</h1>
+
+<div id="login-gate" style="display:none">
+  <div class="row" data-i18n="login_required_msg">このページを見るにはDiscordでログインしてください。</div>
+  <a href="/auth/login" class="fssh-header-auth-btn" data-i18n="btn_login_cta">Discordでログイン</a>
+</div>
 
 <div id="panel">
   <div id="header-row">
@@ -100,6 +105,8 @@ const I18N = {
     no_ratings_yet: "対戦記録なし",
     label_record: "戦績",
     id_missing: "IDが指定されていません",
+    login_required_msg: "このページを見るにはDiscordでログインしてください。",
+    btn_login_cta: "Discordでログイン",
     not_found: "騎手が見つかりません",
     not_set: "未設定",
     wins_suffix: "勝",
@@ -143,6 +150,8 @@ const I18N = {
     no_ratings_yet: "No matches played yet",
     label_record: "Record",
     id_missing: "No ID specified",
+    login_required_msg: "Please log in with Discord to view this page.",
+    btn_login_cta: "Log in with Discord",
     not_found: "Jockey not found",
     not_set: "Not set",
     wins_suffix: "W",
@@ -349,12 +358,41 @@ function formatRatings(ratings) {
     .join(" / ");
 }
 
+function showLoginGate() {
+  $("login-gate").style.display = "block";
+  document.querySelectorAll("#panel").forEach((el) => { el.style.display = "none"; });
+  $("profile-edit-panel").style.display = "none";
+}
+
+function hideLoginGate() {
+  $("login-gate").style.display = "none";
+  document.querySelectorAll("#panel").forEach((el) => { el.style.display = ""; });
+}
+
 async function load() {
   const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+  let id = params.get("id");
   if (!id) {
-    $("p-name").textContent = t("id_missing");
-    return;
+    let body = null;
+    try {
+      const statusRes = await fetch('/api/queue/status', { credentials: 'same-origin' });
+      if (statusRes.status === 401) {
+        showLoginGate();
+        return;
+      }
+      body = await statusRes.json();
+    } catch (e) {
+      showLoginGate();
+      return;
+    }
+    if (!body || !body.account || !body.account.discord_id) {
+      showLoginGate();
+      return;
+    }
+    hideLoginGate();
+    id = body.account.discord_id;
+  } else {
+    hideLoginGate();
   }
   const res = await fetch("/api/account/profile?id=" + encodeURIComponent(id));
   if (res.status === 404) {
