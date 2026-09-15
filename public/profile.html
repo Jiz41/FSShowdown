@@ -92,6 +92,9 @@
   </div>
   <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
   <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
+  <div class="row" style="margin-top:24px;">
+    <button type="button" id="btn-delete-account" data-i18n="btn_delete_account" style="background:#cc3344; color:#fff; border:none;">アカウント削除</button>
+  </div>
 </div>
 
 <script>
@@ -122,6 +125,8 @@ const I18N = {
     label_crest: "紋章",
     label_preview: "プレビュー",
     btn_save_icon: "アイコンを保存",
+    btn_delete_account: "アカウント削除",
+    confirm_delete_account: "本当にアカウントを削除しますか？この操作は取り消せません。",
     menu_home: "ホーム",
     menu_matching: "マッチング",
     menu_myprofile: "マイプロフィール",
@@ -167,6 +172,8 @@ const I18N = {
     label_crest: "Crest",
     label_preview: "Preview",
     btn_save_icon: "Save Icon",
+    btn_delete_account: "Delete Account",
+    confirm_delete_account: "Are you sure you want to delete your account? This action cannot be undone.",
     menu_home: "Home",
     menu_matching: "Matching",
     menu_myprofile: "My Profile",
@@ -347,6 +354,14 @@ $("btn-save-icon").addEventListener("click", async function () {
   const res = await apiPost("/api/account/profile", { icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest });
   if (res.status === 200) {
     load();
+  }
+});
+
+$("btn-delete-account").addEventListener("click", async function () {
+  if (!confirm(t("confirm_delete_account"))) return;
+  const res = await fetch("/api/account/delete", { method: "POST", credentials: "same-origin" });
+  if (res.status === 200) {
+    window.location.href = "index2.html";
   }
 });
 
