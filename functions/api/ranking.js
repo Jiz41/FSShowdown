@@ -1,6 +1,13 @@
 import { json } from "../_lib/session.js";
+import { checkRateLimit } from "../_lib/rate_limit.js";
 
 export async function onRequestGet({ request, env }) {
+  const ip = request.headers.get("cf-connecting-ip") || "unknown";
+  const allowed = await checkRateLimit(env, "ranking:" + ip, 20, 60);
+  if (!allowed) {
+    return json({ error: "rate_limited" }, 429);
+  }
+
   const url = new URL(request.url);
   const platform = url.searchParams.get("platform");
 

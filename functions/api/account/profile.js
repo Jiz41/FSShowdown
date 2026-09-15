@@ -7,6 +7,12 @@ const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "�
 const FLAG = ["JP", "UK", "US", "HK", "AU", "TR", "IE", "OTHER"];
 
 export async function onRequestGet({ request, env }) {
+  const ip = request.headers.get("cf-connecting-ip") || "unknown";
+  const allowed = await checkRateLimit(env, "profile_get:" + ip, 20, 60);
+  if (!allowed) {
+    return json({ error: "rate_limited" }, 429);
+  }
+
   const url = new URL(request.url);
   const discordId = url.searchParams.get("id");
   if (!discordId) {

@@ -1,8 +1,14 @@
 import { callMatchmaker, json, requireAccount } from "../../_lib/session.js";
+import { checkRateLimit } from "../../_lib/rate_limit.js";
 
 export async function onRequestGet({ request, env }) {
   const { account, response } = await requireAccount(env, request);
   if (response) return response;
+
+  const allowed = await checkRateLimit(env, "queue_status:" + account.discord_id, 30, 60);
+  if (!allowed) {
+    return json({ error: "rate_limited" }, 429);
+  }
 
   const ratingsResult = await env.DB.prepare(
     `SELECT platform, rating FROM ratings WHERE discord_id = ?1`

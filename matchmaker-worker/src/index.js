@@ -23,6 +23,7 @@ const RACES = [
 ];
 
 const MATCH_TTL_SECONDS = 15 * 60;
+const REPORT_TTL_SECONDS = 10 * 60;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -284,13 +285,15 @@ export class Matchmaker {
 
     if (row.host_id === null) {
       const now = Math.floor(Date.now() / 1000);
+      const reportExpiresAt = now + REPORT_TTL_SECONDS;
       await this.env.DB.prepare(
         `UPDATE matches
-            SET host_id = ?1, status = 'reserved', reserved_at = ?2
+            SET host_id = ?1, status = 'reserved', reserved_at = ?2, expires_at = ?4
           WHERE id = ?3 AND host_id IS NULL`
       )
-        .bind(discord_id, now, match_id)
+        .bind(discord_id, now, match_id, reportExpiresAt)
         .run();
+      await this.scheduleAlarm(reportExpiresAt);
       const after = await this.env.DB.prepare(
         `SELECT host_id, status, reserved_at FROM matches WHERE id = ?1`
       )
@@ -439,13 +442,13 @@ export class Matchmaker {
     const now = Math.floor(Date.now() / 1000);
     await this.env.DB.prepare(
       `UPDATE matches SET status = 'no_contest'
-        WHERE status = 'pending' AND expires_at <= ?1`
+        WHERE status IN ('pending', 'reserved') AND expires_at <= ?1`
     )
       .bind(now)
       .run();
 
     const next = await this.env.DB.prepare(
-      `SELECT MIN(expires_at) AS next_expiry FROM matches WHERE status = 'pending'`
+      `SELECT MIN(expires_at) AS next_expiry FROM matches WHERE status IN ('pending', 'reserved')`
     ).first();
 
     if (next && next.next_expiry !== null) {

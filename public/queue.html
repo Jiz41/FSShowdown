@@ -101,6 +101,14 @@
 
 <pre id="log"></pre>
 
+<div id="result-dialog-overlay" hidden style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000;">
+  <div style="background:var(--bg2); border:1px solid var(--green-dim); border-radius:8px; padding:24px; max-width:320px;">
+    <div style="font-weight:bold; margin-bottom:8px;" data-i18n="result_dialog_title">レース結果</div>
+    <div id="result-dialog-body" style="margin-bottom:16px;"></div>
+    <button type="button" id="btn-close-dialog" data-i18n="btn_close_dialog">閉じる</button>
+  </div>
+</div>
+
 <script>
 const I18N = {
   ja: {
@@ -134,6 +142,7 @@ const I18N = {
     host_you: "あなたがホスト",
     host_opponent: "相手がホスト（参加側）",
     no_contest: "不成立（15分超過）",
+    no_contest_report: "不成立（10分以内に報告が完了しませんでした）",
     result_fixed: "結果確定済み",
     not_reserved: "未予約",
     seconds_suffix: " 秒",
@@ -141,6 +150,11 @@ const I18N = {
     result_confirmed_log: "結果確定",
     result_mismatch_log: "結果不一致、再送信してください",
     awaiting_opponent_log: "相手の報告待ち",
+    result_dialog_title: "レース結果",
+    result_dialog_rating_label: "レート",
+    result_win_label: "勝ち",
+    result_loss_label: "負け",
+    btn_close_dialog: "閉じる",
     rating_suffix: "（レート ",
     menu_home: "ホーム",
     menu_matching: "マッチング",
@@ -192,6 +206,7 @@ const I18N = {
     host_you: "You are the host",
     host_opponent: "Opponent is host (joining)",
     no_contest: "No contest (15 min elapsed)",
+    no_contest_report: "No contest (result not reported within 10 minutes)",
     result_fixed: "Result finalized",
     not_reserved: "Not reserved",
     seconds_suffix: " sec",
@@ -199,6 +214,11 @@ const I18N = {
     result_confirmed_log: "Result finalized",
     result_mismatch_log: "Result mismatch, please resend",
     awaiting_opponent_log: "Waiting for opponent's report",
+    result_dialog_title: "Race Result",
+    result_dialog_rating_label: "Rating",
+    result_win_label: "Win",
+    result_loss_label: "Loss",
+    btn_close_dialog: "Close",
     rating_suffix: " (Rating ",
     menu_home: "Home",
     menu_matching: "Matching",
@@ -275,6 +295,7 @@ setupLangToggle();
 
 let currentMatchId = null;
 let currentExpiresAt = null;
+let currentOpponentName = null;
 let polling = null;
 let selfAccount = null;
 
@@ -311,6 +332,7 @@ function render(body) {
   if (body.status === "matched" && body.match) {
     currentMatchId = body.match.match_id;
     currentExpiresAt = body.match.expires_at;
+    currentOpponentName = body.match.opponent_display_tag || null;
     $("v-race").textContent = body.match.race_name || "-";
     if (body.match.opponent_display_tag) {
       $("v-opponent").innerHTML = body.match.opponent_discord_id
@@ -325,7 +347,7 @@ function render(body) {
       $("btn-win").style.display = "inline-block";
       $("btn-loss").style.display = "inline-block";
     } else if (body.match.status === "no_contest") {
-      $("v-role").textContent = t("no_contest");
+      $("v-role").textContent = body.match.reserved_at ? t("no_contest_report") : t("no_contest");
       $("btn-reserve").style.display = "none";
       $("btn-win").style.display = "none";
       $("btn-loss").style.display = "none";
@@ -481,6 +503,7 @@ async function sendReport(result) {
       rating_delta: res.body.rating_delta,
       new_rating: res.body.new_rating,
     });
+    showResultDialog(res.body);
   } else if (res.body && res.body.status === "mismatch") {
     log(t("result_mismatch_log"), res.body);
   } else if (res.body && res.body.status === "awaiting_opponent") {
@@ -488,6 +511,29 @@ async function sendReport(result) {
   }
   refresh();
 }
+
+function showResultDialog(resultBody) {
+  const isWin = resultBody.result === "win";
+  const delta = resultBody.rating_delta;
+  const newRating = resultBody.new_rating;
+  const prevRating = isWin ? newRating - delta : newRating + delta;
+  const sign = isWin ? "+" : "−";
+  const resultLabel = isWin ? t("result_win_label") : t("result_loss_label");
+  const opponentName = currentOpponentName || "-";
+  const isEn = currentLang() === "en";
+  const summaryLine = isEn
+    ? "🏇 Race result vs " + opponentName + ": " + resultLabel
+    : "🏇 " + opponentName + "さんとのレース結果：" + resultLabel;
+  const ratingLine = isEn
+    ? t("result_dialog_rating_label") + ": " + prevRating + " → " + newRating + " (" + sign + delta + ")"
+    : t("result_dialog_rating_label") + "：" + prevRating + " → " + newRating + "（" + sign + delta + "）";
+  $("result-dialog-body").innerHTML = summaryLine + "<br>" + ratingLine;
+  $("result-dialog-overlay").hidden = false;
+}
+
+$("btn-close-dialog").addEventListener("click", function () {
+  $("result-dialog-overlay").hidden = true;
+});
 
 $("btn-win").addEventListener("click", function () { sendReport("win"); });
 $("btn-loss").addEventListener("click", function () { sendReport("loss"); });
