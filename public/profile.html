@@ -54,6 +54,7 @@
 <div id="panel">
   <div id="header-row">
     <div class="jockey-icon" id="p-icon"></div>
+    <span id="p-flag" style="font-size: 20px; margin-right: 6px;"></span>
     <div id="p-name" style="font-size: 18px;" data-i18n="loading">読み込み中...</div>
   </div>
   <div class="row"><span class="label" data-i18n="label_rating">レート</span><span id="p-rating">-</span></div>
@@ -90,6 +91,10 @@
     <div class="label" data-i18n="label_crest">紋章</div>
     <div class="icon-choices" id="choices-crest"></div>
   </div>
+  <div class="row">
+    <div class="label" data-i18n="label_flag">国籍/居住地</div>
+    <div class="icon-choices" id="choices-flag"></div>
+  </div>
   <div class="row"><span data-i18n="label_preview">プレビュー</span>: <span class="jockey-icon" id="icon-preview"></span></div>
   <div class="row"><button type="button" id="btn-save-icon" data-i18n="btn_save_icon">アイコンを保存</button></div>
   <div class="row" style="margin-top:24px;">
@@ -123,6 +128,8 @@ const I18N = {
     label_bg_color: "背景色",
     label_border: "枠",
     label_crest: "紋章",
+    label_flag: "国籍/居住地",
+    flag_option_none: "未選択",
     label_preview: "プレビュー",
     btn_save_icon: "アイコンを保存",
     btn_delete_account: "アカウント削除",
@@ -170,6 +177,8 @@ const I18N = {
     label_bg_color: "Background",
     label_border: "Frame",
     label_crest: "Crest",
+    label_flag: "Country/Region",
+    flag_option_none: "None",
     label_preview: "Preview",
     btn_save_icon: "Save Icon",
     btn_delete_account: "Delete Account",
@@ -260,6 +269,8 @@ const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", 
 const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
 const ICON_BG_KEYS = Object.keys(ICON_BG);
 const ICON_BORDER_KEYS = Object.keys(ICON_BORDER_STYLE);
+const FLAG_EMOJI = { JP: "🇯🇵", UK: "🇬🇧", US: "🇺🇸", HK: "🇭🇰", AU: "🇦🇺", TR: "🇹🇷", IE: "🇮🇪", OTHER: "🌐" };
+const FLAG_KEYS = Object.keys(FLAG_EMOJI);
 
 function renderIcon(el, bg, border, crest) {
   el.style.background = ICON_BG[bg] || "#444";
@@ -272,7 +283,28 @@ const $ = (id) => document.getElementById(id);
 let selectedBg = "blue";
 let selectedBorder = "solid";
 let selectedCrest = "🐎";
+let selectedFlag = null;
 let isSelfProfile = false;
+
+function buildFlagChoices() {
+  const container = $("choices-flag");
+  container.innerHTML = "";
+  const options = [{ key: null, label: t("flag_option_none") }].concat(
+    FLAG_KEYS.map((k) => ({ key: k, label: FLAG_EMOJI[k] + " " + k }))
+  );
+  options.forEach((opt) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "icon-choice" + (selectedFlag === opt.key ? " selected" : "");
+    btn.textContent = opt.label;
+    btn.addEventListener("click", function () {
+      selectedFlag = opt.key;
+      Array.from(container.children).forEach((c) => c.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
+    container.appendChild(btn);
+  });
+}
 
 function buildChoices(containerId, values, selectedGetter, onSelect) {
   const container = $(containerId);
@@ -296,6 +328,7 @@ function initIconChoices() {
   buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; });
   buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; });
   buildChoices("choices-crest", ICON_CREST, () => selectedCrest, (v) => { selectedCrest = v; });
+  buildFlagChoices();
   renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
 }
 
@@ -322,6 +355,7 @@ async function checkSelfAndShowEditPanel(profileId) {
   if (profBody.icon_bg) selectedBg = profBody.icon_bg;
   if (profBody.icon_border) selectedBorder = profBody.icon_border;
   if (profBody.icon_crest) selectedCrest = profBody.icon_crest;
+  selectedFlag = profBody.flag || null;
   initIconChoices();
 }
 
@@ -351,7 +385,7 @@ $("btn-save-x-link").addEventListener("click", async function () {
 });
 
 $("btn-save-icon").addEventListener("click", async function () {
-  const res = await apiPost("/api/account/profile", { icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest });
+  const res = await apiPost("/api/account/profile", { icon_bg: selectedBg, icon_border: selectedBorder, icon_crest: selectedCrest, flag: selectedFlag });
   if (res.status === 200) {
     load();
   }
@@ -420,6 +454,7 @@ async function load() {
   const total = body.total !== undefined ? body.total : (body.wins + body.losses);
   $("p-record").textContent = formatRecord(body.wins, body.losses);
   renderIcon($("p-icon"), body.icon_bg, body.icon_border, body.icon_crest);
+  $("p-flag").textContent = body.flag ? (FLAG_EMOJI[body.flag] || "") : "";
   renderDistanceTable(body.distance_stats || []);
   renderVenueTable(body.venue_stats || []);
   if (body.x_link) {

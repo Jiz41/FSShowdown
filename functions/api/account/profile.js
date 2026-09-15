@@ -4,6 +4,7 @@ import { checkRateLimit } from "../../_lib/rate_limit.js";
 const ICON_BG = ["red", "blue", "green", "purple", "orange", "yellow", "black", "white"];
 const ICON_BORDER = ["solid", "double", "dashed", "thick"];
 const ICON_CREST = ["🐎", "🏆", "⭐", "👑", "⚡", "🛡️", "🦅", "🔥"];
+const FLAG = ["JP", "UK", "US", "HK", "AU", "TR", "IE", "OTHER"];
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -13,7 +14,7 @@ export async function onRequestGet({ request, env }) {
   }
 
   const account = await env.DB.prepare(
-    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest
+    `SELECT discord_id, display_tag, x_link, icon_bg, icon_border, icon_crest, flag
        FROM accounts WHERE discord_id = ?1`
   )
     .bind(discordId)
@@ -90,6 +91,7 @@ export async function onRequestGet({ request, env }) {
     icon_bg: account.icon_bg,
     icon_border: account.icon_border,
     icon_crest: account.icon_crest,
+    flag: account.flag,
     ratings: ratings,
     wins,
     losses,
@@ -163,6 +165,13 @@ export async function onRequestPost({ request, env }) {
     updates.icon_crest = body.icon_crest;
   }
 
+  const hasFlagUpdate = Object.prototype.hasOwnProperty.call(body, "flag");
+  if (hasFlagUpdate) {
+    if (body.flag !== null && !FLAG.includes(body.flag)) {
+      return json({ error: "invalid_flag" }, 400);
+    }
+  }
+
   await env.DB.prepare(
     `UPDATE accounts SET
        display_tag = COALESCE(?1, display_tag),
@@ -182,8 +191,16 @@ export async function onRequestPost({ request, env }) {
     )
     .run();
 
+  if (hasFlagUpdate) {
+    await env.DB.prepare(
+      `UPDATE accounts SET flag = ?1 WHERE discord_id = ?2`
+    )
+      .bind(body.flag, account.discord_id)
+      .run();
+  }
+
   const after = await env.DB.prepare(
-    `SELECT display_tag, x_link, icon_bg, icon_border, icon_crest, rating
+    `SELECT display_tag, x_link, icon_bg, icon_border, icon_crest, flag, rating
        FROM accounts WHERE discord_id = ?1`
   )
     .bind(account.discord_id)

@@ -10,7 +10,7 @@ export async function onRequestGet({ request, env }) {
 
   const rows = await env.DB.prepare(
     `SELECT
-       a.discord_id, a.display_tag, a.icon_bg, a.icon_border, a.icon_crest, r.rating,
+       a.discord_id, a.display_tag, a.icon_bg, a.icon_border, a.icon_crest, a.flag, r.rating,
        COALESCE(SUM(CASE WHEN (m.player1_id = a.discord_id AND m.player1_result='win') OR (m.player2_id = a.discord_id AND m.player2_result='win') THEN 1 ELSE 0 END), 0) AS wins,
        COALESCE(SUM(CASE WHEN (m.player1_id = a.discord_id AND m.player1_result='loss') OR (m.player2_id = a.discord_id AND m.player2_result='loss') THEN 1 ELSE 0 END), 0) AS losses
      FROM ratings r
@@ -32,6 +32,7 @@ export async function onRequestGet({ request, env }) {
     icon_bg: row.icon_bg,
     icon_border: row.icon_border,
     icon_crest: row.icon_crest,
+    flag: row.flag,
     rating: row.rating,
     wins: row.wins,
     losses: row.losses,

@@ -221,6 +221,7 @@ setupLangToggle();
 <script>
 const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
 const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+const FLAG_EMOJI = { JP: "🇯🇵", UK: "🇬🇧", US: "🇺🇸", HK: "🇭🇰", AU: "🇦🇺", TR: "🇹🇷", IE: "🇮🇪", OTHER: "🌐" };
 
 function renderIcon(el, bg, border, crest) {
   el.style.background = ICON_BG[bg] || "#444";
@@ -273,6 +274,12 @@ async function loadRanking(platform) {
     tr.appendChild(tdIcon);
 
     const tdName = document.createElement("td");
+    if (row.flag && FLAG_EMOJI[row.flag]) {
+      const flagEl = document.createElement("span");
+      flagEl.textContent = FLAG_EMOJI[row.flag];
+      flagEl.style.marginRight = "4px";
+      tdName.appendChild(flagEl);
+    }
     const nameLink = document.createElement("a");
     nameLink.href = "profile.html?id=" + encodeURIComponent(row.discord_id);
     nameLink.textContent = row.display_tag;
