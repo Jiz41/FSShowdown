@@ -273,7 +273,10 @@ async function loadRanking(platform) {
     tr.appendChild(tdIcon);
 
     const tdName = document.createElement("td");
-    tdName.textContent = row.display_tag;
+    const nameLink = document.createElement("a");
+    nameLink.href = "profile.html?id=" + encodeURIComponent(row.discord_id);
+    nameLink.textContent = row.display_tag;
+    tdName.appendChild(nameLink);
     tr.appendChild(tdName);
 
     const tdRating = document.createElement("td");
