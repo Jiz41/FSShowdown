@@ -48,7 +48,26 @@
 
 <div class="page">
 <h1 data-i18n="h1_ranking">ランキング</h1>
-<p class="placeholder" data-i18n="ranking_placeholder">準備中</p>
+<div class="row">
+  <span class="label" data-i18n="label_platform">プラットフォーム</span>
+  <select id="platform-select">
+    <option value="ps5" data-i18n="opt_platform_ps5">PS5</option>
+    <option value="pc" data-i18n="opt_platform_pc">PC（Steam等）</option>
+  </select>
+</div>
+<p class="placeholder" id="ranking-empty" data-i18n="ranking_empty" hidden>まだ対戦記録がありません</p>
+<table id="ranking-table" class="ranking-table">
+  <thead>
+    <tr>
+      <th data-i18n="col_rank">順位</th>
+      <th data-i18n="col_icon"></th>
+      <th data-i18n="col_name">騎手名</th>
+      <th data-i18n="col_rating">レート</th>
+      <th data-i18n="col_record">戦績</th>
+    </tr>
+  </thead>
+  <tbody id="ranking-body"></tbody>
+</table>
 </div>
 
 <script>
@@ -68,7 +87,16 @@ const I18N = {
     link_desc_fsst: "フルスト勢向け自己紹介カードジェネレーター",
     h1_ranking: "ランキング",
     ranking_placeholder: "準備中",
-  
+    label_platform: "プラットフォーム",
+    opt_platform_ps5: "PS5",
+    opt_platform_pc: "PC（Steam等）",
+    ranking_empty: "まだ対戦記録がありません",
+    col_rank: "順位",
+    col_icon: "",
+    col_name: "騎手名",
+    col_rating: "レート",
+    col_record: "戦績",
+
     header_login: "ログイン",
     header_logout: "ログアウト",
     footer_unofficial: "本ツールはファンによる非公式マッチングツールです。",
@@ -90,7 +118,16 @@ const I18N = {
     link_desc_fsst: "Player self-introduction card generator for the Full Stride community",
     h1_ranking: "Ranking",
     ranking_placeholder: "Coming soon",
-  
+    label_platform: "Platform",
+    opt_platform_ps5: "PS5",
+    opt_platform_pc: "PC (Steam, etc.)",
+    ranking_empty: "No ranking data yet",
+    col_rank: "Rank",
+    col_icon: "",
+    col_name: "Jockey",
+    col_rating: "Rating",
+    col_record: "Record",
+
     header_login: "Log In",
     header_logout: "Log Out",
     footer_unofficial: "This is an unofficial fan-made matchmaking tool.",
@@ -179,6 +216,85 @@ setupLangToggle();
       }
     }
   }).catch(function () {});
+})();
+</script>
+<script>
+const ICON_BG = { red: "#cc3344", blue: "#3366cc", green: "#33aa55", purple: "#8855cc", orange: "#ff8833", yellow: "#ddbb22", black: "#222222", white: "#eeeeee" };
+const ICON_BORDER_STYLE = { solid: "3px solid #fff", double: "4px double #fff", dashed: "3px dashed #fff", thick: "6px solid #fff" };
+
+function renderIcon(el, bg, border, crest) {
+  el.style.background = ICON_BG[bg] || "#444";
+  el.style.border = ICON_BORDER_STYLE[border] || "3px solid #fff";
+  el.textContent = crest || "";
+}
+
+function formatRecord(wins, losses) {
+  const total = wins + losses;
+  if (currentLang() === "en") {
+    return total + " (" + wins + "W-" + losses + "L)";
+  }
+  return total + "戦" + wins + "勝" + losses + "敗";
+}
+
+async function loadRanking(platform) {
+  const tbody = document.getElementById("ranking-body");
+  const emptyEl = document.getElementById("ranking-empty");
+  const table = document.getElementById("ranking-table");
+  tbody.innerHTML = "";
+  let ranking = [];
+  try {
+    const res = await fetch("/api/ranking?platform=" + encodeURIComponent(platform));
+    if (res.ok) {
+      const body = await res.json();
+      ranking = body.ranking || [];
+    }
+  } catch (e) {}
+
+  if (ranking.length === 0) {
+    table.style.display = "none";
+    emptyEl.hidden = false;
+    return;
+  }
+  table.style.display = "";
+  emptyEl.hidden = true;
+
+  ranking.forEach((row, idx) => {
+    const tr = document.createElement("tr");
+
+    const tdRank = document.createElement("td");
+    tdRank.textContent = String(idx + 1);
+    tr.appendChild(tdRank);
+
+    const tdIcon = document.createElement("td");
+    const iconEl = document.createElement("span");
+    iconEl.className = "jockey-icon jockey-icon-sm";
+    renderIcon(iconEl, row.icon_bg, row.icon_border, row.icon_crest);
+    tdIcon.appendChild(iconEl);
+    tr.appendChild(tdIcon);
+
+    const tdName = document.createElement("td");
+    tdName.textContent = row.display_tag;
+    tr.appendChild(tdName);
+
+    const tdRating = document.createElement("td");
+    tdRating.textContent = String(row.rating);
+    tr.appendChild(tdRating);
+
+    const tdRecord = document.createElement("td");
+    tdRecord.textContent = formatRecord(row.wins, row.losses);
+    tr.appendChild(tdRecord);
+
+    tbody.appendChild(tr);
+  });
+}
+
+(function () {
+  const select = document.getElementById("platform-select");
+  select.value = "ps5";
+  select.addEventListener("change", function () {
+    loadRanking(select.value);
+  });
+  loadRanking(select.value);
 })();
 </script>
 <footer class="fssh-footer">

@@ -33,6 +33,55 @@ h1 {
     font-size: 1rem;
   }
 
+.row {
+    margin: 6px 0 20px;
+  }
+
+.label {
+    color: var(--text-dim);
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+select {
+    font-size: 15px;
+    font-family: var(--mono);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--green-dim);
+    background: var(--bg2, #10160f);
+    color: var(--text);
+  }
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+.ranking-table th,
+.ranking-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--green-dim);
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+.ranking-table th {
+    color: var(--text-dim);
+    font-weight: normal;
+  }
+
+.jockey-icon-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
 .lang-toggle {
     position: static;
     background: var(--green);
