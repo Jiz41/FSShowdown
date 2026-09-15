@@ -335,9 +335,17 @@ function render(body) {
     currentOpponentName = body.match.opponent_display_tag || null;
     $("v-race").textContent = body.match.race_name || "-";
     if (body.match.opponent_display_tag) {
-      $("v-opponent").innerHTML = body.match.opponent_discord_id
-        ? '<a href="/profile.html?id=' + encodeURIComponent(body.match.opponent_discord_id) + '" target="_blank" rel="noopener">' + body.match.opponent_display_tag + '</a>'
-        : body.match.opponent_display_tag;
+      $("v-opponent").textContent = "";
+      if (body.match.opponent_discord_id) {
+        const opponentLink = document.createElement("a");
+        opponentLink.href = "/profile.html?id=" + encodeURIComponent(body.match.opponent_discord_id);
+        opponentLink.target = "_blank";
+        opponentLink.rel = "noopener";
+        opponentLink.textContent = body.match.opponent_display_tag;
+        $("v-opponent").appendChild(opponentLink);
+      } else {
+        $("v-opponent").textContent = body.match.opponent_display_tag;
+      }
     } else {
       $("v-opponent").textContent = "-";
     }
@@ -527,7 +535,14 @@ function showResultDialog(resultBody) {
   const ratingLine = isEn
     ? t("result_dialog_rating_label") + ": " + prevRating + " → " + newRating + " (" + sign + delta + ")"
     : t("result_dialog_rating_label") + "：" + prevRating + " → " + newRating + "（" + sign + delta + "）";
-  $("result-dialog-body").innerHTML = summaryLine + "<br>" + ratingLine;
+  const dialogBody = $("result-dialog-body");
+  dialogBody.textContent = "";
+  const summaryEl = document.createElement("div");
+  summaryEl.textContent = summaryLine;
+  const ratingEl = document.createElement("div");
+  ratingEl.textContent = ratingLine;
+  dialogBody.appendChild(summaryEl);
+  dialogBody.appendChild(ratingEl);
   $("result-dialog-overlay").hidden = false;
 }
 
