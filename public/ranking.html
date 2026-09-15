@@ -341,6 +341,10 @@ async function loadRanking(platform) {
     setToggleButtonText(isOpen);
   });
 
+  document.getElementById("lang-toggle").addEventListener("click", function () {
+    setToggleButtonText(restWrap.classList.contains("open"));
+  });
+
   const select = document.getElementById("platform-select");
   select.value = "ps5";
   select.addEventListener("change", function () {
