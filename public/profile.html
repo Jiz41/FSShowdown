@@ -306,14 +306,26 @@ function buildFlagChoices() {
   });
 }
 
-function buildChoices(containerId, values, selectedGetter, onSelect) {
+function buildChoices(containerId, values, selectedGetter, onSelect, mode) {
   const container = $(containerId);
   container.innerHTML = "";
   values.forEach((v) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "icon-choice" + (selectedGetter() === v ? " selected" : "");
-    btn.textContent = v;
+    if (mode === "color") {
+      btn.classList.add("icon-choice-swatch");
+      btn.style.background = ICON_BG[v];
+      btn.style.border = "1px solid #fff";
+      btn.title = v;
+    } else if (mode === "border") {
+      btn.classList.add("icon-choice-swatch");
+      btn.style.background = "var(--bg2)";
+      btn.style.border = ICON_BORDER_STYLE[v];
+      btn.title = v;
+    } else {
+      btn.textContent = v;
+    }
     btn.addEventListener("click", function () {
       onSelect(v);
       Array.from(container.children).forEach((c) => c.classList.remove("selected"));
@@ -325,8 +337,8 @@ function buildChoices(containerId, values, selectedGetter, onSelect) {
 }
 
 function initIconChoices() {
-  buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; });
-  buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; });
+  buildChoices("choices-bg", ICON_BG_KEYS, () => selectedBg, (v) => { selectedBg = v; }, "color");
+  buildChoices("choices-border", ICON_BORDER_KEYS, () => selectedBorder, (v) => { selectedBorder = v; }, "border");
   buildChoices("choices-crest", ICON_CREST, () => selectedCrest, (v) => { selectedCrest = v; });
   buildFlagChoices();
   renderIcon($("icon-preview"), selectedBg, selectedBorder, selectedCrest);
