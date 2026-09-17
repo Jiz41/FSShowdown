@@ -132,6 +132,9 @@ const I18N = {
     label_account: "ログイン",
     v_account_default: "未確認",
     label_state: "状態",
+    state_idle: "未参加",
+    state_waiting: "対戦相手を待機中",
+    state_matched: "対戦成立",
     label_race: "レース",
     label_opponent: "対戦相手",
     label_host: "ホスト",
@@ -196,6 +199,9 @@ const I18N = {
     label_account: "Login",
     v_account_default: "Unverified",
     label_state: "Status",
+    state_idle: "Not in queue",
+    state_waiting: "Waiting for an opponent",
+    state_matched: "Match found",
     label_race: "Race",
     label_opponent: "Opponent",
     label_host: "Host",
@@ -327,7 +333,8 @@ function render(body) {
     $("v-account").textContent = body.account.display_tag + "（" + formatRatings(body.account.ratings) + "）";
     $("notify-dm-toggle").checked = !!body.account.notify_dm;
   }
-  $("v-state").textContent = body.status || "-";
+  const stateKey = "state_" + (body.status || "idle");
+  $("v-state").textContent = t(stateKey) || body.status || "-";
 
   if (body.status === "matched" && body.match) {
     currentMatchId = body.match.match_id;

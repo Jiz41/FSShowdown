@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
 :root {
     --bg: #0a0e0a;
     --bg2: #0d1410;
@@ -6,6 +8,7 @@
     --text: #d8ffe0;
     --text-dim: #7fa88f;
     --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+    --sans: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
   }
 
 body {
@@ -42,6 +45,7 @@ p {
     font-size: 0.9rem;
     margin-bottom: 4px;
     white-space: pre-wrap;
+    font-family: var(--sans);
   }
 
 .lang-toggle {

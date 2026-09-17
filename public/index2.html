@@ -404,13 +404,12 @@ async function loadRankingPreview(platform, listId) {
     }
   } catch (e) {}
 
-  ranking = ranking.slice(0, 3);
-
-  if (ranking.length === 0) {
+  if (ranking.length < 3) {
     list.hidden = true;
     if (emptyEl) emptyEl.hidden = false;
     return;
   }
+  ranking = ranking.slice(0, 3);
   list.hidden = false;
   if (emptyEl) emptyEl.hidden = true;
 

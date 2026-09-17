@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
 :root {
     --bg: #0a0e0a;
     --bg2: #0d1410;
@@ -7,6 +9,7 @@
     --text: #d8ffe0;
     --text-dim: #7fa88f;
     --mono: 'IBM Plex Mono', 'Courier New', 'Consolas', 'SF Mono', monospace;
+    --sans: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
   }
 
 body {
@@ -63,6 +66,7 @@ ol.steps {
 .step-text {
     color: var(--text);
     font-size: 0.92rem;
+    font-family: var(--sans);
   }
 
 .note-box {
@@ -75,6 +79,7 @@ ol.steps {
     color: var(--text-dim);
     font-size: 0.85rem;
     white-space: pre-wrap;
+    font-family: var(--sans);
   }
 
 .fssh-drawer { position: fixed; top: 56px; left: 0; right: 0; width: auto; max-height: 0; background: #0a0e0a; border-bottom: 1px solid #1a8a3a; z-index: 1002; transition: max-height 0.25s ease; font-family: var(--mono); overflow-y: auto; }
