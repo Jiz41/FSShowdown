@@ -6,25 +6,6 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body::before {
-    content: "テスト版!!!";
-    position: fixed;
-    top: 38px;
-    left: -70px;
-    width: 320px;
-    padding: 6px 0;
-    background: #ff3344;
-    color: #fff;
-    font-weight: bold;
-    font-size: 20px;
-    text-align: center;
-    transform: rotate(-35deg);
-    transform-origin: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,.5);
-    z-index: 2000;
-    pointer-events: none;
-  }
-
 button, input, select, textarea { font: inherit; }
 
 .fssh-header {
