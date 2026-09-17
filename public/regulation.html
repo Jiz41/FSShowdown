@@ -50,10 +50,21 @@
 <h1 data-i18n="h1_regulation">レギュレーション</h1>
 <p class="regulation-sub" data-i18n="regulation_sub">シーズン0概要</p>
 
-<h2 data-i18n="h2_reg_season">シーズンについて</h2>
+<nav class="reg-toc">
+  <a href="#reg-season" data-i18n="h2_reg_season">シーズンについて</a>
+  <a href="#reg-rating" data-i18n="h2_reg_rating">レート・マッチング</a>
+  <a href="#reg-tier" data-i18n="h2_reg_tier">ティア表示（構想）</a>
+  <a href="#reg-flow" data-i18n="h2_reg_flow">対戦の流れ</a>
+  <a href="#reg-races" data-i18n="h2_reg_races">レース・距離分類</a>
+  <a href="#reg-report" data-i18n="h2_reg_report">結果報告</a>
+  <a href="#reg-dispute" data-i18n="h2_reg_dispute">紛争・違反対応</a>
+  <a href="#reg-join" data-i18n="h2_reg_join">参加条件</a>
+</nav>
+
+<h2 id="reg-season" data-i18n="h2_reg_season">シーズンについて</h2>
 <p data-i18n="reg_body_season">FSShowdownは現在「シーズン0」として運営しています。シーズン0には終了期限を設けておらず、レートは通常通り積み上がっていきます。プレイヤー数が一定数まで増えた段階で、運営判断によりシーズン0を終え、正式なシーズン1へ移行します（この移行タイミングは自動化された条件ではなく、運営の目視判断によるものです）。シーズン1以降は、期間を区切って運用し、各シーズンの終了時にレートがリセットされ、上位者には称号のような形で贈呈を予定しています（詳細は今後確定次第、このページで更新します）。</p>
 
-<h2 data-i18n="h2_reg_rating">レート・マッチング</h2>
+<h2 id="reg-rating" data-i18n="h2_reg_rating">レート・マッチング</h2>
 <p data-i18n="reg_rating_1">初期レートは1000からスタートします。</p>
 <p data-i18n="reg_rating_2">マッチングは「最近傍レート同士」を自動で組み合わせる方式です（レート帯を区切った分割は行っていません）。</p>
 <p data-i18n="reg_rating_3">マッチングはプラットフォーム（PS5・PC）ごとに完全に分離されています。Full Strideはクロスプレイに対応していないため、異なるプラットフォームのプレイヤー同士がマッチすることはありません。</p>
@@ -62,7 +73,7 @@
 　- K値は同レート時16を基準とし、レート差25ごとに、格上が格下に勝った場合は-1、格下が格上に勝った場合は+1されます。<br>
 　- 1試合あたりのレート変動幅は、上限30・下限1です。</p>
 
-<h2 data-i18n="h2_reg_tier">ティア表示（構想）</h2>
+<h2 id="reg-tier" data-i18n="h2_reg_tier">ティア表示（構想）</h2>
 <p data-i18n="reg_body_tier">今後、レートとは別の表示専用の区分として「ティア」表示の導入を予定しています（マッチング自体をティアで区切ることはありません）。現時点ではあくまで構想段階で、以下は検討中の叩き台です（正式な仕様ではなく、内容は変更される可能性があります）。</p>
 <table class="reg-table">
 <tr><th data-i18n="reg_tier_col1">ティア</th><th data-i18n="reg_tier_col2">レート範囲</th></tr>
@@ -74,7 +85,7 @@
 <tr><td data-i18n="reg_tier_master">マスター</td><td data-i18n="reg_tier_master_range">1450〜</td></tr>
 </table>
 
-<h2 data-i18n="h2_reg_flow">対戦の流れ</h2>
+<h2 id="reg-flow" data-i18n="h2_reg_flow">対戦の流れ</h2>
 <ol>
 <li data-i18n="reg_flow_1">近傍レートの相手と自動でマッチングが成立します。</li>
 <li data-i18n="reg_flow_2">対戦用のレースが、21競走のプールからランダムに1つ自動抽選されます。</li>
@@ -83,7 +94,7 @@
 <li data-i18n="reg_flow_4">15分を超えて対戦が成立しなかった場合は「ノーコンテスト」（不成立）となり、レートは変動しません。再度マッチングをやり直してください。</li>
 </ol>
 
-<h2 data-i18n="h2_reg_races">レース・距離分類</h2>
+<h2 id="reg-races" data-i18n="h2_reg_races">レース・距離分類</h2>
 <p data-i18n="reg_body_races_1">対戦レースは、中央競馬GI・平地競走（2歳GIを除く）21競走のプールからランダムに抽選されます。</p>
 <p data-i18n="reg_body_races_2">対象21競走：フェブラリーステークス／高松宮記念／大阪杯／桜花賞／皐月賞／天皇賞(春)／NHKマイルカップ／ヴィクトリアマイル／オークス／日本ダービー／安田記念／宝塚記念／スプリンターズステークス／秋華賞／菊花賞／天皇賞(秋)／エリザベス女王杯／マイルチャンピオンシップ／ジャパンカップ／チャンピオンズカップ／有馬記念</p>
 <p data-i18n="reg_body_races_3">距離は以下の6分類で統計に反映されます。</p>
@@ -97,10 +108,10 @@
 <tr><td data-i18n="reg_dist_extra">超長距離</td><td data-i18n="reg_dist_extra_range">2701m以上</td></tr>
 </table>
 
-<h2 data-i18n="h2_reg_report">結果報告</h2>
+<h2 id="reg-report" data-i18n="h2_reg_report">結果報告</h2>
 <p data-i18n="reg_body_report">対戦結果は、両プレイヤーがそれぞれ自己申告で報告します。双方の申告が一致した時点で結果が確定し、レートが自動更新されます。双方の申告が食い違った場合（勝ち×勝ち等）はレート変動なしのまま両者の申告がリセットされ、再度報告し直すことができます。双方合意の上で確定した結果は、原則として事後の訂正はできません。</p>
 
-<h2 data-i18n="h2_reg_dispute">紛争・違反対応</h2>
+<h2 id="reg-dispute" data-i18n="h2_reg_dispute">紛争・違反対応</h2>
 <p data-i18n="reg_body_dispute_1">対戦結果や試合内容について紛争が生じた場合は、動画の提出をお願いする場合があります（すべての対戦で毎回の動画提出を必須とはしておりません）。紛争解決は、FSSh公式Discordサーバー上で行います。</p>
 <p data-i18n="reg_body_dispute_2">以下のような行為には、運営判断によりアカウントの利用制限等の措置を行う場合があります。</p>
 <p data-i18n="reg_dispute2_1">・意図的な虚偽の勝敗報告</p>
@@ -109,7 +120,7 @@
 <p data-i18n="reg_dispute2_4">・対戦相手や運営への迷惑行為・誹謗中傷</p>
 <p data-i18n="reg_body_dispute_3">なお、具体的な処分基準（違反回数と措置内容の対応表等）は現時点では定めておらず、今後整備していく予定です。</p>
 
-<h2 data-i18n="h2_reg_join">参加条件</h2>
+<h2 id="reg-join" data-i18n="h2_reg_join">参加条件</h2>
 <p data-i18n="reg_body_join">FSShowdownは誰でも自由に参加できる公開ツールです。承認制・招待制は設けていません。</p>
 </div>
 

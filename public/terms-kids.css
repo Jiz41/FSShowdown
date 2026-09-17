@@ -11,6 +11,11 @@
     --sans: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
   }
 
+.fssh-header-logo {
+    height: auto;
+    width: 180px;
+  }
+
 body {
     background: linear-gradient(160deg, #fff6cf 0%, #cdeeff 100%);
     color: #3a3323;
